@@ -29,7 +29,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  better_player: ^0.0.72
+  provider: ^5.0.0 # state-management package
+
+  better_player: ^0.0.72 # the best flutter based media player
+  # with the compromise being that you don't get full cross-platform availability
 
 dev_dependencies:
   flutter_test:
