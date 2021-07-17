@@ -1,5 +1,8 @@
 import 'package:better_player/better_player.dart';
 
+/// Composition class for getting media player into a semi-multi-platform state
+/// - this is a bad way to do this, but it's the easiest way to manage it
+/// - - So maybe it's not the absolute worst?
 class PodcastPlayerController {
   BetterPlayerController _podcastController =
       BetterPlayerController(BetterPlayerConfiguration());
