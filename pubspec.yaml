@@ -32,7 +32,9 @@ dependencies:
   provider: ^5.0.0 # state-management package
 
   # podcast stream stuff
-  webfeed: 
+  webfeed: # version solving issues with better_player but that's gonna be more likely
+           # to have issues so we're using the latest version of that
+           # not sure how that affects null safety
   http: ^0.13.1
 
   better_player: ^0.0.72 # the best flutter based media player
