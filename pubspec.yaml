@@ -31,6 +31,10 @@ dependencies:
 
   provider: ^5.0.0 # state-management package
 
+  # podcast stream stuff
+  webfeed: 
+  http: ^0.13.1
+
   better_player: ^0.0.72 # the best flutter based media player
   # with the compromise being that you don't get full cross-platform availability
 
