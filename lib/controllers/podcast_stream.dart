@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class Podcast with ChangeNotifier {
   late RssFeed _feed;
   late RssItem _selectedItem;
-  late Map<String, bool> downloadStatus;
+  //late Map<String, bool> downloadStatus; // part of the excluded download
   final String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
 
