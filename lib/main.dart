@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           "/": (context) => PodcastFeed(),
-          "podcast-player": (context) => PodcastPlayer(),
+          "/podcast-player": (context) => PodcastPlayer(),
         },
       ),
     );
