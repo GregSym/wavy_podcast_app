@@ -1,9 +1,10 @@
 import 'package:better_player/better_player.dart';
+import 'package:flutter/foundation.dart';
 
 /// Composition class for getting media player into a semi-multi-platform state
 /// - this is a bad way to do this, but it's the easiest way to manage it
 /// - - So maybe it's not the absolute worst?
-class PodcastPlayerController {
+class PodcastPlayerController with ChangeNotifier {
   BetterPlayerController _podcastController =
       BetterPlayerController(BetterPlayerConfiguration());
 
@@ -44,7 +45,7 @@ class PodcastPlayerController {
       ? _podcastController.pause()
       : _podcastController.play(); // TODO: add a null check here
 
-  play() => null;
+  Future<void> play() async => await _podcastController.play();
 
   pause() => null;
 
