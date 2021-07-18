@@ -7,6 +7,11 @@ class PodcastPlayerController {
   BetterPlayerController _podcastController =
       BetterPlayerController(BetterPlayerConfiguration());
 
+  double _tenSecondsInMilliseconds = 10 * 1000;
+  double _shortSkipAmountMilliseconds = 15 * 1000;
+  double _regularSkipAmountMilliseconds =
+      30 * 1000; // TODO: maybe move to const folder
+
   /// Probably going to improve this at some point so that it supplies dynamic
   /// controllers for different platforms
   BetterPlayerController get podcastController => _podcastController;
@@ -22,6 +27,7 @@ class PodcastPlayerController {
       ? false
       : _podcastController.isPlaying()!;
 
+  /// current position adaptation
   double get position =>
       _podcastController.videoPlayerController!.value.position.inMilliseconds
           .toDouble(); // TODO: add a null check here
@@ -45,7 +51,17 @@ class PodcastPlayerController {
   Future<void> seekTo(double position) =>
       _podcastController.seekTo(Duration(milliseconds: (position).toInt()));
 
-  skipForward() => null;
+  Future<void> skipForward() => this
+      .seekTo(this.position + _regularSkipAmountMilliseconds); // milliseconds
 
-  skipBackward() => null;
+  Future<void> skipBackward() =>
+      this.seekTo(this.position - _regularSkipAmountMilliseconds);
+
+  /// Flexible skip function
+  /// - if rewindSkip flag set to true then skipSize is applied as negative
+  /// - might change this to be purely an internal helper
+  Future<void> skip({bool rewindSkip = false, double skipSize = 30 * 1000}) =>
+      (!rewindSkip)
+          ? this.seekTo(this.position + skipSize)
+          : this.seekTo(this.position - skipSize);
 }
