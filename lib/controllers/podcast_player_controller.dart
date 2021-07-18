@@ -8,8 +8,8 @@ class PodcastPlayerController with ChangeNotifier {
   BetterPlayerController _podcastController =
       BetterPlayerController(BetterPlayerConfiguration());
 
-  double _tenSecondsInMilliseconds = 10 * 1000;
-  double _shortSkipAmountMilliseconds = 15 * 1000;
+  //double _tenSecondsInMilliseconds = 10 * 1000;
+  //double _shortSkipAmountMilliseconds = 15 * 1000;
   double _regularSkipAmountMilliseconds =
       30 * 1000; // TODO: maybe move to const folder
 
@@ -27,7 +27,7 @@ class PodcastPlayerController with ChangeNotifier {
   bool get isPlaying => _podcastController.isPlaying() == null
       ? false
       : _podcastController.isPlaying()!;
-
+  // GETTERS
   /// current position adaptation
   double get position =>
       _podcastController.videoPlayerController!.value.position.inMilliseconds
@@ -38,6 +38,14 @@ class PodcastPlayerController with ChangeNotifier {
           .toDouble(); // TODO: add a null check here
 
   get events => null;
+
+  // SETTERS
+
+  /// Method for setting the current track
+  set currentTrack(dynamic track) {
+    //TODO: adapt some model to set platform specific controller's media track
+    notifyListeners();
+  }
 
   // METHODS
 
