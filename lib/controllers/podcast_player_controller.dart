@@ -18,6 +18,10 @@ class PodcastPlayerController {
     return _podcastController.isVideoInitialized()!;
   }
 
+  bool get isPlaying => _podcastController.isPlaying() == null
+      ? false
+      : _podcastController.isPlaying()!;
+
   double get position =>
       _podcastController.videoPlayerController!.value.position.inMilliseconds
           .toDouble(); // TODO: add a null check here
@@ -29,6 +33,10 @@ class PodcastPlayerController {
   get events => null;
 
   // METHODS
+
+  togglePlay() => (_podcastController.isPlaying()!)
+      ? _podcastController.pause()
+      : _podcastController.play(); // TODO: add a null check here
 
   play() => null;
 
