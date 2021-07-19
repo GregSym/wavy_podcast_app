@@ -3,13 +3,13 @@ import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 
 class Podcast with ChangeNotifier {
-  late RssFeed _feed;
-  late RssItem _selectedItem;
+  RssFeed? _feed;
+  RssItem? _selectedItem;
   //late Map<String, bool> downloadStatus; // part of the excluded download
   final String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
 
-  RssFeed get feed => _feed;
+  RssFeed? get feed => _feed;
   void parse() async {
     final res = await http.get(Uri.parse(
         url)); // remember to parse the url string because they made the package worse?
@@ -18,8 +18,8 @@ class Podcast with ChangeNotifier {
     notifyListeners();
   }
 
-  RssItem get selectedItem => _selectedItem;
-  set selectedItem(RssItem value) {
+  RssItem? get selectedItem => _selectedItem;
+  set selectedItem(RssItem? value) {
     _selectedItem = value;
     notifyListeners();
   }

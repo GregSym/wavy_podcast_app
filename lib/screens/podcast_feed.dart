@@ -16,17 +16,15 @@ class PodcastFeed extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       body: Center(
-        child: context.read<Podcast>().feed == null
+          child: Consumer<Podcast>(
+        builder: (context, _podcast, _) => _podcast.feed == null
             ? CircularProgressIndicator()
             : ListView(
-                children: context
-                    .read<Podcast>()
-                    .feed!
-                    .items!
+                children: _podcast.feed!.items!
                     .map((rssItem) => PodcastMenuItem(rssItem: rssItem))
                     .toList(),
               ),
-      ),
+      )),
     ));
   }
 }
