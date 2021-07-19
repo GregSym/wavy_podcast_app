@@ -1,5 +1,6 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/foundation.dart';
+import 'package:webfeed/domain/rss_item.dart';
 
 /// Composition class for getting media player into a semi-multi-platform state
 /// - this is a bad way to do this, but it's the easiest way to manage it
@@ -42,8 +43,34 @@ class PodcastPlayerController with ChangeNotifier {
   // SETTERS
 
   /// Method for setting the current track
-  set currentTrack(dynamic track) {
-    //TODO: adapt some model to set platform specific controller's media track
+  set currentTrack(RssItem rssItem) {
+    // null checks
+    if (rssItem.enclosure == null) return; // this won't work without this
+    if (rssItem.enclosure!.url == null) return;
+    // main setter logic
+    // might want to reuse these fields in other objects, maybe
+    String audioSrc = rssItem.enclosure!.url!;
+    String? trackTitle = rssItem.title;
+    String? trackAuthor = rssItem.author;
+    String? trackImage;
+    if (rssItem.itunes != null) {
+      if (rssItem.itunes!.image != null)
+        trackImage = rssItem.itunes!.image!.href;
+    }
+
+    _podcastController.setupDataSource(
+      BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network,
+        audioSrc,
+        notificationConfiguration: BetterPlayerNotificationConfiguration(
+          showNotification: true,
+          title: trackTitle,
+          author: trackAuthor,
+          imageUrl: trackImage,
+        ),
+      ),
+    );
+
     notifyListeners();
   }
 
