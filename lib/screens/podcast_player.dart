@@ -16,7 +16,7 @@ class PodcastPlayer extends StatelessWidget {
         child: Column(
           children: [
             Image.network(
-                context.read<Podcast>().feed.image!.url!), //TODO: handle null
+                context.read<Podcast>().feed!.image!.url!), //TODO: handle null
             PodcastTimestamp(),
             PodcastSlider(),
             PodcastControlsRow(),

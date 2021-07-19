@@ -9,21 +9,23 @@ class PodcastFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // handle nullables
-    if (context.read<Podcast>().feed.items == null) {
-      return Text("Unexpected RSS structure, no items present in feed");
-    }
+
+    // TODO: add a fallback for null-safety here
+
     // main functionality
     return SafeArea(
         child: Scaffold(
       body: Center(
-        child: ListView(
-          children: context
-              .read<Podcast>()
-              .feed
-              .items!
-              .map((rssItem) => PodcastMenuItem(rssItem: rssItem))
-              .toList(),
-        ),
+        child: context.read<Podcast>().feed == null
+            ? CircularProgressIndicator()
+            : ListView(
+                children: context
+                    .read<Podcast>()
+                    .feed!
+                    .items!
+                    .map((rssItem) => PodcastMenuItem(rssItem: rssItem))
+                    .toList(),
+              ),
       ),
     ));
   }
