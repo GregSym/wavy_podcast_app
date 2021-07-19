@@ -9,6 +9,8 @@ class PodcastPlayerController with ChangeNotifier {
   BetterPlayerController _podcastController =
       BetterPlayerController(BetterPlayerConfiguration());
 
+  RssItem? _currentTrack;
+
   //double _tenSecondsInMilliseconds = 10 * 1000;
   //double _shortSkipAmountMilliseconds = 15 * 1000;
   double _regularSkipAmountMilliseconds =
@@ -44,6 +46,8 @@ class PodcastPlayerController with ChangeNotifier {
 
   /// Method for setting the current track
   set currentTrack(RssItem rssItem) {
+    // set the controller's reference to the arg
+    _currentTrack = rssItem;
     // null checks
     if (rssItem.enclosure == null) return; // this won't work without this
     if (rssItem.enclosure!.url == null) return;
