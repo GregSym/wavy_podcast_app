@@ -23,7 +23,7 @@ class PodcastTimestamp extends StatelessWidget {
           ? Text(
               "${_podcastController.duration}",
             )
-          : !positionAndDuration
+          : positionAndDuration
               ? Text(
                   "${_podcastController.position} / ${_podcastController.duration}",
                 )

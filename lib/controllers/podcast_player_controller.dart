@@ -42,9 +42,13 @@ class PodcastPlayerController with ChangeNotifier {
       _podcastController.videoPlayerController!.value.position.inMilliseconds
           .toDouble(); // TODO: add a null check here
 
-  double get duration =>
-      _podcastController.videoPlayerController!.value.duration!.inMilliseconds
-          .toDouble(); // TODO: add a null check here
+  double get duration => _podcastController.videoPlayerController == null
+      ? 0.0
+      : _podcastController.videoPlayerController!.value.duration == null
+          ? 0.0
+          : _podcastController
+              .videoPlayerController!.value.duration!.inMilliseconds
+              .toDouble(); // TODO: IMPROVE null-check here
 
   get events => null;
 
