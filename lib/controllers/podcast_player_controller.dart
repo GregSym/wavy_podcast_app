@@ -81,8 +81,10 @@ class PodcastPlayerController with ChangeNotifier {
   // METHODS
 
   togglePlay() => (_podcastController.isPlaying()!)
-      ? _podcastController.pause()
-      : _podcastController.play(); // TODO: add a null check here
+      ? _podcastController.pause().then((value) => notifyListeners())
+      : _podcastController
+          .play()
+          .then((value) => notifyListeners()); // TODO: add a null check here
 
   Future<void> play() async => await _podcastController.play();
 
@@ -104,4 +106,9 @@ class PodcastPlayerController with ChangeNotifier {
       (!rewindSkip)
           ? this.seekTo(this.position + skipSize)
           : this.seekTo(this.position - skipSize);
+
+  crudeListener() => _podcastController.addEventsListener((events) {
+        if (events.betterPlayerEventType == BetterPlayerEventType.progress)
+          notifyListeners();
+      });
 }
