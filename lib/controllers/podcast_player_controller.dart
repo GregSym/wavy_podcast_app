@@ -1,6 +1,7 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_podcast_app/constants/images_resources.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
@@ -14,7 +15,7 @@ class PodcastPlayerController with ChangeNotifier {
 
   RssItem? _currentTrack;
   RssFeed? _currentFeed;
-  String? _fallbackImgUri;
+  String? _fallbackImgUri = ImgResources.fallbackImgUri;
 
   //double _tenSecondsInMilliseconds = 10 * 1000;
   //double _shortSkipAmountMilliseconds = 15 * 1000;
