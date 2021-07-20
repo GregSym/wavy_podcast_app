@@ -1,5 +1,8 @@
 import 'package:better_player/better_player.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_podcast_app/functions/feed_analysis.dart';
+import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 /// Composition class for getting media player into a semi-multi-platform state
@@ -10,6 +13,8 @@ class PodcastPlayerController with ChangeNotifier {
       BetterPlayerController(BetterPlayerConfiguration());
 
   RssItem? _currentTrack;
+  RssFeed? _currentFeed;
+  String? _fallbackImgUri;
 
   //double _tenSecondsInMilliseconds = 10 * 1000;
   //double _shortSkipAmountMilliseconds = 15 * 1000;
@@ -43,6 +48,18 @@ class PodcastPlayerController with ChangeNotifier {
   get events => null;
 
   // SETTERS
+  RssFeed? get currentFeed => _currentFeed;
+  set currentFeed(RssFeed? rssFeed) {
+    _currentFeed = rssFeed;
+    if (rssFeed == null) {
+      return;
+    }
+    if (rssFeed.image == null) return;
+    _fallbackImgUri = rssFeed.image!.url;
+  }
+
+  /// method for getting the current track
+  RssItem get currentTrack => _currentTrack!;
 
   /// Method for setting the current track
   set currentTrack(RssItem rssItem) {
@@ -59,7 +76,9 @@ class PodcastPlayerController with ChangeNotifier {
     String? trackImage;
     if (rssItem.itunes != null) {
       if (rssItem.itunes!.image != null)
-        trackImage = rssItem.itunes!.image!.href;
+        trackImage = FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
+            ? rssItem.itunes!.image!.href
+            : _fallbackImgUri;
     }
 
     _podcastController.setupDataSource(

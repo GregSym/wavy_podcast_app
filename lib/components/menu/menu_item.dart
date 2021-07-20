@@ -27,6 +27,9 @@ class PodcastMenuItem extends StatelessWidget {
   _handlePodcastSelection(BuildContext context) {
     context.read<Podcast>().selectedItem = rssItem;
     context.read<PodcastPlayerController>().currentTrack = rssItem;
+    context.read<PodcastPlayerController>().currentFeed =
+        context.read<Podcast>().feed;
+    context.read<PodcastPlayerController>().play();
     Navigator.of(context).pushNamed("/podcast-player");
   }
 }
