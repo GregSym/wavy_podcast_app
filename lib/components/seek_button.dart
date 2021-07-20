@@ -12,7 +12,7 @@ class PodcastSeekButton extends StatelessWidget {
     return Consumer<PodcastPlayerController>(
         builder: (context, _podcastController, _) => IconButton(
               onPressed: () => _podcastController.skip(rewindSkip: rewind),
-              icon: rewind
+              icon: !rewind
                   ? Icon(Icons.fast_forward_rounded)
                   : Icon(Icons.fast_rewind_rounded),
             ));

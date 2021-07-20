@@ -18,6 +18,7 @@ class PodcastPlayer extends StatelessWidget {
         child: Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             hasIndividualEpisodeImage(context.read<Podcast>().selectedItem!)
                 ? Image.network(context
