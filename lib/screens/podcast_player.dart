@@ -20,7 +20,8 @@ class PodcastPlayer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            hasIndividualEpisodeImage(context.read<Podcast>().selectedItem!)
+            FeedAnalysisFunctions.hasIndividualEpisodeImage(
+                    context.read<Podcast>().selectedItem!)
                 ? Image.network(context
                     .read<Podcast>()
                     .selectedItem!
