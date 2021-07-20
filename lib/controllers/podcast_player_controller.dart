@@ -12,7 +12,8 @@ import 'package:webfeed/domain/rss_item.dart';
 class PodcastPlayerController with ChangeNotifier {
   BetterPlayerController _podcastController =
       BetterPlayerController(BetterPlayerConfiguration());
-
+  //TODO: maybe implement your dequeue of 1 trick to recycle the internal
+  // controller
   RssItem? _currentTrack;
   RssFeed? _currentFeed;
   String? _fallbackImgUri = ImgResources.fallbackImgUri;
