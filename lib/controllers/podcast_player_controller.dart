@@ -126,10 +126,12 @@ class PodcastPlayerController with ChangeNotifier {
     if (position >= 0.0 && position <= this.duration) {
       return _podcastController
           .seekTo(Duration(milliseconds: (position).toInt()));
-    } else if (this.position < 30 * 000) {
+    }
+    if (this.position < 30 * 000) {
       // go to start case
       return _podcastController.seekTo(Duration());
-    } else if (this.duration - this.position < 30 * 000) {
+    }
+    if (this.duration - this.position < 30 * 000) {
       // got to end case
       return _podcastController
           .seekTo(Duration(milliseconds: (this.duration).toInt()));
