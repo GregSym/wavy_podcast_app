@@ -62,6 +62,8 @@ class PodcastPlayerController with ChangeNotifier {
     }
     if (rssFeed.image == null) return;
     _fallbackImgUri = rssFeed.image!.url;
+
+    notifyListeners();
   }
 
   /// method for getting the current track
@@ -115,8 +117,26 @@ class PodcastPlayerController with ChangeNotifier {
 
   pause() => null;
 
-  Future<void> seekTo(double position) =>
-      _podcastController.seekTo(Duration(milliseconds: (position).toInt()));
+  /// expected position is a product of adding
+  /// or subtracting from current position
+  /// - handles go to start case and go to end case
+  /// - other case ~effectively~ does nothing - replace with real no-op at
+  /// some point
+  Future<void> seekTo(double position) {
+    if (position >= 0.0 && position <= this.duration) {
+      return _podcastController
+          .seekTo(Duration(milliseconds: (position).toInt()));
+    } else if (this.position < 30 * 000) {
+      // go to start case
+      return _podcastController.seekTo(Duration());
+    } else if (this.duration - this.position < 30 * 000) {
+      // got to end case
+      return _podcastController
+          .seekTo(Duration(milliseconds: (this.duration).toInt()));
+    } else {
+      return Future<void>(() => this.position);
+    } // required by return type
+  }
 
   Future<void> skipForward() => this
       .seekTo(this.position + _regularSkipAmountMilliseconds); // milliseconds
@@ -135,5 +155,24 @@ class PodcastPlayerController with ChangeNotifier {
   crudeListener() => _podcastController.addEventsListener((events) {
         if (events.betterPlayerEventType == BetterPlayerEventType.progress)
           notifyListeners();
+        else if (events.betterPlayerEventType ==
+            BetterPlayerEventType.finished) {
+          // handle the end of a track
+          print("track finished!!!");
+          if (_currentFeed == null) {
+            return;
+          }
+          if (_currentFeed!.items == null) return;
+          List<RssItem> _items = _currentFeed!.items!;
+          int loc = _items.indexOf(_currentTrack!);
+          if (loc < _items.length) {
+            print("Adding item");
+            this._currentTrack = _items.elementAt(loc++); // find the next track
+            this.play(); // play the next track
+            // TODO: make this switchable to previous track
+          } else {
+            this.seekTo(0.0);
+          }
+        }
       });
 }

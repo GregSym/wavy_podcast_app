@@ -20,7 +20,12 @@ class PodcastSlider extends StatelessWidget {
                     value: (_isInTransition)
                         ? _directValue
                         : _podcastPlayerController.position,
-                    max: _podcastPlayerController.duration,
+                    max: _podcastPlayerController.position <=
+                            _podcastPlayerController.duration
+                        ? _podcastPlayerController.duration
+                        : _podcastPlayerController.position,
+                    // it is sometimes possible for the returned duration
+                    // to be slightly shorter than the real duration
                     onChanged: (value) {
                       _isInTransition = true;
                       _directValue = value;
