@@ -22,13 +22,12 @@ class PodcastPlayer extends StatelessWidget {
           children: [
             FeedAnalysisFunctions.hasIndividualEpisodeImage(
                     context.read<Podcast>().selectedItem!)
-                ? Image.network(context
-                    .read<Podcast>()
-                    .selectedItem!
-                    .itunes!
-                    .image!
-                    .href!) //TODO: handle null
-                : Image.network(context.read<Podcast>().feed!.image!.url!),
+                ? Image.network(
+                    context.read<Podcast>().selectedItem!.itunes!.image!.href!,
+                  ) //TODO: handle null
+                : Image.network(
+                    context.read<Podcast>().feed!.image!.url!,
+                  ),
             PodcastTimestamp(),
             PodcastSlider(),
             PodcastControlsRow(),

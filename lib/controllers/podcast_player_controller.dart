@@ -1,8 +1,10 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_podcast_app/constants/images_resources.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
+import 'package:flutter_podcast_app/functions/platform_analysis.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
@@ -14,6 +16,9 @@ class PodcastPlayerController with ChangeNotifier {
       BetterPlayerController(BetterPlayerConfiguration());
   //TODO: maybe implement your dequeue of 1 trick to recycle the internal
   // controller
+
+  final AudioPlayer _webController = AudioPlayer();
+
   RssItem? _currentTrack;
   RssFeed? _currentFeed;
   String? _fallbackImgUri = ImgResources.fallbackImgUri;
@@ -88,32 +93,39 @@ class PodcastPlayerController with ChangeNotifier {
             ? rssItem.itunes!.image!.href
             : _fallbackImgUri;
     }
-
-    _podcastController.setupDataSource(
-      BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        audioSrc,
-        notificationConfiguration: BetterPlayerNotificationConfiguration(
-          showNotification: true,
-          title: trackTitle,
-          author: trackAuthor,
-          imageUrl: trackImage,
+    if (PlatformAnalysis.isMobile)
+      _podcastController.setupDataSource(
+        BetterPlayerDataSource(
+          BetterPlayerDataSourceType.network,
+          audioSrc,
+          notificationConfiguration: BetterPlayerNotificationConfiguration(
+            showNotification: true,
+            title: trackTitle,
+            author: trackAuthor,
+            imageUrl: trackImage,
+          ),
         ),
-      ),
-    );
+      );
+    else
+      _webController.setUrl(audioSrc);
 
     notifyListeners();
   }
 
   // METHODS
 
-  togglePlay() => (_podcastController.isPlaying()!)
-      ? _podcastController.pause().then((value) => notifyListeners())
-      : _podcastController
-          .play()
-          .then((value) => notifyListeners()); // TODO: add a null check here
+  togglePlay() => PlatformAnalysis.isMobile
+      ? (_podcastController.isPlaying()!)
+          ? _podcastController.pause().then((value) => notifyListeners())
+          : _podcastController.play().then((value) => notifyListeners())
+      : _webController.state == PlayerState.PLAYING
+          ? _webController.pause().then((value) => notifyListeners())
+          : _webController.resume().then(
+              (value) => notifyListeners()); // TODO: add a null check here
 
-  Future<void> play() async => await _podcastController.play();
+  Future<void> play() async => PlatformAnalysis.isMobile
+      ? await _podcastController.play().then((_) => notifyListeners())
+      : await _webController.resume().then((_) => notifyListeners());
 
   pause() => null;
 
@@ -123,21 +135,38 @@ class PodcastPlayerController with ChangeNotifier {
   /// - other case ~effectively~ does nothing - replace with real no-op at
   /// some point
   Future<void> seekTo(double position) {
-    if (position >= 0.0 && position <= this.duration) {
-      return _podcastController
-          .seekTo(Duration(milliseconds: (position).toInt()));
-    }
-    if (this.position < 30 * 000) {
-      // go to start case
-      return _podcastController.seekTo(Duration());
-    }
-    if (this.duration - this.position < 30 * 000) {
-      // got to end case
-      return _podcastController
-          .seekTo(Duration(milliseconds: (this.duration).toInt()));
+    if (PlatformAnalysis.isMobile) {
+      if (position >= 0.0 && position <= this.duration) {
+        return _podcastController
+            .seekTo(Duration(milliseconds: (position).toInt()));
+      }
+      if (this.position < 30 * 000) {
+        // go to start case
+        return _podcastController.seekTo(Duration());
+      }
+      if (this.duration - this.position < 30 * 000) {
+        // got to end case
+        return _podcastController
+            .seekTo(Duration(milliseconds: (this.duration).toInt()));
+      } else {
+        return Future<void>(() => this.position); // required by return type
+      }
     } else {
-      return Future<void>(() => this.position);
-    } // required by return type
+      if (position >= 0.0 && position <= this.duration) {
+        return _webController.seek(Duration(milliseconds: (position).toInt()));
+      }
+      if (this.position < 30 * 000) {
+        // go to start case
+        return _webController.seek(Duration());
+      }
+      if (this.duration - this.position < 30 * 000) {
+        // got to end case
+        return _webController
+            .seek(Duration(milliseconds: (this.duration).toInt()));
+      } else {
+        return Future<void>(() => this.position); // required by return type
+      }
+    }
   }
 
   Future<void> skipForward() => this
@@ -154,32 +183,36 @@ class PodcastPlayerController with ChangeNotifier {
           ? this.seekTo(this.position + skipSize)
           : this.seekTo(this.position - skipSize);
 
-  crudeListener() => _podcastController.addEventsListener((events) {
-        if (events.betterPlayerEventType == BetterPlayerEventType.progress)
-          notifyListeners();
-        else if (events.betterPlayerEventType ==
-            BetterPlayerEventType.finished) {
-          // handle the end of a track
-          print("track finished!!!");
-          if (_currentFeed == null) {
-            return;
+  crudeListener() => PlatformAnalysis.isMobile
+      ? _podcastController.addEventsListener((events) {
+          if (events.betterPlayerEventType == BetterPlayerEventType.progress)
+            notifyListeners();
+          else if (events.betterPlayerEventType ==
+              BetterPlayerEventType.finished) {
+            // handle the end of a track
+            print("track finished!!!");
+            if (_currentFeed == null) {
+              return;
+            }
+            if (_currentFeed!.items == null) return;
+            List<RssItem> _items = _currentFeed!.items!;
+            int loc = _items
+                .asMap()
+                .entries
+                .firstWhere(
+                    (element) => element.value.title == _currentTrack!.title)
+                .key; // RssItem appears not to have an __eq__ method
+            if (loc < _items.length) {
+              print("Adding item");
+              this._currentTrack =
+                  _items.elementAt(loc++); // find the next track
+              this.play(); // play the next track
+              // TODO: make this switchable to previous track
+            } else {
+              this.seekTo(0.0);
+            }
           }
-          if (_currentFeed!.items == null) return;
-          List<RssItem> _items = _currentFeed!.items!;
-          int loc = _items
-              .asMap()
-              .entries
-              .firstWhere(
-                  (element) => element.value.title == _currentTrack!.title)
-              .key; // RssItem appears not to have an __eq__ method
-          if (loc < _items.length) {
-            print("Adding item");
-            this._currentTrack = _items.elementAt(loc++); // find the next track
-            this.play(); // play the next track
-            // TODO: make this switchable to previous track
-          } else {
-            this.seekTo(0.0);
-          }
-        }
-      });
+        })
+      : _webController.onPlayerStateChanged
+          .listen((event) => notifyListeners());
 }
