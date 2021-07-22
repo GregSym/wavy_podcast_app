@@ -1,8 +1,8 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_podcast_app/constants/images_resources.dart';
+import 'package:flutter_podcast_app/controllers/web_player_controller.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/functions/platform_analysis.dart';
 import 'package:webfeed/domain/rss_feed.dart';
@@ -17,7 +17,7 @@ class PodcastPlayerController with ChangeNotifier {
   //TODO: maybe implement your dequeue of 1 trick to recycle the internal
   // controller
 
-  final AudioPlayer _webController = AudioPlayer();
+  final WebPlayerController _webController = WebPlayerController();
 
   RssItem? _currentTrack;
   RssFeed? _currentFeed;
@@ -46,7 +46,7 @@ class PodcastPlayerController with ChangeNotifier {
       ? _podcastController.isPlaying() == null
           ? false
           : _podcastController.isPlaying()!
-      : _webController.state == PlayerState.PLAYING;
+      : _webController.isPlaying;
   // GETTERS
   /// current position adaptation
   double get position => PlatformAnalysis.isMobile
@@ -115,7 +115,7 @@ class PodcastPlayerController with ChangeNotifier {
         ),
       );
     else
-      _webController.setUrl(audioSrc);
+      _webController.currentTrack = rssItem;
 
     notifyListeners();
   }
@@ -126,14 +126,13 @@ class PodcastPlayerController with ChangeNotifier {
       ? (_podcastController.isPlaying()!)
           ? _podcastController.pause().then((value) => notifyListeners())
           : _podcastController.play().then((value) => notifyListeners())
-      : _webController.state == PlayerState.PLAYING
-          ? _webController.pause().then((value) => notifyListeners())
-          : _webController.resume().then(
-              (value) => notifyListeners()); // TODO: add a null check here
+      : _webController
+          .toggle()
+          .then((value) => notifyListeners()); // TODO: add a null check here
 
   Future<void> play() async => PlatformAnalysis.isMobile
       ? await _podcastController.play().then((_) => notifyListeners())
-      : await _webController.resume().then((_) => notifyListeners());
+      : await _webController.play();
 
   pause() => null;
 
@@ -159,22 +158,8 @@ class PodcastPlayerController with ChangeNotifier {
       } else {
         return Future<void>(() => this.position); // required by return type
       }
-    } else {
-      if (position >= 0.0 && position <= this.duration) {
-        return _webController.seek(Duration(milliseconds: (position).toInt()));
-      }
-      if (this.position < 30 * 000) {
-        // go to start case
-        return _webController.seek(Duration());
-      }
-      if (this.duration - this.position < 30 * 000) {
-        // got to end case
-        return _webController
-            .seek(Duration(milliseconds: (this.duration).toInt()));
-      } else {
-        return Future<void>(() => this.position); // required by return type
-      }
-    }
+    } else
+      return _webController.seekTo(position);
   }
 
   Future<void> skipForward() => this
@@ -221,6 +206,6 @@ class PodcastPlayerController with ChangeNotifier {
             }
           }
         })
-      : _webController.onPlayerStateChanged
+      : _webController.webController.onPlayerStateChanged
           .listen((event) => notifyListeners());
 }

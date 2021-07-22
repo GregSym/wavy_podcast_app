@@ -3,6 +3,8 @@ import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
+/// Base class for media controllers, seeing as though I'm going to have
+/// 17 million of them apparently??
 class GenericController with ChangeNotifier {
   RssFeed? _currentFeed;
   RssItem? _currentTrack;
@@ -10,30 +12,34 @@ class GenericController with ChangeNotifier {
   final double _regularSkipAmountMilliseconds = 30 * 1000;
   get podcastController => null;
   bool get isInitialized => false;
+
+  /// returns true if the player is playing
   bool get isPlaying => false;
 
   /// get the current position of the track
   double get position => 0.0;
   double get duration => 1.0;
-  play() => null;
-  pause() => null;
-  toggle() => isPlaying ? this.pause() : this.play();
+
+  /// plays the selected audio file (audio selected seperately)
+  Future<dynamic> play() => Future(() => null);
+  Future<dynamic> pause() => Future(() => null);
+  Future<dynamic> toggle() => isPlaying ? this.pause() : this.play();
 
   /// function containing different media controller's seek methods
   /// - to be wrapped in a safety layer that handles error cases
   /// - do not call directly, override to create a new method
   /// - is called by this.seekTo()
-  Future<void> _adaptiveSeekFunction(double position) =>
+  Future<void> adaptiveSeekFunction(double position) =>
       Future<void>(() => this.position);
   Future<void> seekTo(double position) {
     // allowable seek method
     if (position >= this.position && position <= this.duration)
-      _adaptiveSeekFunction(position);
+      adaptiveSeekFunction(position);
     // skip to beginning condition
-    if (position >= -_regularSkipAmountMilliseconds) _adaptiveSeekFunction(0.0);
+    if (position >= -_regularSkipAmountMilliseconds) adaptiveSeekFunction(0.0);
     // skip to the end condition
     if (position <= this.duration + _regularSkipAmountMilliseconds)
-      _adaptiveSeekFunction(this.duration);
+      adaptiveSeekFunction(this.duration);
     return Future<void>(() => this.position); // no allowable outcomes
   }
 
@@ -87,4 +93,7 @@ class GenericController with ChangeNotifier {
             : _fallbackImgUri;
     }
   }
+
+  /// Handle updating the visual layer that's depending on this information
+  void setupListeners() => null;
 }
