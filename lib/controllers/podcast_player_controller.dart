@@ -166,7 +166,12 @@ class PodcastPlayerController with ChangeNotifier {
           }
           if (_currentFeed!.items == null) return;
           List<RssItem> _items = _currentFeed!.items!;
-          int loc = _items.indexOf(_currentTrack!);
+          int loc = _items
+              .asMap()
+              .entries
+              .firstWhere(
+                  (element) => element.value.title == _currentTrack!.title)
+              .key; // RssItem appears not to have an __eq__ method
           if (loc < _items.length) {
             print("Adding item");
             this._currentTrack = _items.elementAt(loc++); // find the next track
