@@ -33,28 +33,36 @@ class PodcastPlayerController with ChangeNotifier {
   BetterPlayerController get podcastController => _podcastController;
 
   bool get isInitialized {
+    if (!PlatformAnalysis.isMobile) {
+      return true;
+    }
     if (_podcastController.isVideoInitialized() == null) {
       return false;
     }
     return _podcastController.isVideoInitialized()!;
   }
 
-  bool get isPlaying => _podcastController.isPlaying() == null
-      ? false
-      : _podcastController.isPlaying()!;
+  bool get isPlaying => PlatformAnalysis.isMobile
+      ? _podcastController.isPlaying() == null
+          ? false
+          : _podcastController.isPlaying()!
+      : _webController.state == PlayerState.PLAYING;
   // GETTERS
   /// current position adaptation
-  double get position =>
-      _podcastController.videoPlayerController!.value.position.inMilliseconds
-          .toDouble(); // TODO: add a null check here
+  double get position => PlatformAnalysis.isMobile
+      ? _podcastController.videoPlayerController!.value.position.inMilliseconds
+          .toDouble()
+      : 0; // TODO: add a null check here
 
-  double get duration => _podcastController.videoPlayerController == null
-      ? 0.0
-      : _podcastController.videoPlayerController!.value.duration == null
+  double get duration => PlatformAnalysis.isMobile
+      ? _podcastController.videoPlayerController == null
           ? 0.0
-          : _podcastController
-              .videoPlayerController!.value.duration!.inMilliseconds
-              .toDouble(); // TODO: IMPROVE null-check here
+          : _podcastController.videoPlayerController!.value.duration == null
+              ? 0.0
+              : _podcastController
+                  .videoPlayerController!.value.duration!.inMilliseconds
+                  .toDouble()
+      : 1.0; // TODO: IMPROVE null-check here
 
   get events => null;
 

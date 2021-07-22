@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/components/controls_row.dart';
+import 'package:flutter_podcast_app/components/podcast_img.dart';
 import 'package:flutter_podcast_app/components/slider.dart';
 import 'package:flutter_podcast_app/components/timestamp_components.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
@@ -20,14 +21,7 @@ class PodcastPlayer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FeedAnalysisFunctions.hasIndividualEpisodeImage(
-                    context.read<Podcast>().selectedItem!)
-                ? Image.network(
-                    context.read<Podcast>().selectedItem!.itunes!.image!.href!,
-                  ) //TODO: handle null
-                : Image.network(
-                    context.read<Podcast>().feed!.image!.url!,
-                  ),
+            PodcastImage(),
             PodcastTimestamp(),
             PodcastSlider(),
             PodcastControlsRow(),
