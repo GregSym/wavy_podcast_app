@@ -10,7 +10,7 @@ class PodcastPlayButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PodcastPlayerController>(
       builder: (context, _podcastController, _) => IconButton(
-        onPressed: () => _podcastController.togglePlay(),
+        onPressed: () => _podcastController.toggle(),
         icon: _podcastController.isPlaying
             ? Icon(Icons.pause_circle)
             : Icon(Icons.play_circle),

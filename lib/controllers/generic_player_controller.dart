@@ -96,4 +96,7 @@ class GenericController with ChangeNotifier {
 
   /// Handle updating the visual layer that's depending on this information
   void setupListeners() => null;
+
+  /// Handle random setup stuff, treat as init
+  void setup() => null;
 }

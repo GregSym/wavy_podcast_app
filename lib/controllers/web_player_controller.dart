@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
@@ -13,6 +12,9 @@ class WebPlayerController extends GenericController {
 
   /// exposed the actual player wrapped by this functionality
   AudioPlayer get webController => _webController;
+
+  @override
+  bool get isInitialized => true; // just pass this value for now
 
   @override
   bool get isPlaying => _webController.state == PlayerState.PLAYING;
@@ -46,6 +48,19 @@ class WebPlayerController extends GenericController {
 
   @override
   void setupListeners() {
+    _webController.onPlayerStateChanged.listen((_) => notifyListeners());
+    _webController.onAudioPositionChanged.listen((progressDuration) {
+      _position = progressDuration.inMilliseconds.toDouble();
+      notifyListeners();
+    });
+    _webController.onDurationChanged.listen((durationDuration) {
+      _duration = durationDuration.inMilliseconds.toDouble();
+      notifyListeners();
+    });
+  }
+
+  @override
+  void setup() {
     _webController.onPlayerStateChanged.listen((_) => notifyListeners());
     _webController.onAudioPositionChanged.listen((progressDuration) {
       _position = progressDuration.inMilliseconds.toDouble();
