@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -6,6 +7,9 @@ import 'package:webfeed/domain/rss_item.dart';
 
 class WebPlayerController extends GenericController {
   AudioPlayer _webController = AudioPlayer();
+
+  double _position = 0.0;
+  double _duration = 1.0;
 
   /// exposed the actual player wrapped by this functionality
   AudioPlayer get webController => _webController;
@@ -20,13 +24,17 @@ class WebPlayerController extends GenericController {
   pause() => _webController.pause().then((value) => notifyListeners());
 
   @override
+  double get position => _position;
+
+  @override
+  double get duration => _duration;
+
+  @override
   Future<void> adaptiveSeekFunction(double position) {
-    // TODO: implement adaptiveSeekFunction
     return _webController.seek(Duration(milliseconds: position.toInt()));
   }
 
   @override
-  // TODO: implement events
   get events => _webController.onPlayerStateChanged;
 
   @override
@@ -38,7 +46,14 @@ class WebPlayerController extends GenericController {
 
   @override
   void setupListeners() {
-    // TODO: implement setupListeners
     _webController.onPlayerStateChanged.listen((_) => notifyListeners());
+    _webController.onAudioPositionChanged.listen((progressDuration) {
+      _position = progressDuration.inMilliseconds.toDouble();
+      notifyListeners();
+    });
+    _webController.onDurationChanged.listen((durationDuration) {
+      _duration = durationDuration.inMilliseconds.toDouble();
+      notifyListeners();
+    });
   }
 }
