@@ -8,20 +8,22 @@ class PodcastImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 3,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        fit: BoxFit.fitHeight,
-        image: FeedAnalysisFunctions.hasIndividualEpisodeImage(
-                context.read<Podcast>().selectedItem!)
-            ? NetworkImage(
-                context.read<Podcast>().selectedItem!.itunes!.image!.href!,
-              ) //TODO: handle null
-            : NetworkImage(
-                context.read<Podcast>().feed!.image!.url!,
-              ),
-      )),
-    );
+    return Hero(
+        tag: context.read<Podcast>().selectedItem!.title ?? "title",
+        child: Container(
+          height: MediaQuery.of(context).size.height / 3,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            fit: BoxFit.fitHeight,
+            image: FeedAnalysisFunctions.hasIndividualEpisodeImage(
+                    context.read<Podcast>().selectedItem!)
+                ? NetworkImage(
+                    context.read<Podcast>().selectedItem!.itunes!.image!.href!,
+                  ) //TODO: handle null
+                : NetworkImage(
+                    context.read<Podcast>().feed!.image!.url!,
+                  ),
+          )),
+        ));
   }
 }

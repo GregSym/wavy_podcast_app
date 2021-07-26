@@ -13,10 +13,13 @@ class PodcastMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String _fallbackImage = "";
     return ListTile(
-      leading: FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
-          ? Image.network(rssItem.itunes!.image!.href!)
-          : Image.network(
-              context.read<Podcast>().feed!.image!.url ?? _fallbackImage),
+      leading: Hero(
+        tag: rssItem.title ?? "key",
+        child: FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
+            ? Image.network(rssItem.itunes!.image!.href!)
+            : Image.network(
+                context.read<Podcast>().feed!.image!.url ?? _fallbackImage),
+      ),
       title: Text(rssItem.title ?? "Missing title info"),
       subtitle: Text(rssItem.author ?? "Missing publishing info"),
       trailing: Icon(Icons.play_arrow_rounded),
