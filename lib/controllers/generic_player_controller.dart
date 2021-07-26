@@ -10,6 +10,10 @@ class GenericController with ChangeNotifier {
   RssItem? _currentTrack;
   String? _fallbackImgUri;
   final double _regularSkipAmountMilliseconds = 30 * 1000;
+
+  double? _position = 0.0;
+  double? _duration = 1.0;
+
   get podcastController => null;
   bool get isInitialized => false;
 
@@ -17,8 +21,12 @@ class GenericController with ChangeNotifier {
   bool get isPlaying => false;
 
   /// get the current position of the track
-  double get position => 0.0;
-  double get duration => 1.0;
+  double get position => _position ?? 0.0;
+  set position(double position) => _position = position;
+
+  /// get the duration of the current track
+  double get duration => _duration ?? 1.0;
+  set duration(double duration) => _duration = duration;
 
   /// plays the selected audio file (audio selected seperately)
   Future<dynamic> play() => Future(() => null);

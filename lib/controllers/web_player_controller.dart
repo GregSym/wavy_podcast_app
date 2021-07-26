@@ -50,11 +50,12 @@ class WebPlayerController extends GenericController {
   void setupListeners() {
     _webController.onPlayerStateChanged.listen((_) => notifyListeners());
     _webController.onAudioPositionChanged.listen((progressDuration) {
-      _position = progressDuration.inMilliseconds.toDouble();
+      this.position = progressDuration.inMilliseconds.toDouble();
+      print("entered the position listener function!");
       notifyListeners();
     });
     _webController.onDurationChanged.listen((durationDuration) {
-      _duration = durationDuration.inMilliseconds.toDouble();
+      this.duration = durationDuration.inMilliseconds.toDouble();
       notifyListeners();
     });
   }
@@ -63,11 +64,12 @@ class WebPlayerController extends GenericController {
   void setup() {
     _webController.onPlayerStateChanged.listen((_) => notifyListeners());
     _webController.onAudioPositionChanged.listen((progressDuration) {
-      _position = progressDuration.inMilliseconds.toDouble();
+      this.position = progressDuration.inMilliseconds.toDouble();
+      print("entered the position listener function!");
       notifyListeners();
     });
     _webController.onDurationChanged.listen((durationDuration) {
-      _duration = durationDuration.inMilliseconds.toDouble();
+      this.duration = durationDuration.inMilliseconds.toDouble();
       notifyListeners();
     });
   }

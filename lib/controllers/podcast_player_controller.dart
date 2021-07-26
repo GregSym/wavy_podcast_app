@@ -26,10 +26,21 @@ class PodcastPlayerController extends GenericController {
   @override
   // TODO: implement position
   double get position => _podcastController.position;
+  @override
+  set position(double position) {
+    super.position = position;
+    notifyListeners();
+  }
 
   @override
   // TODO: implement duration
   double get duration => _podcastController.duration;
+
+  @override
+  set duration(double duration) {
+    super.duration = duration;
+    notifyListeners();
+  }
 
   @override
   Future play() async =>
