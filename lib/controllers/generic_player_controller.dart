@@ -25,9 +25,27 @@ class GenericController with ChangeNotifier {
   double get position => _position ?? 0.0;
   set position(double position) => _position = position;
 
+  /// returns the position in a string format
+  /// - uses a form of the position in double to generate duration
+  /// from which to get string
+  /// - firstly, this is blatantly stupid -BUT- it is a way to do this in
+  /// the base class instead of redefining the split pattern on the children
+  /// classes that I want to inherit it
+  String get positionDateTime =>
+      "${Duration(milliseconds: this.position.toInt())}"
+          .split('.')[0]
+          .padLeft(8, '0')
+          .substring(3);
+
   /// get the duration of the current track
   double get duration => _duration ?? 1.0;
   set duration(double duration) => _duration = duration;
+
+  String get durationDateTime =>
+      "${Duration(milliseconds: this.duration.toInt())}"
+          .split('.')[0]
+          .padLeft(8, '0')
+          .substring(3);
 
   /// plays the selected audio file (audio selected seperately)
   Future<dynamic> play() => Future(() => null);
