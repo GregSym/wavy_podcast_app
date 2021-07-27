@@ -40,8 +40,8 @@ class WebPlayerController extends GenericController {
       : _webController.duration!.inMilliseconds.toDouble();
 
   @override
-  Future<void> adaptiveSeekFunction(double position) {
-    return _webController.seek(Duration(milliseconds: position.toInt()));
+  Future<void> adaptiveSeekFunction(double position) async {
+    return await _webController.seek(Duration(milliseconds: position.toInt()));
   }
 
   @override

@@ -40,15 +40,18 @@ class GenericController with ChangeNotifier {
   /// - is called by this.seekTo()
   Future<void> adaptiveSeekFunction(double position) =>
       Future<void>(() => this.position);
-  Future<void> seekTo(double position) {
+
+  /// Universal seekTo function wrapping seek functions of various controllers
+  Future<void> seekTo(double position) async {
     // allowable seek method
-    if (position >= this.position && position <= this.duration)
-      adaptiveSeekFunction(position);
+    if (position >= 0.0 && position <= this.duration)
+      return await adaptiveSeekFunction(position);
     // skip to beginning condition
-    if (position >= -_regularSkipAmountMilliseconds) adaptiveSeekFunction(0.0);
+    if (position >= -_regularSkipAmountMilliseconds)
+      return await adaptiveSeekFunction(0.0);
     // skip to the end condition
     if (position <= this.duration + _regularSkipAmountMilliseconds)
-      adaptiveSeekFunction(this.duration);
+      return await adaptiveSeekFunction(this.duration);
     return Future<void>(() => this.position); // no allowable outcomes
   }
 
