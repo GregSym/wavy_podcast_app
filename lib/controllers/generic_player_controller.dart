@@ -6,6 +6,8 @@ import 'package:webfeed/domain/rss_item.dart';
 
 /// Base class for media controllers, seeing as though I'm going to have
 /// 17 million of them apparently??
+/// - can return different String timestamps for the player
+///
 class GenericController with ChangeNotifier {
   RssFeed? _currentFeed;
   RssItem? _currentTrack;
@@ -126,7 +128,4 @@ class GenericController with ChangeNotifier {
 
   /// Handle updating the visual layer that's depending on this information
   void setupListeners() => null;
-
-  /// Handle random setup stuff, treat as init
-  void setup() => null;
 }
