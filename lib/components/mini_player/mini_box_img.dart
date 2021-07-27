@@ -8,7 +8,7 @@ class MiniBoxImg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Reactivity.miniDetailsHeight(context),
+      height: Reactivity.miniDetailsHeight(context) * .8,
       child: PodcastBoxImg(),
     );
   }

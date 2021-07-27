@@ -9,15 +9,19 @@ class MiniDetailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: Reactivity.miniDetailsHeight(context),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          MiniBoxImg(),
-          MiniTitleInfo(),
-          MiniPlayButton(),
-        ],
+    return GestureDetector(
+      // TODO: come up with a real pagination plan at some point
+      onTap: () => Navigator.of(context).pushNamed("/podcast-player"),
+      child: Container(
+        height: Reactivity.miniDetailsHeight(context),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            MiniBoxImg(),
+            MiniTitleInfo(),
+            MiniPlayButton(),
+          ],
+        ),
       ),
     );
   }

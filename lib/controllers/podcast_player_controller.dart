@@ -66,7 +66,9 @@ class PodcastPlayerController extends GenericController {
 
   @override
   void setupListeners() {
-    _podcastController.setupListeners();
+    // _podcastController.setupListeners(); // this doesn't work/do anything
+
+    // handle setting up listeners for the mobile version
     if (PlatformAnalysis.isMobile) {
       _podcastController.podcastController.betterPlayerController!
           .addEventsListener((events) {
@@ -76,6 +78,7 @@ class PodcastPlayerController extends GenericController {
       });
     }
 
+    // handle setting up listeners for the web version
     if (_podcastController.runtimeType == WebPlayerController) {
       _podcastController.podcastController.audioPlayer!.positionStream
           .listen((position) {
