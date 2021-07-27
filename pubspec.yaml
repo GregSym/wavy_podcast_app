@@ -36,7 +36,8 @@ dependencies:
            # to have issues so we're using the latest version of that
            # not sure how that affects null safety
 
-  audioplayers: ^0.19.1
+  # audioplayers: ^0.19.1 # seems to have some issues on web
+  just_audio: ^0.9.3
   
   http: ^0.13.1
 

@@ -12,8 +12,7 @@ import 'mobile_player_controller.dart';
 class PodcastPlayerController extends GenericController {
   GenericController _podcastController = PlatformAnalysis.isMobile
       ? MobilePlayerController()
-      : WebPlayerController()
-    ..setup();
+      : WebPlayerController();
 
   @override
   // TODO: implement isInitialized
@@ -67,6 +66,7 @@ class PodcastPlayerController extends GenericController {
 
   @override
   void setupListeners() {
+    _podcastController.setupListeners();
     if (PlatformAnalysis.isMobile) {
       _podcastController.podcastController.addEventsListener((events) {
         if (events.betterPlayerEventType == BetterPlayerEventType.progress)

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 class WebPlayerController extends GenericController {
@@ -17,19 +17,23 @@ class WebPlayerController extends GenericController {
   bool get isInitialized => true; // just pass this value for now
 
   @override
-  bool get isPlaying => _webController.state == PlayerState.PLAYING;
+  bool get isPlaying => _webController.playing;
 
   @override
-  play() => _webController.resume().then((value) => notifyListeners());
+  play() async =>
+      await _webController.play().then((value) => notifyListeners());
 
   @override
-  pause() => _webController.pause().then((value) => notifyListeners());
+  pause() async =>
+      await _webController.pause().then((value) => notifyListeners());
 
   @override
-  double get position => _position;
+  double get position => _webController.position.inMilliseconds.toDouble();
 
   @override
-  double get duration => _duration;
+  double get duration => _webController.duration == null
+      ? 1.0
+      : _webController.duration!.inMilliseconds.toDouble();
 
   @override
   Future<void> adaptiveSeekFunction(double position) {
@@ -37,7 +41,7 @@ class WebPlayerController extends GenericController {
   }
 
   @override
-  get events => _webController.onPlayerStateChanged;
+  get events => null;
 
   @override
   set currentTrack(RssItem rssItem) {
@@ -48,28 +52,11 @@ class WebPlayerController extends GenericController {
 
   @override
   void setupListeners() {
-    _webController.onPlayerStateChanged.listen((_) => notifyListeners());
-    _webController.onAudioPositionChanged.listen((progressDuration) {
-      this.position = progressDuration.inMilliseconds.toDouble();
-      print("entered the position listener function!");
-      notifyListeners();
-    });
-    _webController.onDurationChanged.listen((durationDuration) {
-      this.duration = durationDuration.inMilliseconds.toDouble();
-      notifyListeners();
-    });
-  }
+    // TODO: implement setupListeners
+    super.setupListeners();
 
-  @override
-  void setup() {
-    _webController.onPlayerStateChanged.listen((_) => notifyListeners());
-    _webController.onAudioPositionChanged.listen((progressDuration) {
-      this.position = progressDuration.inMilliseconds.toDouble();
-      print("entered the position listener function!");
-      notifyListeners();
-    });
-    _webController.onDurationChanged.listen((durationDuration) {
-      this.duration = durationDuration.inMilliseconds.toDouble();
+    _webController.positionStream.listen((position) {
+      print(position);
       notifyListeners();
     });
   }

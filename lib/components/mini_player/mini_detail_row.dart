@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/components/mini_player/mini_box_img.dart';
 import 'package:flutter_podcast_app/components/mini_player/mini_play_button.dart';
 import 'package:flutter_podcast_app/components/mini_player/mini_title_info.dart';
-import 'package:flutter_podcast_app/components/podcast_img.dart';
 import 'package:flutter_podcast_app/functions/reactivity.dart';
 
 class MiniDetailRow extends StatelessWidget {
