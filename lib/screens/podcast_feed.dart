@@ -31,12 +31,7 @@ class PodcastFeed extends StatelessWidget {
                           .toList(),
                     ),
                   ),
-                  _podcast.selectedItem == null
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MiniPlayer(),
-                        )
+                  _podcast.selectedItem == null ? Container() : MiniPlayer()
                 ],
               ),
       )),

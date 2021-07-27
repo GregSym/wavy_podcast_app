@@ -2,6 +2,7 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/web_player_controller.dart';
 import 'package:flutter_podcast_app/functions/platform_analysis.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 import 'mobile_player_controller.dart';
@@ -83,6 +84,13 @@ class PodcastPlayerController extends GenericController {
       _podcastController.podcastController.audioPlayer!.positionStream
           .listen((position) {
         notifyListeners();
+      });
+      _podcastController.podcastController.audioPlayer!.playerStateStream
+          .listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          this.currentTrack = currentFeed!.items!.first;
+          notifyListeners();
+        }
       });
     }
   }
