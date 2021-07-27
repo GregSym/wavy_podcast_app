@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
+import 'package:flutter_podcast_app/models/audio_player_types.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
@@ -9,6 +10,9 @@ class WebPlayerController extends GenericController {
 
   double _position = 0.0;
   double _duration = 1.0;
+
+  @override
+  get podcastController => AudioPlayerTypes(audioPlayer: _webController);
 
   /// exposed the actual player wrapped by this functionality
   AudioPlayer get webController => _webController;
@@ -56,7 +60,7 @@ class WebPlayerController extends GenericController {
     super.setupListeners();
 
     _webController.positionStream.listen((position) {
-      print(position);
+      // print(position);
       notifyListeners();
     });
   }

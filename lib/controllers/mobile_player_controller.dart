@@ -3,6 +3,7 @@ import 'package:flutter_podcast_app/constants/images_resources.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/functions/null_checks.dart';
+import 'package:flutter_podcast_app/models/audio_player_types.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 class MobilePlayerController extends GenericController {
@@ -11,7 +12,8 @@ class MobilePlayerController extends GenericController {
 
   @override
   // TODO: implement podcastController
-  get podcastController => _mobileController;
+  get podcastController =>
+      AudioPlayerTypes(betterPlayerController: _mobileController);
 
   @override
   // TODO: implement isInitialized

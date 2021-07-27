@@ -27,7 +27,7 @@ class PodcastPlayerController extends GenericController {
   double get position => _podcastController.position;
   @override
   set position(double position) {
-    super.position = position;
+    _podcastController.position = position;
     notifyListeners();
   }
 
@@ -37,7 +37,7 @@ class PodcastPlayerController extends GenericController {
 
   @override
   set duration(double duration) {
-    super.duration = duration;
+    _podcastController.duration = duration;
     notifyListeners();
   }
 
@@ -68,24 +68,19 @@ class PodcastPlayerController extends GenericController {
   void setupListeners() {
     _podcastController.setupListeners();
     if (PlatformAnalysis.isMobile) {
-      _podcastController.podcastController.addEventsListener((events) {
+      _podcastController.podcastController.betterPlayerController!
+          .addEventsListener((events) {
         if (events.betterPlayerEventType == BetterPlayerEventType.progress)
           notifyListeners();
         return;
       });
     }
 
-    // _podcastController.podcastController
-    //   ..onPlayerStateChanged.listen((_) => notifyListeners());
-    // _podcastController.podcastController
-    //   ..onAudioPositionChanged.listen((progressDuration) {
-    //     // _position = progressDuration.inMilliseconds.toDouble();
-    //     notifyListeners();
-    //   });
-    // _podcastController.podcastController
-    //   ..onDurationChanged.listen((durationDuration) {
-    //     // _duration = durationDuration.inMilliseconds.toDouble();
-    //     notifyListeners();
-    //   });
+    if (_podcastController.runtimeType == WebPlayerController) {
+      _podcastController.podcastController.audioPlayer!.positionStream
+          .listen((position) {
+        notifyListeners();
+      });
+    }
   }
 }

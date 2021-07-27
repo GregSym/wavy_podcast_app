@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
+import 'package:flutter_podcast_app/models/audio_player_types.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
@@ -14,7 +15,7 @@ class GenericController with ChangeNotifier {
   double? _position = 0.0;
   double? _duration = 1.0;
 
-  get podcastController => null;
+  AudioPlayerTypes get podcastController => AudioPlayerTypes();
   bool get isInitialized => false;
 
   /// returns true if the player is playing
