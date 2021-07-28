@@ -16,13 +16,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          create: (context) => Podcast()..parse(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => PodcastPlayerController()
             ..setupListeners()
             ..setContext(context),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Podcast()..parse(),
-        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

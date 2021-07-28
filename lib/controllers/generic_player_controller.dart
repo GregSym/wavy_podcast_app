@@ -16,6 +16,7 @@ class GenericController with ChangeNotifier {
   RssFeed? _currentFeed;
   RssItem? _currentTrack;
   String? _fallbackImgUri;
+  bool _shuffle = false;
   final double _regularSkipAmountMilliseconds = 30 * 1000;
 
   double? _position = 0.0;
@@ -132,12 +133,24 @@ class GenericController with ChangeNotifier {
     }
   }
 
+  /// flag for tracking shuffle state
+  /// - causes the next track function to shuffle
+  bool get shuffle => _shuffle;
+  set shuffle(bool shuffleState) {
+    _shuffle = shuffleState;
+    notifyListeners();
+  }
+
+  /// toggle for shuffle function
+  void toggleShuffle() => this.shuffle = !this.shuffle;
+
   /// set the new track
   void setNewTrack({bool getNewerItems = false, bool shuffle = false}) {
     this.currentTrack = FeedAnalysisFunctions.nextItem(
         this.currentTrack, this.currentFeed!,
         getNewerItems: getNewerItems, shuffle: shuffle);
-    context.read<Podcast>().selectedItem = this.currentTrack;
+    Provider.of<Podcast>(context, listen: false).selectedItem =
+        this.currentTrack;
   }
 
   /// Handle updating the visual layer that's depending on this information

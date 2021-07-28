@@ -67,6 +67,12 @@ class PodcastPlayerController extends GenericController {
   }
 
   @override
+  set shuffle(bool shuffleState) {
+    super.shuffle = shuffleState;
+    notifyListeners();
+  }
+
+  @override
   void setupListeners() {
     // _podcastController.setupListeners(); // this doesn't work/do anything
 
@@ -94,7 +100,7 @@ class PodcastPlayerController extends GenericController {
       _podcastController.podcastController.audioPlayer!.playerStateStream
           .listen((state) {
         if (state.processingState == ProcessingState.completed) {
-          this.setNewTrack();
+          this.setNewTrack(shuffle: this.shuffle);
           notifyListeners();
         }
       });

@@ -49,11 +49,13 @@ class FeedAnalysisFunctions {
       else
         nextItem = rssItem;
     }
-    if (loc + 1 <= rssFeed.items!.length)
+    if (loc + 1 <= rssFeed.items!.length) {
       // fun fact: i++ doesn't work for this
       nextItem = rssFeed.items!.elementAt(loc + 1);
-    else
+      print(nextItem.title);
+    } else {
       nextItem = rssItem;
+    }
     return nextItem;
   }
 }
