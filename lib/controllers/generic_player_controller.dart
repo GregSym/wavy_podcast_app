@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/models/audio_player_types.dart';
+import 'package:provider/provider.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
@@ -9,6 +12,7 @@ import 'package:webfeed/domain/rss_item.dart';
 /// - can return different String timestamps for the player
 ///
 class GenericController with ChangeNotifier {
+  late BuildContext context;
   RssFeed? _currentFeed;
   RssItem? _currentTrack;
   String? _fallbackImgUri;
@@ -16,6 +20,8 @@ class GenericController with ChangeNotifier {
 
   double? _position = 0.0;
   double? _duration = 1.0;
+
+  void setContext(BuildContext context) => this.context = context;
 
   AudioPlayerTypes get podcastController => AudioPlayerTypes();
   bool get isInitialized => false;
@@ -124,6 +130,14 @@ class GenericController with ChangeNotifier {
             ? rssItem.itunes!.image!.href
             : _fallbackImgUri;
     }
+  }
+
+  /// set the new track
+  void setNewTrack({bool getNewerItems = false, bool shuffle = false}) {
+    this.currentTrack = FeedAnalysisFunctions.nextItem(
+        this.currentTrack, this.currentFeed!,
+        getNewerItems: getNewerItems, shuffle: shuffle);
+    context.read<Podcast>().selectedItem = this.currentTrack;
   }
 
   /// Handle updating the visual layer that's depending on this information

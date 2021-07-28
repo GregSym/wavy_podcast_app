@@ -3,8 +3,8 @@ import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/null_checks.dart';
 import 'package:provider/provider.dart';
 
-class MiniTitleInfo extends StatelessWidget {
-  const MiniTitleInfo({Key? key}) : super(key: key);
+class PodcastTitelInfo extends StatelessWidget {
+  const PodcastTitelInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

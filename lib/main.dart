@@ -16,7 +16,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => PodcastPlayerController()..setupListeners(),
+          create: (context) => PodcastPlayerController()
+            ..setupListeners()
+            ..setContext(context),
         ),
         ChangeNotifierProvider(
           create: (context) => Podcast()..parse(),

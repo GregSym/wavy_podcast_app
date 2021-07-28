@@ -12,9 +12,16 @@ class Reactivity {
   /* 
   Mini player params----------------------------etc
   */
+  /// minimum height of the mini player
+  static double minimumMiniPlayerHeight = 60.0;
+
   /// total height of the mini player component
   static double miniPlayerHeight(BuildContext context) =>
-      Reactivity.height(context) / 10;
+      Reactivity.height(context) <= minimumMiniPlayerHeight
+          ? Reactivity.height(context)
+          : Reactivity.height(context) / 10 > minimumMiniPlayerHeight
+              ? Reactivity.height(context) / 10
+              : minimumMiniPlayerHeight;
 
   /// height of the details section of the mini player
   /// - the larger section with the img, title and play/pause button
