@@ -1,7 +1,6 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/web_player_controller.dart';
-import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/functions/platform_analysis.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:webfeed/domain/rss_item.dart';

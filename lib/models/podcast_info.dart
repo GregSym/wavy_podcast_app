@@ -6,6 +6,8 @@ class PodcastInfo {
   String? link;
   RssFeed? rssFeed;
   RssItem? rssItem;
+
+  PodcastInfo({this.link, this.rssFeed, this.rssItem});
 }
  // TODO: replace previous attempts at passing info about podcasts with this
  // struct thing

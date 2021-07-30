@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
+import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:provider/provider.dart';
 
 class PodcastImage extends StatelessWidget {
@@ -13,17 +14,14 @@ class PodcastImage extends StatelessWidget {
         child: Container(
           height: MediaQuery.of(context).size.height / 3,
           decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(32.0),
               image: DecorationImage(
-            fit: BoxFit.fitHeight,
-            image: FeedAnalysisFunctions.hasIndividualEpisodeImage(
-                    context.read<Podcast>().selectedItem!)
-                ? NetworkImage(
-                    context.read<Podcast>().selectedItem!.itunes!.image!.href!,
-                  ) //TODO: handle null
-                : NetworkImage(
-                    context.read<Podcast>().feed!.image!.url!,
-                  ),
-          )),
+                fit: BoxFit.fitHeight,
+                image: NetworkImage(FeedAnalysisFunctions.imageFromPodcastInfo(
+                    PodcastInfo(
+                        rssFeed: context.read<Podcast>().feed,
+                        rssItem: context.read<Podcast>().selectedItem))),
+              )),
         ));
   }
 }

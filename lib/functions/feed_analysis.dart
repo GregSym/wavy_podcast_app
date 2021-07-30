@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter_podcast_app/constants/images_resources.dart';
+import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
@@ -11,6 +13,26 @@ class FeedAnalysisFunctions {
       }
     }
     return false;
+  }
+
+  static String imageFromItem(RssItem? rssItem) => rssItem == null
+      ? ImgResources.fallbackImgUri
+      : rssItem.itunes!.image!.href ?? ImgResources.fallbackImgUri;
+
+  static String imageFromFeed(RssFeed? rssFeed) => rssFeed == null
+      ? ImgResources.fallbackImgUri
+      : rssFeed.image!.url ??
+          rssFeed.itunes!.image!.href ??
+          ImgResources.fallbackImgUri;
+
+  /// generates a valid image uri for a given podcast feed and item
+  /// falls back to the public domain default in constants
+  static String imageFromPodcastInfo(PodcastInfo podcastInfo) {
+    String uri =
+        FeedAnalysisFunctions.hasIndividualEpisodeImage(podcastInfo.rssItem!)
+            ? FeedAnalysisFunctions.imageFromItem(podcastInfo.rssItem)
+            : FeedAnalysisFunctions.imageFromFeed(podcastInfo.rssFeed);
+    return uri;
   }
 
   /// gets the next item for the player to play
