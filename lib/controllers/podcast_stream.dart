@@ -1,13 +1,18 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_podcast_app/models/podcast_src.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 
 class Podcast with ChangeNotifier {
+  Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
   RssItem? _selectedItem;
   //late Map<String, bool> downloadStatus; // part of the excluded download
-  final String url =
+  String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
+
+  PodcastSource _source = PodcastSource(srcLink: mockSrcs);
+  PodcastSource get sources => _source;
 
   RssFeed? get feed => _feed;
   void parse() async {
@@ -22,6 +27,18 @@ class Podcast with ChangeNotifier {
   set selectedItem(RssItem? value) {
     _selectedItem = value;
     print(_selectedItem!.title);
+    notifyListeners();
+  }
+
+  Map<String, RssFeed?> get multiFeed => _multiFeed;
+  void multiParse() async {
+    for (String uri in _source.srcLink) {
+      final res = await http.get(Uri.parse(
+          uri)); // remember to parse the url string because they made the package worse?
+      final strXml = res.body;
+      _multiFeed.addEntries({uri: RssFeed.parse(strXml)}.entries);
+    }
+
     notifyListeners();
   }
 

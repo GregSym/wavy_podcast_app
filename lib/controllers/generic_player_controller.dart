@@ -151,6 +151,8 @@ class GenericController with ChangeNotifier {
         getNewerItems: getNewerItems, shuffle: shuffle);
     Provider.of<Podcast>(context, listen: false).selectedItem =
         this.currentTrack;
+
+    this.play();
   }
 
   /// Handle updating the visual layer that's depending on this information

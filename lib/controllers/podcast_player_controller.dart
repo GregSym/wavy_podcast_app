@@ -83,7 +83,7 @@ class PodcastPlayerController extends GenericController {
         if (events.betterPlayerEventType == BetterPlayerEventType.progress)
           notifyListeners();
         if (events.betterPlayerEventType == BetterPlayerEventType.finished) {
-          this.setNewTrack();
+          this.setNewTrack(shuffle: this.shuffle);
 
           notifyListeners();
         }
