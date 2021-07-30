@@ -7,3 +7,6 @@ class PodcastInfo {
   RssFeed? rssFeed;
   RssItem? rssItem;
 }
+ // TODO: replace previous attempts at passing info about podcasts with this
+ // struct thing
+ 
