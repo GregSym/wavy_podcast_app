@@ -9,6 +9,9 @@ class Reactivity {
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height;
 
+  static double fullpagePodcastPlayerImg(BuildContext context) =>
+      Reactivity.height(context) / 3;
+
   /* 
   Mini player params----------------------------etc
   */
