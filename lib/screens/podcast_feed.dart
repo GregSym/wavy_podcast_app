@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast_app/components/menu/menu_header/menu_header.dart';
 import 'package:flutter_podcast_app/components/menu/menu_item.dart';
 import 'package:flutter_podcast_app/components/mini_player/mini_player.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
@@ -24,6 +25,7 @@ class PodcastFeed extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  MenuHeader(),
                   Expanded(
                     child: ListView(
                       children: _podcast.feed!.items!

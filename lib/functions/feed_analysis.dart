@@ -27,7 +27,9 @@ class FeedAnalysisFunctions {
 
   /// generates a valid image uri for a given podcast feed and item
   /// falls back to the public domain default in constants
-  static String imageFromPodcastInfo(PodcastInfo podcastInfo) {
+  static String imageFromPodcastInfo(PodcastInfo? podcastInfo) {
+    if (podcastInfo == null) return ImgResources.fallbackImgUri;
+    if (podcastInfo.rssItem == null) return ImgResources.fallbackImgUri;
     String uri =
         FeedAnalysisFunctions.hasIndividualEpisodeImage(podcastInfo.rssItem!)
             ? FeedAnalysisFunctions.imageFromItem(podcastInfo.rssItem)

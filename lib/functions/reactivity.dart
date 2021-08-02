@@ -12,6 +12,9 @@ class Reactivity {
   static double fullpagePodcastPlayerImg(BuildContext context) =>
       Reactivity.height(context) / 3;
 
+  static double headerImageHeight(BuildContext context) =>
+      Reactivity.height(context) / 10;
+
   /* 
   Mini player params----------------------------etc
   */

@@ -28,7 +28,6 @@ class Podcast with ChangeNotifier {
   PodcastInfo? get selectedItem => _selectedItem;
   set selectedItem(PodcastInfo? value) {
     _selectedItem = value;
-    print(_selectedItem!.rssItem!.title);
     notifyListeners();
   }
 
