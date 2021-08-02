@@ -8,7 +8,6 @@ class Podcast with ChangeNotifier {
   Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
   PodcastInfo? _selectedItem;
-  PodcastInfo? _podcastInfo;
   //late Map<String, bool> downloadStatus; // part of the excluded download
   String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?

@@ -8,12 +8,15 @@ class MenuHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MenuHeaderTopRow(),
-        MenuHeaderFeaturesRow(),
-        PodcastDescription(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          MenuHeaderTopRow(),
+          MenuHeaderFeaturesRow(),
+          PodcastDescription(),
+        ],
+      ),
     );
   }
 }

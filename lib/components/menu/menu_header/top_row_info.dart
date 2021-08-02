@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast_app/components/podcast_box_img.dart';
 import 'package:flutter_podcast_app/components/podcast_img.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/reactivity.dart';
@@ -18,12 +19,12 @@ class MenuHeaderTopRow extends StatelessWidget {
                   Column(
                     children: [
                       Text(_podcast.feed!.title ?? 'title'),
-                      Text(_podcast.feed!.author ?? 'author')
+                      Text(_podcast.feed!.itunes!.author ?? 'author')
                     ],
                   ),
-                  PodcastImage(
-                    fullPage: false,
-                    customHeight: Reactivity.headerImageHeight(context),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: PodcastBoxImg(),
                   )
                 ],
               ),

@@ -23,8 +23,11 @@ class PodcastImage extends StatelessWidget {
   Widget build(BuildContext context) {
     double _dimensions =
         fullPage ? Reactivity.fullpagePodcastPlayerImg(context) : customHeight;
+
     return Hero(
-        tag: context.read<Podcast>().selectedItem!.rssItem!.title ?? "title",
+        tag: context.read<Podcast>().selectedItem == null
+            ? 'title'
+            : context.read<Podcast>().selectedItem!.rssItem!.title ?? "title",
         child: Container(
           height: _dimensions,
           width: _dimensions,
