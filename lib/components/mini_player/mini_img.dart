@@ -9,20 +9,14 @@ class MiniPodcastImg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-        tag: context.read<Podcast>().selectedItem!.title ?? "title",
+        tag: context.read<Podcast>().selectedItem!.rssItem!.title ?? "title",
         child: Container(
           height: MediaQuery.of(context).size.height / 11,
           decoration: BoxDecoration(
               image: DecorationImage(
             fit: BoxFit.fitHeight,
-            image: FeedAnalysisFunctions.hasIndividualEpisodeImage(
-                    context.read<Podcast>().selectedItem!)
-                ? NetworkImage(
-                    context.read<Podcast>().selectedItem!.itunes!.image!.href!,
-                  ) //TODO: handle null
-                : NetworkImage(
-                    context.read<Podcast>().feed!.image!.url!,
-                  ),
+            image: NetworkImage(FeedAnalysisFunctions.imageFromPodcastInfo(
+                context.read<Podcast>().selectedItem!)),
           )),
         ));
   }

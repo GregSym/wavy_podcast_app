@@ -10,8 +10,8 @@ class PodcastTitelInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Podcast>(
         builder: (context, _podcast, _) => Text(
-              NullChecks.checkRssItem(_podcast.selectedItem)
-                  ? _podcast.selectedItem!.title ?? "Title"
+              NullChecks.checkRssItem(_podcast.selectedItem!.rssItem)
+                  ? _podcast.selectedItem!.rssItem!.title ?? "Title"
                   : "Title",
             ));
   }

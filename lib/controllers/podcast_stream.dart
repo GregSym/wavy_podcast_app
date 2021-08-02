@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:flutter_podcast_app/models/podcast_src.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +7,8 @@ import 'package:http/http.dart' as http;
 class Podcast with ChangeNotifier {
   Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
-  RssItem? _selectedItem;
+  PodcastInfo? _selectedItem;
+  PodcastInfo? _podcastInfo;
   //late Map<String, bool> downloadStatus; // part of the excluded download
   String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
@@ -23,10 +25,10 @@ class Podcast with ChangeNotifier {
     notifyListeners();
   }
 
-  RssItem? get selectedItem => _selectedItem;
-  set selectedItem(RssItem? value) {
+  PodcastInfo? get selectedItem => _selectedItem;
+  set selectedItem(PodcastInfo? value) {
     _selectedItem = value;
-    print(_selectedItem!.title);
+    print(_selectedItem!.rssItem!.title);
     notifyListeners();
   }
 

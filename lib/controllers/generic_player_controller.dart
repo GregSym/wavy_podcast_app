@@ -149,7 +149,7 @@ class GenericController with ChangeNotifier {
     this.currentTrack = FeedAnalysisFunctions.nextItem(
         this.currentTrack, this.currentFeed!,
         getNewerItems: getNewerItems, shuffle: shuffle);
-    Provider.of<Podcast>(context, listen: false).selectedItem =
+    Provider.of<Podcast>(context, listen: false).selectedItem!.rssItem =
         this.currentTrack;
 
     this.play();

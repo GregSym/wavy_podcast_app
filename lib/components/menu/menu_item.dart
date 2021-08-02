@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/controllers/podcast_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
+import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:provider/provider.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
@@ -28,7 +29,8 @@ class PodcastMenuItem extends StatelessWidget {
   }
 
   _handlePodcastSelection(BuildContext context) {
-    context.read<Podcast>().selectedItem = rssItem;
+    context.read<Podcast>().selectedItem =
+        PodcastInfo(rssFeed: context.read<Podcast>().feed, rssItem: rssItem);
     context.read<PodcastPlayerController>().currentFeed = context
         .read<Podcast>()
         .feed; // TODO: fix this so it's order-of-operations ambivalent

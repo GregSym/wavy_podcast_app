@@ -10,7 +10,7 @@ class PodcastImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-        tag: context.read<Podcast>().selectedItem!.title ?? "title",
+        tag: context.read<Podcast>().selectedItem!.rssItem!.title ?? "title",
         child: Container(
           height: MediaQuery.of(context).size.height / 3,
           decoration: BoxDecoration(
@@ -18,9 +18,7 @@ class PodcastImage extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.fitHeight,
                 image: NetworkImage(FeedAnalysisFunctions.imageFromPodcastInfo(
-                    PodcastInfo(
-                        rssFeed: context.read<Podcast>().feed,
-                        rssItem: context.read<Podcast>().selectedItem))),
+                    context.read<Podcast>().selectedItem!)),
               )),
         ));
   }

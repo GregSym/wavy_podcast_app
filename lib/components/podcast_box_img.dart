@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast_app/constants/images_resources.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
@@ -11,7 +10,7 @@ class PodcastBoxImg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RssItem? rssItem = context.watch<Podcast>().selectedItem;
+    RssItem? rssItem = context.watch<Podcast>().selectedItem!.rssItem;
     if (rssItem == null) return Container();
     // return FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
     //     ? Image.network(rssItem.itunes!.image!.href!)
