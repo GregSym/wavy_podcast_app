@@ -40,6 +40,11 @@ class WebPlayerController extends GenericController {
       : _webController.duration!.inMilliseconds.toDouble();
 
   @override
+  // TODO: implement buffered
+  double get buffered =>
+      _webController.bufferedPosition.inMilliseconds.toDouble();
+
+  @override
   Future<void> adaptiveSeekFunction(double position) async {
     return await _webController.seek(Duration(milliseconds: position.toInt()));
   }

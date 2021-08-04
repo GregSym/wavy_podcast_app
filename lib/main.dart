@@ -4,6 +4,7 @@ import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/screens/podcast_feed.dart';
 import 'package:flutter_podcast_app/screens/podcast_player.dart';
 import 'package:flutter_podcast_app/screens/podcast_selection.dart';
+import 'package:flutter_podcast_app/screens/podcast_sliver_feed.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           "/": (context) => PodcastFeed(),
           "/menu": (context) => PodcastMenuScreen(),
           "/podcast-player": (context) => PodcastPlayer(),
+          "/test-page": (context) => PodcastSliverFeed(),
         },
       ),
     );

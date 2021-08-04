@@ -43,6 +43,12 @@ class MobilePlayerController extends GenericController {
               .toDouble();
 
   @override
+  // TODO: implement buffered
+  double get buffered => _mobileController
+      .videoPlayerController!.value.buffered.last.end.inMilliseconds
+      .toDouble();
+
+  @override
   Future play() async => await _mobileController.play();
 
   @override

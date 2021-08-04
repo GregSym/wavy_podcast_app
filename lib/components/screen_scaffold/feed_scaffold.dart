@@ -4,10 +4,10 @@ import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:provider/provider.dart';
 
 class FeedScaffold extends StatelessWidget {
-  final Widget? child;
+  final Widget child;
   const FeedScaffold({
     Key? key,
-    this.child,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -15,7 +15,7 @@ class FeedScaffold extends StatelessWidget {
     // handle nullables
 
     // TODO: add a fallback for null-safety here
-    if (child == null) return CircularProgressIndicator();
+
     // main functionality
     return SafeArea(
         child: Scaffold(
@@ -28,7 +28,7 @@ class FeedScaffold extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: child!,
+                    child: child,
                   ),
                   _podcast.selectedItem == null ? Container() : MiniPlayer(),
                 ],

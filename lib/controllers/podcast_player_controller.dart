@@ -43,6 +43,10 @@ class PodcastPlayerController extends GenericController {
   }
 
   @override
+  // TODO: implement buffered
+  double get buffered => _podcastController.buffered;
+
+  @override
   Future play() async =>
       await _podcastController.play().then((_) => notifyListeners());
 

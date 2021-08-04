@@ -21,6 +21,7 @@ class GenericController with ChangeNotifier {
 
   double? _position = 0.0;
   double? _duration = 1.0;
+  double? _buffered = 0.0;
 
   void setContext(BuildContext context) => this.context = context;
 
@@ -55,6 +56,9 @@ class GenericController with ChangeNotifier {
           .split('.')[0]
           .padLeft(8, '0')
           .substring(3);
+
+  double get buffered => _buffered ?? 0.0;
+  set buffered(double buffered) => _buffered = buffered;
 
   /// plays the selected audio file (audio selected seperately)
   Future<dynamic> play() => Future(() => null);
