@@ -7,13 +7,14 @@ class MenuAppBarSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: Reactivity.menuItemHeight(context) * 2,
-      flexibleSpace: Center(
-        child: Text(
+      expandedHeight: Reactivity.menuItemHeight(context) * 1.5,
+      floating: true,
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: true,
+        title: Text(
           "Wavy Podcasts",
-          style: TextStyle(
-            fontSize: Reactivity.height(context) / 8,
-          ),
+          // style: TextStyle(
+          //   fontSize: Reactivity.height(context) / 8,)
         ),
       ),
     );
