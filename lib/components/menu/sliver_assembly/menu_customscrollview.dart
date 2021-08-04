@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast_app/components/menu/menu_app_bar/menu_app_bar.dart';
 import 'package:flutter_podcast_app/components/menu/menu_header/menu_header_sliver.dart';
 import 'package:flutter_podcast_app/components/menu/menu_sliver_list.dart';
 
@@ -9,6 +10,7 @@ class PodcastMenuSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
+        MenuAppBarSliver(),
         MenuHeaderSliver(),
         MenuListSliver(),
       ],
