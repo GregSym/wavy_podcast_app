@@ -15,6 +15,12 @@ class Reactivity {
   static double headerImageHeight(BuildContext context) =>
       Reactivity.height(context) / 10;
 
+  /*
+  App Bar params ---------etc
+   */
+  static double expandedAppBarHeight(BuildContext context) =>
+      Reactivity.menuItemHeight(context) * 1.5;
+
   /* 
   Mini player params----------------------------etc
   */

@@ -17,6 +17,8 @@ class PodcastBoxImg extends StatelessWidget {
     //         context.read<Podcast>().feed!.image!.url ??
     //         ImgResources.fallbackImgUri);
     return Image.network(
-        FeedAnalysisFunctions.imageFromPodcastInfo(podcastInfo));
+      FeedAnalysisFunctions.imageFromPodcastInfo(podcastInfo),
+      fit: BoxFit.cover,
+    );
   }
 }
