@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/components/podcast_box_img.dart';
-import 'package:flutter_podcast_app/components/podcast_img.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/reactivity.dart';
 import 'package:provider/provider.dart';

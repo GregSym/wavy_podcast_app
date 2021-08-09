@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast_app/constants/web_defaults.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:provider/provider.dart';
 import 'package:webfeed/domain/rss_feed.dart';

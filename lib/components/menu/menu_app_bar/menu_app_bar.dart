@@ -10,7 +10,7 @@ class MenuAppBarSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: Reactivity.expandedAppBarHeight(context),
-      floating: true,
+      // floating: true,
       actions: [
         UserBubble(),
       ],
