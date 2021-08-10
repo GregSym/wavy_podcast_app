@@ -9,6 +9,12 @@ class Reactivity {
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height;
 
+  static double width(BuildContext context) =>
+      MediaQuery.of(context).size.width;
+
+  static double aspectRatio(BuildContext context) =>
+      MediaQuery.of(context).size.aspectRatio;
+
   static double fullpagePodcastPlayerImg(BuildContext context) =>
       Reactivity.height(context) / 3;
 
