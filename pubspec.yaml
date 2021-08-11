@@ -43,6 +43,7 @@ dependencies:
 
   better_player: ^0.0.72 # the best flutter based media player
   # with the compromise being that you don't get full cross-platform availability
+  palette_generator: ^0.3.0 # for getting colour info from img links
 
 dev_dependencies:
   flutter_test:
