@@ -11,6 +11,9 @@ class PrimaryColourSelection with ChangeNotifier {
   late ImageProvider _img;
   PrimaryColourSelection({required this.context}) {
     this.update();
+    context.read<Podcast>().addListener(() {
+      this.update();
+    });
   }
   Color _dominantColor = Colors.blue;
   void update() {
