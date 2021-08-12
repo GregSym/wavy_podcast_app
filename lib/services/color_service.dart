@@ -5,17 +5,25 @@ import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
-class PrimaryColourSelection {
+class PrimaryColourSelection with ChangeNotifier {
   BuildContext context;
   late String _imgString;
   late ImageProvider _img;
   PrimaryColourSelection({required this.context}) {
+    this.update();
+  }
+  Color _dominantColor = Colors.blue;
+  void update() {
+    this.setImg();
+    this.getImagePalette();
+    notifyListeners();
+  }
+
+  void setImg() {
     _imgString =
         FeedAnalysisFunctions.imageFromFeed(context.read<Podcast>().feed);
     _img = NetworkImage(_imgString);
-    getImagePalette();
   }
-  Color _dominantColor = Colors.blue;
 
   /// Calculate dominant color from ImageProvider
   /// courtesy of Kym

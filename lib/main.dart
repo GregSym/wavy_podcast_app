@@ -4,6 +4,7 @@ import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/screens/podcast_player.dart';
 import 'package:flutter_podcast_app/screens/podcast_selection.dart';
 import 'package:flutter_podcast_app/screens/podcast_sliver_feed.dart';
+import 'package:flutter_podcast_app/services/color_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -26,10 +27,14 @@ class MyApp extends StatelessWidget {
             ..setupListeners()
             ..setContext(context),
         ),
+        ChangeNotifierProvider(
+            create: (context) => PrimaryColourSelection(context: context)),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
+        theme:
+            // context.read<PrimaryColourSelection>().getTheme,
+            ThemeData(
           primarySwatch: Colors.blue,
         ),
         routes: {
