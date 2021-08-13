@@ -2,6 +2,12 @@ List<String> mockSrcs = [
   "https://feeds.simplecast.com/y1LF_sn2",
   'https://feeds.simplecast.com/wjQvYtdl',
   'https://feeds.simplecast.com/9YNI3WaL',
+  'https://feeds.99percentinvisible.org/99percentinvisible',
+  'https://feeds.megaphone.fm/behindthebastards',
+  'https://rss.art19.com/musicalsplaining',
+  'https://feeds.simplecast.com/p7S4nr_h',
+  'https://rss.acast.com/theeconomisteditorspicks',
+  'https://feeds.npr.org/381444908/podcast.xml',
 ];
 
 Map<String, Object?> mockSrcsJson() {
