@@ -1,8 +1,9 @@
 import 'package:better_player/better_player.dart';
-import 'package:flutter_podcast_app/constants/images_resources.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/functions/null_checks.dart';
+import 'package:flutter_podcast_app/models/audio_player_types.dart';
+import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 class MobilePlayerController extends GenericController {
@@ -11,7 +12,8 @@ class MobilePlayerController extends GenericController {
 
   @override
   // TODO: implement podcastController
-  get podcastController => _mobileController;
+  get podcastController =>
+      AudioPlayerTypes(betterPlayerController: _mobileController);
 
   @override
   // TODO: implement isInitialized
@@ -41,6 +43,12 @@ class MobilePlayerController extends GenericController {
               .toDouble();
 
   @override
+  // TODO: implement buffered
+  double get buffered => _mobileController
+      .videoPlayerController!.value.buffered.last.end.inMilliseconds
+      .toDouble();
+
+  @override
   Future play() async => await _mobileController.play();
 
   @override
@@ -61,13 +69,16 @@ class MobilePlayerController extends GenericController {
     String audioSrc = rssItem.enclosure!.url!;
     String? trackTitle = rssItem.title;
     String? trackAuthor = rssItem.author;
-    String? trackImage;
-    if (rssItem.itunes != null) {
-      if (rssItem.itunes!.image != null)
-        trackImage = FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
-            ? rssItem.itunes!.image!.href
-            : ImgResources.fallbackImgUri;
-    }
+    String? trackImage = FeedAnalysisFunctions.imageFromPodcastInfo(
+        PodcastInfo(rssFeed: this.currentFeed, rssItem: this.currentTrack));
+    // if (rssItem.itunes != null) {
+    //   if (rssItem.itunes!.image != null)
+    //     trackImage = FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
+    //         ? rssItem.itunes!.image!.href
+    //         : this.currentFeed!.image!.url ??
+    //             this.currentFeed!.itunes!.image!.href ??
+    //             ImgResources.fallbackImgUri;
+    // }
     _mobileController.setupDataSource(
       BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,

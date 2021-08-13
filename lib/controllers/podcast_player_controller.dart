@@ -1,211 +1,112 @@
 import 'package:better_player/better_player.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_podcast_app/constants/images_resources.dart';
+import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/web_player_controller.dart';
-import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/functions/platform_analysis.dart';
-import 'package:webfeed/domain/rss_feed.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:webfeed/domain/rss_item.dart';
+
+import 'mobile_player_controller.dart';
 
 /// Composition class for getting media player into a semi-multi-platform state
 /// - this is a bad way to do this, but it's the easiest way to manage it
 /// - - So maybe it's not the absolute worst?
-class PodcastPlayerController with ChangeNotifier {
-  BetterPlayerController _podcastController =
-      BetterPlayerController(BetterPlayerConfiguration());
-  //TODO: maybe implement your dequeue of 1 trick to recycle the internal
-  // controller
+class PodcastPlayerController extends GenericController {
+  GenericController _podcastController = PlatformAnalysis.isMobile
+      ? MobilePlayerController()
+      : WebPlayerController();
 
-  final WebPlayerController _webController = WebPlayerController();
+  @override
+  // TODO: implement isInitialized
+  bool get isInitialized => _podcastController.isInitialized;
 
-  RssItem? _currentTrack;
-  RssFeed? _currentFeed;
-  String? _fallbackImgUri = ImgResources.fallbackImgUri;
+  @override
+  // TODO: implement isPlaying
+  bool get isPlaying => _podcastController.isPlaying;
 
-  //double _tenSecondsInMilliseconds = 10 * 1000;
-  //double _shortSkipAmountMilliseconds = 15 * 1000;
-  double _regularSkipAmountMilliseconds =
-      30 * 1000; // TODO: maybe move to const folder
-
-  /// Probably going to improve this at some point so that it supplies dynamic
-  /// controllers for different platforms
-  BetterPlayerController get podcastController => _podcastController;
-
-  bool get isInitialized {
-    if (!PlatformAnalysis.isMobile) {
-      return true;
-    }
-    if (_podcastController.isVideoInitialized() == null) {
-      return false;
-    }
-    return _podcastController.isVideoInitialized()!;
-  }
-
-  bool get isPlaying => PlatformAnalysis.isMobile
-      ? _podcastController.isPlaying() == null
-          ? false
-          : _podcastController.isPlaying()!
-      : _webController.isPlaying;
-  // GETTERS
-  /// current position adaptation
-  double get position => PlatformAnalysis.isMobile
-      ? _podcastController.videoPlayerController!.value.position.inMilliseconds
-          .toDouble()
-      : 0; // TODO: add a null check here
-
-  double get duration => PlatformAnalysis.isMobile
-      ? _podcastController.videoPlayerController == null
-          ? 0.0
-          : _podcastController.videoPlayerController!.value.duration == null
-              ? 0.0
-              : _podcastController
-                  .videoPlayerController!.value.duration!.inMilliseconds
-                  .toDouble()
-      : 1.0; // TODO: IMPROVE null-check here
-
-  get events => null;
-
-  // SETTERS
-  RssFeed? get currentFeed => _currentFeed;
-  set currentFeed(RssFeed? rssFeed) {
-    _currentFeed = rssFeed;
-    if (rssFeed == null) {
-      return;
-    }
-    if (rssFeed.image == null) return;
-    _fallbackImgUri = rssFeed.image!.url;
-
+  @override
+  // TODO: implement position
+  double get position => _podcastController.position;
+  @override
+  set position(double position) {
+    _podcastController.position = position;
     notifyListeners();
   }
 
-  /// method for getting the current track
-  RssItem get currentTrack => _currentTrack!;
+  @override
+  // TODO: implement duration
+  double get duration => _podcastController.duration;
 
-  /// Method for setting the current track
+  @override
+  set duration(double duration) {
+    _podcastController.duration = duration;
+    notifyListeners();
+  }
+
+  @override
+  // TODO: implement buffered
+  double get buffered => _podcastController.buffered;
+
+  @override
+  Future play() async =>
+      await _podcastController.play().then((_) => notifyListeners());
+
+  @override
+  Future pause() async =>
+      await _podcastController.pause().then((_) => notifyListeners());
+
+  @override
+  Future<void> adaptiveSeekFunction(double position) async => _podcastController
+      .adaptiveSeekFunction(position)
+      .then((_) => notifyListeners());
+
+  @override
+  // TODO: implement events
+  get events => _podcastController.events;
+
+  @override
   set currentTrack(RssItem rssItem) {
-    // set the controller's reference to the arg
-    _currentTrack = rssItem;
-    // null checks
-    if (rssItem.enclosure == null) return; // this won't work without this
-    if (rssItem.enclosure!.url == null) return;
-    // main setter logic
-    // might want to reuse these fields in other objects, maybe
-    String audioSrc = rssItem.enclosure!.url!;
-    String? trackTitle = rssItem.title;
-    String? trackAuthor = rssItem.author;
-    String? trackImage;
-    if (rssItem.itunes != null) {
-      if (rssItem.itunes!.image != null)
-        trackImage = FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
-            ? rssItem.itunes!.image!.href
-            : _fallbackImgUri;
-    }
-    if (PlatformAnalysis.isMobile)
-      _podcastController.setupDataSource(
-        BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network,
-          audioSrc,
-          notificationConfiguration: BetterPlayerNotificationConfiguration(
-            showNotification: true,
-            title: trackTitle,
-            author: trackAuthor,
-            imageUrl: trackImage,
-          ),
-        ),
-      );
-    else
-      _webController.currentTrack = rssItem;
+    super.currentTrack = rssItem;
+    _podcastController.currentTrack = rssItem;
+  }
 
+  @override
+  set shuffle(bool shuffleState) {
+    super.shuffle = shuffleState;
     notifyListeners();
   }
 
-  // METHODS
+  @override
+  void setupListeners() {
+    // _podcastController.setupListeners(); // this doesn't work/do anything
 
-  togglePlay() => PlatformAnalysis.isMobile
-      ? (_podcastController.isPlaying()!)
-          ? _podcastController.pause().then((value) => notifyListeners())
-          : _podcastController.play().then((value) => notifyListeners())
-      : _webController
-          .toggle()
-          .then((value) => notifyListeners()); // TODO: add a null check here
-
-  Future<void> play() async => PlatformAnalysis.isMobile
-      ? await _podcastController.play().then((_) => notifyListeners())
-      : await _webController.play();
-
-  pause() => null;
-
-  /// expected position is a product of adding
-  /// or subtracting from current position
-  /// - handles go to start case and go to end case
-  /// - other case ~effectively~ does nothing - replace with real no-op at
-  /// some point
-  Future<void> seekTo(double position) {
+    // handle setting up listeners for the mobile version
     if (PlatformAnalysis.isMobile) {
-      if (position >= 0.0 && position <= this.duration) {
-        return _podcastController
-            .seekTo(Duration(milliseconds: (position).toInt()));
-      }
-      if (this.position < 30 * 000) {
-        // go to start case
-        return _podcastController.seekTo(Duration());
-      }
-      if (this.duration - this.position < 30 * 000) {
-        // got to end case
-        return _podcastController
-            .seekTo(Duration(milliseconds: (this.duration).toInt()));
-      } else {
-        return Future<void>(() => this.position); // required by return type
-      }
-    } else
-      return _webController.seekTo(position);
+      _podcastController.podcastController.betterPlayerController!
+          .addEventsListener((events) {
+        if (events.betterPlayerEventType == BetterPlayerEventType.progress)
+          notifyListeners();
+        if (events.betterPlayerEventType == BetterPlayerEventType.finished) {
+          this.setNewTrack(shuffle: this.shuffle);
+
+          notifyListeners();
+        }
+        return;
+      });
+    }
+
+    // handle setting up listeners for the web version
+    if (_podcastController.runtimeType == WebPlayerController) {
+      _podcastController.podcastController.audioPlayer!.positionStream
+          .listen((position) {
+        notifyListeners();
+      });
+      _podcastController.podcastController.audioPlayer!.playerStateStream
+          .listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          this.setNewTrack(shuffle: this.shuffle);
+          notifyListeners();
+        }
+      });
+    }
   }
-
-  Future<void> skipForward() => this
-      .seekTo(this.position + _regularSkipAmountMilliseconds); // milliseconds
-
-  Future<void> skipBackward() =>
-      this.seekTo(this.position - _regularSkipAmountMilliseconds);
-
-  /// Flexible skip function
-  /// - if rewindSkip flag set to true then skipSize is applied as negative
-  /// - might change this to be purely an internal helper
-  Future<void> skip({bool rewindSkip = false, double skipSize = 30 * 1000}) =>
-      (!rewindSkip)
-          ? this.seekTo(this.position + skipSize)
-          : this.seekTo(this.position - skipSize);
-
-  crudeListener() => PlatformAnalysis.isMobile
-      ? _podcastController.addEventsListener((events) {
-          if (events.betterPlayerEventType == BetterPlayerEventType.progress)
-            notifyListeners();
-          else if (events.betterPlayerEventType ==
-              BetterPlayerEventType.finished) {
-            // handle the end of a track
-            print("track finished!!!");
-            if (_currentFeed == null) {
-              return;
-            }
-            if (_currentFeed!.items == null) return;
-            List<RssItem> _items = _currentFeed!.items!;
-            int loc = _items
-                .asMap()
-                .entries
-                .firstWhere(
-                    (element) => element.value.title == _currentTrack!.title)
-                .key; // RssItem appears not to have an __eq__ method
-            if (loc < _items.length) {
-              print("Adding item");
-              this._currentTrack =
-                  _items.elementAt(loc++); // find the next track
-              this.play(); // play the next track
-              // TODO: make this switchable to previous track
-            } else {
-              this.seekTo(0.0);
-            }
-          }
-        })
-      : _webController.webController.onPlayerStateChanged
-          .listen((event) => notifyListeners());
 }
