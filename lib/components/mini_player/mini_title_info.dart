@@ -12,10 +12,12 @@ class MiniTitleInfo extends StatelessWidget {
     return Consumer<Podcast>(
         builder: (context, _podcast, _) => Container(
               width: Reactivity.width(context) / 2,
-              child: Text(
-                NullChecks.checkRssItem(_podcast.selectedItem!.rssItem)
-                    ? _podcast.selectedItem!.rssItem!.title ?? "Title"
-                    : "Title",
+              child: Center(
+                child: Text(
+                  NullChecks.checkRssItem(_podcast.selectedItem!.rssItem)
+                      ? _podcast.selectedItem!.rssItem!.title ?? "Title"
+                      : "Title",
+                ),
               ),
             ));
   }
