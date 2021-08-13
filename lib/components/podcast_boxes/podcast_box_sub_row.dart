@@ -16,7 +16,7 @@ class PodcastBoxSubsRow extends StatelessWidget {
             .values
             .any((element) => element == null)) return Container();
     return Container(
-      height: Reactivity.menuItemHeight(context) * 2,
+      height: Reactivity.menuItemHeight(context) * 1.2,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: context

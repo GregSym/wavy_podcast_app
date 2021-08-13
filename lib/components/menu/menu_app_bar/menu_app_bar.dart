@@ -16,10 +16,12 @@ class MenuAppBarSliver extends StatelessWidget {
       ],
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
-        background: PodcastBoxImg(),
+        background: PodcastBoxImg(
+          fromFeed: true,
+        ),
         title: Text("Wavy Podcasts",
             style: TextStyle(
-              fontSize: Reactivity.height(context) / 16,
+              fontSize: Reactivity.expandedAppBarHeight(context) / 3,
             )),
       ),
     );

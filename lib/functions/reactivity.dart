@@ -58,6 +58,6 @@ class Reactivity {
       // TODO: set out measurements rather than using platform id so
       // web page resizing works
       PlatformAnalysis.isMobile
-          ? Reactivity.height(context) / 6 // mobile height
+          ? Reactivity.height(context) / 9 // mobile height
           : Reactivity.height(context) / 11; // web page height
 }

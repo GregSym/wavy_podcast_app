@@ -23,7 +23,9 @@ class MenuHeaderTopRow extends StatelessWidget {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: PodcastBoxImg(),
+                    child: PodcastBoxImg(
+                      fromFeed: true,
+                    ),
                   )
                 ],
               ),
