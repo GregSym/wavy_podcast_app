@@ -10,7 +10,7 @@ class TabMenuOptions extends StatelessWidget {
     if (Reactivity.width(context) > StandardSizes.phoneWidth)
       return Container();
     return Container(
-      height: Reactivity.miniPlayerHeight(context),
+      height: Reactivity.bottomTabHeight(context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

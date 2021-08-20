@@ -30,21 +30,24 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => PrimaryColourSelection(context: context)),
       ],
-      child: Consumer<PrimaryColourSelection>(
-        builder: (context, _theme, _) => MaterialApp(
-          title: 'Flutter Demo',
-          theme: _theme.getTheme,
-          // context.read<PrimaryColourSelection>().getTheme,
-          //     ThemeData(
-          //   primarySwatch: Colors.blue,
-          // ),
-          routes: {
-            "/": (context) => PodcastSliverFeed(),
-            "/menu": (context) => PodcastMenuScreen(),
-            "/podcast-player": (context) => PodcastPlayer(),
-          },
+      child:
+          // Consumer<PrimaryColourSelection>(
+          //   builder: (context, _theme, _) =>
+          MaterialApp(
+        title: 'Flutter Demo',
+        theme:
+            // _theme.getTheme,
+            // context.read<PrimaryColourSelection>().getTheme,
+            ThemeData(
+          primarySwatch: Colors.blue,
         ),
+        routes: {
+          "/": (context) => PodcastSliverFeed(),
+          "/menu": (context) => PodcastMenuScreen(),
+          "/podcast-player": (context) => PodcastPlayer(),
+        },
       ),
+      // ),
     );
   }
 }
