@@ -41,6 +41,9 @@ class Reactivity {
               ? Reactivity.height(context) / 10
               : minimumMiniPlayerHeight;
 
+  static double bottomTabHeight(BuildContext context) =>
+      miniPlayerHeight(context) / 2;
+
   /// height of the details section of the mini player
   /// - the larger section with the img, title and play/pause button
   static double miniDetailsHeight(BuildContext context) =>
