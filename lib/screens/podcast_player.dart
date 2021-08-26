@@ -13,6 +13,7 @@ class PodcastPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (context.read<Podcast>().selectedItem == null) {
+      Navigator.pushNamed(context, '/');
       return Text("No Podcast Episode Selected");
     }
     return SafeArea(
