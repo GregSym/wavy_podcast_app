@@ -10,14 +10,13 @@ class PodcastSliverFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       body: ExpandWithBottomWidget(
         child: BodyWithPlayer(
           child: SideMenuAttachment(child: PodcastMenuSliver()),
         ),
         bottomWidget: TabMenuOptions(),
       ),
-    ));
+    );
   }
 }
