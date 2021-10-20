@@ -40,8 +40,8 @@ jobs:
     # configure the index.html file to run correctly on the github pages platform
     - run: cat index.html
       working-directory: /home/runner/work/wavy_podcast_app/wavy_podcast_app/build/web
-#     - run: sed -i '/base href/d' index.html #For MacOS : sed -i '' '/base href/d' index.html
-#       working-directory: /home/runner/work/wavy_podcast_app/wavy_podcast_app/build/web
+    - run: sed -i '/base href/d' index.html #For MacOS : sed -i '' '/base href/d' index.html
+      working-directory: /home/runner/work/wavy_podcast_app/wavy_podcast_app/build/web
     - run: cat index.html
       working-directory: /home/runner/work/wavy_podcast_app/wavy_podcast_app/build/web
       
