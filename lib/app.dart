@@ -38,9 +38,9 @@ class MaterialAppEntryPoint extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       // ),
       routes: {
-        "/": (context) => PodcastSliverFeed(),
-        "/menu": (context) => PodcastMenuScreen(),
-        "/podcast-player": (context) => PodcastPlayer(),
+        "/": (context) => const PodcastSliverFeed(),
+        "/menu": (context) => const PodcastMenuScreen(),
+        "/podcast-player": (context) => const PodcastPlayer(),
       },
     );
   }

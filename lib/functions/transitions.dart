@@ -25,4 +25,7 @@ class Transitions {
     context.read<PodcastPlayerController>().play();
     Navigator.of(context).pushNamed("/podcast-player");
   }
+
+  static void transitionToPlayerFromMini(BuildContext context) =>
+      Navigator.of(context).pushNamed('/podcast-player');
 }
