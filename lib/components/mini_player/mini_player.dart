@@ -13,7 +13,8 @@ class MiniPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     if (context.watch<Podcast>().selectedItem == null) return Container();
     return Container(
-      color: ColourManipulation.darken(Colors.white, 8),
+      color:
+          ColourManipulation.darken(Theme.of(context).colorScheme.surface, 8),
       height: Reactivity.miniPlayerHeight(context),
       child: Column(
         children: [
