@@ -12,8 +12,8 @@ class MenuAppBarSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PrimaryColourSelection>(
       builder: (context, _colourSelection, _) => SliverAppBar(
-        backgroundColor: _colourSelection.getTheme.colorScheme.primary,
-        foregroundColor: _colourSelection.getTheme.colorScheme.onPrimary,
+        // backgroundColor: _colourSelection.getTheme.colorScheme.primary,
+        // foregroundColor: _colourSelection.getTheme.colorScheme.onPrimary,
         expandedHeight: Reactivity.expandedAppBarHeight(context),
         // floating: true,
         actions: [
@@ -27,7 +27,7 @@ class MenuAppBarSliver extends StatelessWidget {
           title: Text("Wavy Podcasts",
               style: TextStyle(
                 fontSize: Reactivity.expandedAppBarHeight(context) / 3,
-                color: _colourSelection.getTheme.colorScheme.onPrimary,
+                // color: _colourSelection.getTheme.colorScheme.onPrimary,
               )),
         ),
       ),

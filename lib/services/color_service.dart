@@ -10,15 +10,14 @@ class PrimaryColourSelection with ChangeNotifier {
   late String _imgString;
   late ImageProvider _img;
   PrimaryColourSelection({required this.context}) {
-    this.update();
-    context.read<Podcast>().addListener(() {
-      this.update();
+    context.read<Podcast>().addListener(() async {
+      await this.update();
     });
   }
   Color _dominantColor = Colors.blue;
-  void update() {
+  Future<void> update() async {
     this.setImg();
-    this.getImagePalette();
+    await this.getImagePalette();
     notifyListeners();
   }
 
@@ -41,4 +40,11 @@ class PrimaryColourSelection with ChangeNotifier {
 
   ThemeData get getTheme => ThemeData(
       primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor));
+
+  ThemeData get getDarkTheme =>
+      // ThemeData.dark(); // basically does the same thing as turning down brightness
+      ThemeData(
+        primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor),
+        brightness: Brightness.dark,
+      );
 }
