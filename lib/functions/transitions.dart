@@ -11,6 +11,7 @@ class Transitions {
   static void transitionToFeed(BuildContext context, String link,
       [bool withNavigation = false]) {
     var podRef = context.read<Podcast>();
+    podRef.setLoading();
     podRef.url = link;
     context.read<Podcast>().parse();
     if (withNavigation) Beamer.of(context).beamToNamed('/');

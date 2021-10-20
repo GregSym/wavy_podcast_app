@@ -5,6 +5,7 @@ import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 
 class Podcast with ChangeNotifier {
+  bool _loading = false;
   Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
   PodcastInfo? _selectedItem;
@@ -14,13 +15,23 @@ class Podcast with ChangeNotifier {
 
   PodcastSource _source = PodcastSource(srcLink: mockSrcs);
   PodcastSource get sources => _source;
+  bool get isLoading => _loading;
+
+  void setLoading() {
+    if (!_loading) {
+      _loading = true;
+      notifyListeners();
+    }
+  }
 
   RssFeed? get feed => _feed;
   void parse() async {
+    notifyListeners();
     final res = await http.get(Uri.parse(
         url)); // remember to parse the url string because they made the package worse?
     final strXml = res.body;
     _feed = RssFeed.parse(strXml);
+    if (_loading) _loading = false;
     notifyListeners();
   }
 
