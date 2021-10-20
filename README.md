@@ -14,6 +14,12 @@ some issues with the android implementation of some of those. It's probably
 terribly inefficient but to my immense surprise it does *work* which is kinda all
 I'm going for. </p>
 
+<p>
+Why the Beamer dependency? Well, I'd like access to path variables, and the only way to achieve
+that is Nav2.0, which is not a great idea. So I picked the most popular package on pub.dev
+for managing Nav2.0 for me
+</p>
+
 Tested on:
 <ul>
 <li>
