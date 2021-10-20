@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       child:
           // Consumer<PrimaryColourSelection>(
           //   builder: (context, _theme, _) =>
-          MaterialAppEntrypoint(),
+          AnimatedAppThemeWrapper(),
       // ),
     );
   }
