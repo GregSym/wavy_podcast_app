@@ -1,4 +1,6 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast_app/navigation_wrapper.dart';
 import 'package:flutter_podcast_app/screens/podcast_player.dart';
 import 'package:flutter_podcast_app/screens/podcast_selection.dart';
 import 'package:flutter_podcast_app/screens/podcast_sliver_feed.dart';
@@ -27,7 +29,7 @@ class MaterialAppEntryPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme:
           // _theme.getTheme,
@@ -37,11 +39,8 @@ class MaterialAppEntryPoint extends StatelessWidget {
       //     ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-      routes: {
-        "/": (context) => const PodcastSliverFeed(),
-        "/menu": (context) => const PodcastMenuScreen(),
-        "/podcast-player": (context) => const PodcastPlayer(),
-      },
+      routeInformationParser: BeamerParser(),
+      routerDelegate: NavigationWrapper.routerDelegate,
     );
   }
 }
