@@ -7,7 +7,6 @@ import 'package:flutter_podcast_app/services/color_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  Beamer.setPathUrlStrategy();
   runApp(MyApp());
 }
 
