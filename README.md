@@ -17,7 +17,9 @@ I'm going for. </p>
 <p>
 Why the Beamer dependency? Well, I'd like access to path variables, and the only way to achieve
 that is Nav2.0, which is not a great idea. So I picked the most popular package on pub.dev
-for managing Nav2.0 for me
+for managing Nav2.0 for me.
+
+reference: https://pub.dev/packages/beamer
 </p>
 
 Tested on:
