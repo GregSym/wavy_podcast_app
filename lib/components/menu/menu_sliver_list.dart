@@ -9,11 +9,13 @@ class MenuListSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Podcast>(
-        builder: (context, _podcast, _) => _podcast.feed == null
-            ? CircularProgressIndicator()
-            : SliverList(
-                delegate: SliverChildListDelegate(_podcast.feed!.items!
-                    .map((rssItem) => PodcastMenuItem(rssItem: rssItem))
-                    .toList())));
+        builder: (context, _podcast, _) =>
+            _podcast.feed == null || _podcast.isLoading
+                ? SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator()))
+                : SliverList(
+                    delegate: SliverChildListDelegate(_podcast.feed!.items!
+                        .map((rssItem) => PodcastMenuItem(rssItem: rssItem))
+                        .toList())));
   }
 }
