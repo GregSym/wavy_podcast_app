@@ -42,23 +42,32 @@ class GenericController with ChangeNotifier {
   /// the base class instead of redefining the split pattern on the children
   /// classes that I want to inherit it
   String get positionDateTime =>
-      "${Duration(milliseconds: this.position.toInt())}"
-          .split('.')[0]
-          .padLeft(8, '0')
-          .substring(3);
+      this.durationToString(Duration(milliseconds: this.position.toInt()));
 
   /// get the duration of the current track
   double get duration => _duration ?? 1.0;
   set duration(double duration) => _duration = duration;
 
   String get durationDateTime =>
-      "${Duration(milliseconds: this.duration.toInt())}"
-          .split('.')[0]
-          .padLeft(8, '0')
-          .substring(3);
+      this.durationToString(Duration(milliseconds: this.duration.toInt()));
+  // "${Duration(milliseconds: this.duration.toInt())}"
+  //     .split('.')[0]
+  //     .padLeft(8, '0')
+  //     .substring(3);
 
   double get buffered => _buffered ?? 0.0;
   set buffered(double buffered) => _buffered = buffered;
+
+  /// adapts a Duration to a string repr
+  /// uses the following regular expression to check for the presence of hours
+  /// - '([1-91-9]+):([0-90-9]+):([0-90-9])'
+  /// (as it was written by me it's possible there are issues with it)
+  String durationToString(Duration duration) => (!duration
+          .toString()
+          .split('.')[0]
+          .contains(RegExp('([1-91-9]+):([0-90-9]+):([0-90-9])')))
+      ? "$duration".split('.')[0].padLeft(8, '0').substring(3)
+      : "$duration".split('.')[0].padLeft(10, '0').substring(3);
 
   /// plays the selected audio file (audio selected seperately)
   Future<dynamic> play() => Future(() => null);
