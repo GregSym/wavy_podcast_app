@@ -32,7 +32,7 @@ class MaterialAppEntryPoint extends StatelessWidget {
           // _theme.getTheme,
           context.read<PrimaryColourSelection>().getTheme,
       darkTheme: context.read<PrimaryColourSelection>().getDarkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: context.read<PrimaryColourSelection>().themeMode,
       //     ThemeData(
       //   primarySwatch: Colors.blue,
       // ),

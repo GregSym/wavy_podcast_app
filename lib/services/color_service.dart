@@ -54,6 +54,7 @@ class PrimaryColourSelection with ChangeNotifier {
   ThemeMode get themeMode => _themeMode;
   set themeMode(ThemeMode newThemeMode) {
     _themeMode = newThemeMode;
+    print('changing theme!!!!!!!!!!!!!!!!!!!!!!!!!!');
     notifyListeners();
   }
 }
