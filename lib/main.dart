@@ -14,6 +14,7 @@ void main() {
   runApp(MyApp());
 }
 
+/// Sets up the state-management before handing off to top level animator
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override

@@ -4,6 +4,7 @@ import 'package:flutter_podcast_app/screens/podcast_selection.dart';
 import 'package:flutter_podcast_app/screens/podcast_sliver_feed.dart';
 import 'package:flutter_podcast_app/screens/settings_screen.dart';
 
+/// Maps routes to screens
 class NavigationWrapper {
   static final routerDelegate = BeamerDelegate(
       locationBuilder: SimpleLocationBuilder(
