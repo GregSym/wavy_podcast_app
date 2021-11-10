@@ -20,20 +20,35 @@ class SharedPreferencesService {
   late SharedPreferences prefs;
   List<String>? _subscriptions = [];
 
+  List<String> get subscriptions =>
+      (this._subscriptions == null) ? [] : this._subscriptions!;
+
   createPrefReference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
   }
 
+  /// updates subscriptions
   getSubscriptions() async =>
       _subscriptions = this.prefs.getStringList('subscriptions');
 
+  /// sets subscription storage to a new list
   setSubscriptions(List<String> newSubscriptionList) async =>
       this.prefs.setStringList('subscriptions', newSubscriptionList);
 
+  /// adds a single subscription to the old list
   addSubscription(String subscriptionUri) async {
     await this.getSubscriptions(); // latest subscriptions
     if (this._subscriptions == null) _subscriptions = [];
     _subscriptions!.add(subscriptionUri);
-    this.prefs.setStringList('subscriptions', _subscriptions!);
+    await this.prefs.setStringList('subscriptions', _subscriptions!);
+  }
+
+  removeSubscription(String subscriptionUri) async {
+    await this.getSubscriptions();
+    if (this._subscriptions == null) {
+      _subscriptions = [];
+    }
+    _subscriptions!.removeWhere((element) => element == subscriptionUri);
+    await this.setSubscriptions(_subscriptions!);
   }
 }
