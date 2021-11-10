@@ -38,43 +38,23 @@ class SettingsOptionTheme extends StatelessWidget {
       trailing: Container(
         width: Reactivity.miniPlayerHeight(context) * 2,
         child: DropdownButtonFormField(
-          // elevation: 8,
-          // iconSize: 24,
-          // isDense: true,
-          // isExpanded: true,
-          // autofocus: true,
-          decoration: const InputDecoration(icon: Icon(Icons.wb_sunny)),
+          decoration: InputDecoration(
+            icon: (context.watch<PrimaryColourSelection>().themeMode ==
+                    ThemeMode.dark)
+                ? Icon(Icons.nightlight)
+                : Icon(Icons.wb_sunny),
+          ),
           value: context.read<PrimaryColourSelection>().themeMode.toString(),
           onChanged: (String? newValue) => 1 + 1,
           items: ThemeMode.values
               .map((themeMode) => DropdownMenuItem(
-                    child: Text(themeMode.toString()),
+                    child: Text(themeMode.toString().replaceRange(0, 10, '')),
                     value: themeMode.toString(),
                     onTap: () => context
                         .read<PrimaryColourSelection>()
                         .themeMode = themeMode,
                   ))
               .toList(),
-          // [
-          // DropdownMenuItem(
-          //   child: Text('Light'),
-          //   value: 'Light',
-          //   onTap: () => context.read<PrimaryColourSelection>().themeMode =
-          //       ThemeMode.light,
-          // ),
-          //   DropdownMenuItem(
-          //     child: Text('Dark'),
-          //     value: 'Dark',
-          //     onTap: () => context.read<PrimaryColourSelection>().themeMode =
-          //         ThemeMode.dark,
-          //   ),
-          //   DropdownMenuItem(
-          //     child: Text('System (selects the OS\'s option)'),
-          //     value: 'System (selects the OS\'s option)',
-          //     onTap: () => context.read<PrimaryColourSelection>().themeMode =
-          //         ThemeMode.system, // gets from os
-          //   ),
-          // ],
         ),
       ),
     );
