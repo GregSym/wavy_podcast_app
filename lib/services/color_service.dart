@@ -9,6 +9,7 @@ class PrimaryColourSelection with ChangeNotifier {
   BuildContext context;
   late String _imgString;
   late ImageProvider _img;
+  ThemeMode _themeMode = ThemeMode.system;
   PrimaryColourSelection({required this.context}) {
     context.read<Podcast>().addListener(() async {
       await this.update();
@@ -38,13 +39,21 @@ class PrimaryColourSelection with ChangeNotifier {
     }
   }
 
+  /// gets the default theme from the colour service
   ThemeData get getTheme => ThemeData(
       primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor));
 
+  /// gets a dark theme from the colour service class
   ThemeData get getDarkTheme =>
       // ThemeData.dark(); // basically does the same thing as turning down brightness
       ThemeData(
         primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor),
         brightness: Brightness.dark,
       );
+
+  ThemeMode get themeMode => _themeMode;
+  set themeMode(ThemeMode newThemeMode) {
+    _themeMode = newThemeMode;
+    notifyListeners();
+  }
 }

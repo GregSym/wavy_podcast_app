@@ -13,7 +13,7 @@ class MenuHeader extends StatelessWidget {
       child: Column(
         children: [
           MenuHeaderTopRow(),
-          MenuHeaderFeaturesRow(),
+          // MenuHeaderFeaturesRow(),
           PodcastDescription(),
         ],
       ),

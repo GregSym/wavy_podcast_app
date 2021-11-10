@@ -13,8 +13,10 @@ class PodcastBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Transitions.transitionToFeed(context, rssFeed.key),
+    return MaterialButton(
+      padding: const EdgeInsets.all(0),
+      // height: Reactivity.menuItemHeight(context) + 16.0,
+      onPressed: () => Transitions.transitionToFeed(context, rssFeed.key),
       child: PodcastBoxContents(rssFeed: rssFeed.value!),
     );
   }
@@ -33,7 +35,7 @@ class PodcastBoxContents extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4.0),
       width: Reactivity.menuItemHeight(context),
-      height: Reactivity.menuItemHeight(context),
+      height: Reactivity.menuItemHeight(context) + 16.0,
       child: Center(
         child: Column(
           children: [
@@ -41,6 +43,7 @@ class PodcastBoxContents extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
                   FeedAnalysisFunctions.imageFromFeed(rssFeed),
+                  // height: Reactivity.menuItemHeight(context) - 12.0,
                   fit: BoxFit.fitHeight,
                 )),
             Text(

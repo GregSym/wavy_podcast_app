@@ -31,4 +31,7 @@ class Transitions {
 
   static void transitionToPlayerFromMini(BuildContext context) =>
       Beamer.of(context).beamToNamed('/podcast-player');
+
+  static void transitionToSettings(BuildContext context) =>
+      Beamer.of(context).beamToNamed('/settings');
 }

@@ -1,9 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/navigation_wrapper.dart';
-import 'package:flutter_podcast_app/screens/podcast_player.dart';
-import 'package:flutter_podcast_app/screens/podcast_selection.dart';
-import 'package:flutter_podcast_app/screens/podcast_sliver_feed.dart';
 import 'package:flutter_podcast_app/services/color_service.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +12,7 @@ class AnimatedAppThemeWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: context.read<PrimaryColourSelection>(),
+        animation: context.watch<PrimaryColourSelection>(),
         builder: (context, child) {
           return MaterialAppEntryPoint();
         });
@@ -35,7 +32,7 @@ class MaterialAppEntryPoint extends StatelessWidget {
           // _theme.getTheme,
           context.read<PrimaryColourSelection>().getTheme,
       darkTheme: context.read<PrimaryColourSelection>().getDarkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: context.read<PrimaryColourSelection>().themeMode,
       //     ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
