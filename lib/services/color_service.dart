@@ -38,9 +38,11 @@ class PrimaryColourSelection with ChangeNotifier {
     }
   }
 
+  /// gets the default theme from the colour service
   ThemeData get getTheme => ThemeData(
       primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor));
 
+  /// gets a dark theme from the colour service class
   ThemeData get getDarkTheme =>
       // ThemeData.dark(); // basically does the same thing as turning down brightness
       ThemeData(

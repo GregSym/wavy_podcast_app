@@ -1,9 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/navigation_wrapper.dart';
-import 'package:flutter_podcast_app/screens/podcast_player.dart';
-import 'package:flutter_podcast_app/screens/podcast_selection.dart';
-import 'package:flutter_podcast_app/screens/podcast_sliver_feed.dart';
 import 'package:flutter_podcast_app/services/color_service.dart';
 import 'package:provider/provider.dart';
 

@@ -9,6 +9,20 @@ class PodcastInfo {
 
   PodcastInfo({this.link, this.rssFeed, this.rssItem});
 }
- // TODO: replace previous attempts at passing info about podcasts with this
- // struct thing
- 
+// TODO: replace previous attempts at passing info about podcasts with this
+// struct thing
+
+class PodcastWrapper {
+  PodcastInfo podcast;
+  PodcastWrapper({required this.podcast}) {
+    assert(podcast.link != null);
+
+    if (podcast.rssFeed == null) {
+      // parse
+    }
+
+    if (podcast.rssItem == null) {
+      podcast.rssItem = podcast.rssFeed!.items!.first;
+    }
+  }
+}

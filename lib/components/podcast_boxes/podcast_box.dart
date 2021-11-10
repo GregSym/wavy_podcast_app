@@ -13,8 +13,8 @@ class PodcastBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Transitions.transitionToFeed(context, rssFeed.key),
+    return MaterialButton(
+      onPressed: () => Transitions.transitionToFeed(context, rssFeed.key),
       child: PodcastBoxContents(rssFeed: rssFeed.value!),
     );
   }
