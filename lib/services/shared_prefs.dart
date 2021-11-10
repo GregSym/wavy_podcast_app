@@ -1,0 +1,14 @@
+/// outline of useful functions
+class AbstractDBService {
+  saveData() => null;
+  getData() => null;
+  validateData() => null;
+}
+
+/// An object for handling access of the small, temp storage
+/// on devices
+/// - NOTE: may also be used to mock up db stuff while
+/// I'm making that elsewhere
+/// - NOTE ALSO: this is a bad idea
+/// and you should not copy this practice, I'm being *naughty*
+class SharedPreferencesService {}
