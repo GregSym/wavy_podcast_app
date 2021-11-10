@@ -9,6 +9,7 @@ class PrimaryColourSelection with ChangeNotifier {
   BuildContext context;
   late String _imgString;
   late ImageProvider _img;
+  ThemeMode _themeMode = ThemeMode.system;
   PrimaryColourSelection({required this.context}) {
     context.read<Podcast>().addListener(() async {
       await this.update();
@@ -49,4 +50,10 @@ class PrimaryColourSelection with ChangeNotifier {
         primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor),
         brightness: Brightness.dark,
       );
+
+  ThemeMode get themeMode => _themeMode;
+  set themeMode(ThemeMode newThemeMode) {
+    _themeMode = newThemeMode;
+    notifyListeners();
+  }
 }

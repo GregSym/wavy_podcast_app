@@ -1,5 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_podcast_app/app.dart';
 import 'package:flutter_podcast_app/controllers/podcast_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
@@ -8,6 +9,8 @@ import 'package:provider/provider.dart';
 
 void main() {
   // Beamer.setPathUrlStrategy();  // has some issues in deployment
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
   runApp(MyApp());
 }
 

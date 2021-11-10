@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_podcast_app/components/menu/menu_header/features_row.dart';
 import 'package:flutter_podcast_app/components/podcast_box_img.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/reactivity.dart';
@@ -18,7 +19,8 @@ class MenuHeaderTopRow extends StatelessWidget {
                   Column(
                     children: [
                       Text(_podcast.feed!.title ?? 'title'),
-                      Text(_podcast.feed!.itunes!.author ?? 'author')
+                      Text(_podcast.feed!.itunes!.author ?? 'author'),
+                      MenuHeaderFeaturesRow()
                     ],
                   ),
                   ClipRRect(

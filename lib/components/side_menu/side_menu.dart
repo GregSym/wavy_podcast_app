@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/constants/std_sizes.dart';
 import 'package:flutter_podcast_app/functions/reactivity.dart';
+import 'package:flutter_podcast_app/functions/transitions.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class SideMenu extends StatelessWidget {
           ),
           Divider(),
           TextButton.icon(
-            onPressed: null,
+            onPressed: () => Transitions.transitionToSettings(context),
             icon: Icon(Icons.settings),
             label: Text("Settings"),
           ),

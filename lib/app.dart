@@ -12,7 +12,7 @@ class AnimatedAppThemeWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: context.read<PrimaryColourSelection>(),
+        animation: context.watch<PrimaryColourSelection>(),
         builder: (context, child) {
           return MaterialAppEntryPoint();
         });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// features attached to the menu at the top of a feed
 class MenuHeaderFeaturesRow extends StatelessWidget {
   const MenuHeaderFeaturesRow({Key? key}) : super(key: key);
 
