@@ -10,27 +10,36 @@ class MenuHeaderTopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Podcast>(
-        builder: (context, _podcast, _) => Container(
-              height: Reactivity.headerImageHeight(context) + 8.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text(_podcast.feed!.title ?? 'title'),
-                      Text(_podcast.feed!.itunes!.author ?? 'author'),
-                      MenuHeaderFeaturesRow()
-                    ],
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: PodcastBoxImg(
-                      fromFeed: true,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Consumer<Podcast>(
+          builder: (context, _podcast, _) => Container(
+                height: Reactivity.headerImageHeight(context) + 8.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          _podcast.feed!.title ?? 'title',
+                          softWrap: true,
+                        ),
+                        Text(
+                          _podcast.feed!.itunes!.author ?? 'author',
+                          softWrap: true,
+                        ),
+                        MenuHeaderFeaturesRow()
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ));
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: PodcastBoxImg(
+                        fromFeed: true,
+                      ),
+                    )
+                  ],
+                ),
+              )),
+    );
   }
 }

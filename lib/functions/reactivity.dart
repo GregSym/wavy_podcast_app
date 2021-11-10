@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/functions/platform_analysis.dart';
 
@@ -60,7 +62,13 @@ class Reactivity {
   static double menuItemHeight(BuildContext context) =>
       // TODO: set out measurements rather than using platform id so
       // web page resizing works
-      PlatformAnalysis.isMobile
-          ? Reactivity.height(context) / 9 // mobile height
-          : Reactivity.height(context) / 11; // web page height
+      min<double>(
+          Reactivity.height(context),
+          max<double>(
+              48,
+              PlatformAnalysis.isMobile
+                  ? Reactivity.height(context) / 9 // mobile height
+                  : Reactivity.height(context) / 11)); // web page height
+  // min of element height and screen height, then max of minimum element
+  // height and screen percentage
 }
