@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 /// outline of useful functions
 class AbstractDBService {
   saveData() => null;
@@ -11,4 +13,10 @@ class AbstractDBService {
 /// I'm making that elsewhere
 /// - NOTE ALSO: this is a bad idea
 /// and you should not copy this practice, I'm being *naughty*
-class SharedPreferencesService {}
+class SharedPreferencesService {
+  SharedPreferencesService() {}
+
+  createPrefReference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+  }
+}
