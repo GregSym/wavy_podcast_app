@@ -47,6 +47,7 @@ dependencies:
   beamer: ^0.14.1  # navigator 2.0 wrapper, for convenience, because I'm not doing all that for
   # access to the path
   shared_preferences: ^2.0.8  # temp storage
+  url_launcher: ^6.0.12  # url launcher for going to podcast pages directly
 
 
 dev_dependencies:

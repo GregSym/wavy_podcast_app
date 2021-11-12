@@ -15,6 +15,13 @@ class Podcast with ChangeNotifier {
 
   PodcastSource _source = PodcastSource(srcLink: mockSrcs);
   PodcastSource get sources => _source;
+  set sources(PodcastSource podcastSource) {
+    this._source.srcLink = podcastSource.srcLink;
+    this.url = this._source.srcLink.first;
+    this.parse();
+    this.multiParse();
+  }
+
   bool get isLoading => _loading;
 
   void setLoading() {

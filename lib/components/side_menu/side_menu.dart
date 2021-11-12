@@ -17,10 +17,14 @@ class SideMenu extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: null, icon: Icon(Icons.compass_calibration_rounded)),
-            IconButton(onPressed: null, icon: Icon(Icons.check)),
+            IconButton(
+                onPressed: () => Transitions.transitionToSubscriptions(context),
+                icon: Icon(Icons.check)),
             IconButton(onPressed: null, icon: Icon(Icons.wifi)),
             Divider(),
-            IconButton(onPressed: null, icon: Icon(Icons.settings)),
+            IconButton(
+                onPressed: () => Transitions.transitionToSettings(context),
+                icon: Icon(Icons.settings)),
           ],
         ),
       );
@@ -34,7 +38,7 @@ class SideMenu extends StatelessWidget {
             label: Text("Explore"),
           ),
           TextButton.icon(
-            onPressed: null,
+            onPressed: () => Transitions.transitionToSubscriptions(context),
             icon: Icon(Icons.check),
             label: Text("Subscriptions"),
           ),
