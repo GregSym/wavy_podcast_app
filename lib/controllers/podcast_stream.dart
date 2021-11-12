@@ -1,10 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:flutter_podcast_app/models/podcast_src.dart';
+import 'package:flutter_podcast_app/services/database_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 
 class Podcast with ChangeNotifier {
+  final BuildContext context;
+  Podcast(this.context);
   bool _loading = false;
   Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
@@ -12,15 +17,10 @@ class Podcast with ChangeNotifier {
   //late Map<String, bool> downloadStatus; // part of the excluded download
   String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
+  String _mockUrl = 'https://feeds.simplecast.com/wjQvYtdl';
 
   PodcastSource _source = PodcastSource(srcLink: mockSrcs);
   PodcastSource get sources => _source;
-  set sources(PodcastSource podcastSource) {
-    this._source.srcLink = podcastSource.srcLink;
-    this.url = this._source.srcLink.first;
-    this.parse();
-    this.multiParse();
-  }
 
   bool get isLoading => _loading;
 
@@ -58,6 +58,21 @@ class Podcast with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  showExplore() {
+    this._source = PodcastSource(srcLink: mockSrcs);
+    this.url = this._mockUrl;
+    this.parse();
+    this.multiParse();
+  }
+
+  showSubscriptions() {
+    this._source =
+        PodcastSource(srcLink: context.read<DataBaseManager>().subscriptions);
+    this.url = this._source.srcLink.first;
+    this.parse();
+    this.multiParse();
   }
 
   /*

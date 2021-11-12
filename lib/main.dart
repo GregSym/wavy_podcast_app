@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DataBaseManager()),
         // track selected feeds and items
         ChangeNotifierProvider(
-          create: (context) => Podcast()
+          create: (context) => Podcast(context)
             ..parse()
             ..multiParse(),
         ),

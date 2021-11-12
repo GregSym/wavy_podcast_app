@@ -16,7 +16,7 @@ class FakePlayer extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => FakePodcast()
+          create: (context) => FakePodcast(context)
             ..parse()
             ..multiParse(),
         ),

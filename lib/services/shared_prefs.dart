@@ -68,6 +68,7 @@ class SharedPreferencesService extends DataBaseService {
       _subscriptions = [];
     }
     _subscriptions!.removeWhere((element) => element == subscriptionUri);
+    await this.prefs.remove('subscriptions');
     await this.setSubscriptions(_subscriptions!);
   }
 }

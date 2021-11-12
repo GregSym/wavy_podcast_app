@@ -38,7 +38,10 @@ class Transitions {
       Beamer.of(context).beamToNamed('/settings');
 
   static void transitionToSubscriptions(BuildContext context) {
-    context.read<Podcast>().sources =
-        PodcastSource(srcLink: context.read<DataBaseManager>().subscriptions);
+    context.read<Podcast>().showSubscriptions();
+  }
+
+  static void transitionToExplore(BuildContext context) {
+    context.read<Podcast>().showExplore();
   }
 }

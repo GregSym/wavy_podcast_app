@@ -16,7 +16,8 @@ class SideMenu extends StatelessWidget {
         child: Column(
           children: [
             IconButton(
-                onPressed: null, icon: Icon(Icons.compass_calibration_rounded)),
+                onPressed: () => Transitions.transitionToExplore(context),
+                icon: Icon(Icons.compass_calibration_rounded)),
             IconButton(
                 onPressed: () => Transitions.transitionToSubscriptions(context),
                 icon: Icon(Icons.check)),
@@ -33,7 +34,7 @@ class SideMenu extends StatelessWidget {
       child: Column(
         children: [
           TextButton.icon(
-            onPressed: null,
+            onPressed: () => Transitions.transitionToExplore(context),
             icon: Icon(Icons.compass_calibration_rounded),
             label: Text("Explore"),
           ),
