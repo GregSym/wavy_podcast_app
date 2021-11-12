@@ -7,13 +7,32 @@ class AbstractDBService {
   validateData() => null;
 }
 
+/// One day this'll be the parent class of DBServices and it'll be more abstract
+/// : as seen above in AbstractDBService
+class DataBaseService {
+  // TODO: remove direct connection to subscriptions in code once this branches
+  // out
+  List<String> get subscriptions => [];
+
+  /// updates subscriptions
+  getSubscriptions() async => null;
+
+  /// sets subscription storage to a new list
+  setSubscriptions(List<String> newSubscriptionList) async => null;
+
+  /// adds a single subscription to the old list
+  addSubscription(String subscriptionUri) async => null;
+
+  removeSubscription(String subscriptionUri) async => null;
+}
+
 /// An object for handling access of the small, temp storage
 /// on devices
 /// - NOTE: may also be used to mock up db stuff while
 /// I'm making that elsewhere
 /// - NOTE ALSO: this is a bad idea
 /// and you should not copy this practice, I'm being *naughty*
-class SharedPreferencesService {
+class SharedPreferencesService extends DataBaseService {
   SharedPreferencesService() {
     createPrefReference();
   }
@@ -24,7 +43,7 @@ class SharedPreferencesService {
       (this._subscriptions == null) ? [] : this._subscriptions!;
 
   createPrefReference() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    this.prefs = await SharedPreferences.getInstance();
   }
 
   /// updates subscriptions

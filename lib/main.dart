@@ -3,6 +3,7 @@ import 'package:flutter_podcast_app/app.dart';
 import 'package:flutter_podcast_app/controllers/podcast_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/services/color_service.dart';
+import 'package:flutter_podcast_app/services/database_manager.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,24 +20,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // manage the database connections
+        ChangeNotifierProvider(create: (context) => DataBaseManager()),
+        // track selected feeds and items
         ChangeNotifierProvider(
           create: (context) => Podcast()
             ..parse()
             ..multiParse(),
         ),
+        // provide the media player across multiple screens in the app
         ChangeNotifierProvider(
           create: (context) => PodcastPlayerController()
             ..setupListeners()
             ..setContext(context),
         ),
+        // app theme controller
         ChangeNotifierProvider(
             create: (context) => PrimaryColourSelection(context: context)),
       ],
-      child:
-          // Consumer<PrimaryColourSelection>(
-          //   builder: (context, _theme, _) =>
-          AnimatedAppThemeWrapper(),
-      // ),
+      child: AnimatedAppThemeWrapper(),
     );
   }
 }
