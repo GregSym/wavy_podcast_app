@@ -12,16 +12,15 @@ class MenuHeaderFeaturesRow extends StatelessWidget {
     String feedUrl = context.read<Podcast>().url;
     return Row(
       children: [
-        IconButton(
-          onPressed:
-              context.watch<DataBaseManager>().subscriptions.contains(feedUrl)
-                  ? context.read<DataBaseManager>().removeSubscription(feedUrl)
-                  : context.read<DataBaseManager>().addSubscription(feedUrl),
-          icon: Icon(
-              context.watch<DataBaseManager>().subscriptions.contains(feedUrl)
-                  ? Icons.check
-                  : Icons.add),
-        ),
+        Consumer<DataBaseManager>(
+            builder: (context, _dbManager, _) => IconButton(
+                  onPressed: () => _dbManager.subscriptions.contains(feedUrl)
+                      ? _dbManager.removeSubscription(feedUrl)
+                      : _dbManager.addSubscription(feedUrl),
+                  icon: Icon(_dbManager.subscriptions.contains(feedUrl)
+                      ? Icons.check
+                      : Icons.add),
+                )),
         IconButton(
           onPressed: null,
           icon: Icon(Icons.circle),

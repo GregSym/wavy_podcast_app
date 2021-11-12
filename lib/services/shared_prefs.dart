@@ -47,22 +47,22 @@ class SharedPreferencesService extends DataBaseService {
   }
 
   /// updates subscriptions
-  getSubscriptions() async =>
+  Future<void> getSubscriptions() async =>
       _subscriptions = this.prefs.getStringList('subscriptions');
 
   /// sets subscription storage to a new list
-  setSubscriptions(List<String> newSubscriptionList) async =>
+  Future<void> setSubscriptions(List<String> newSubscriptionList) async =>
       this.prefs.setStringList('subscriptions', newSubscriptionList);
 
   /// adds a single subscription to the old list
-  addSubscription(String subscriptionUri) async {
+  Future<void> addSubscription(String subscriptionUri) async {
     await this.getSubscriptions(); // latest subscriptions
     if (this._subscriptions == null) _subscriptions = [];
     _subscriptions!.add(subscriptionUri);
     await this.prefs.setStringList('subscriptions', _subscriptions!);
   }
 
-  removeSubscription(String subscriptionUri) async {
+  Future<void> removeSubscription(String subscriptionUri) async {
     await this.getSubscriptions();
     if (this._subscriptions == null) {
       _subscriptions = [];
