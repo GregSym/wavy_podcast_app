@@ -41,7 +41,7 @@ dependencies:
   
   http: ^0.13.1
 
-  better_player: ^0.0.71 # the best flutter based media player
+  better_player: 0.0.72 # the best flutter based media player
   # with the compromise being that you don't get full cross-platform availability
   palette_generator: ^0.3.0 # for getting colour info from img links
   beamer: ^0.14.1  # navigator 2.0 wrapper, for convenience, because I'm not doing all that for

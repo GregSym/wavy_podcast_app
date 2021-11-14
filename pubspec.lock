@@ -28,7 +28,7 @@ packages:
       name: better_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.79"
+    version: "0.0.72"
   boolean_selector:
     dependency: transitive
     description:
@@ -127,7 +127,7 @@ packages:
       name: flutter_widget_from_html_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0"
+    version: "0.6.2"
   html:
     dependency: transitive
     description:
@@ -510,7 +510,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.10"
+    version: "2.3.0"
   xdg_directories:
     dependency: transitive
     description:
