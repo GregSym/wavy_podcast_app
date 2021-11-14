@@ -10,7 +10,7 @@ class UserBubble extends StatelessWidget {
     return IconButton(
       onPressed: () => Transitions.transitionToSettings(context),
       icon: Icon(Icons.circle),
-      iconSize: Reactivity.expandedAppBarHeight(context) / 2,
+      iconSize: Reactivity.userIconHeight(context),
     );
   }
 }
