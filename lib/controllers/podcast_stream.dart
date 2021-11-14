@@ -75,6 +75,28 @@ class Podcast with ChangeNotifier {
     this.multiParse();
   }
 
+  List<PodcastInfo> get subscriptionFeed {
+    List<PodcastInfo> _subscriptionFeed = [];
+    for (MapEntry<String, RssFeed?> feedEntry in this._multiFeed.entries) {
+      if (feedEntry.value != null) {
+        if (feedEntry.value!.items != null) {
+          for (RssItem rssItem in feedEntry.value!.items!) {
+            subscriptionFeed.add(PodcastInfo(
+                link: feedEntry.key,
+                rssFeed: feedEntry.value,
+                rssItem: rssItem));
+          }
+        }
+      }
+    }
+    return _subscriptionFeed
+      ..sort((itemOne, itemTwo) =>
+          (itemOne.rssItem!.pubDate != null && itemTwo.rssItem!.pubDate != null)
+              ? itemOne.rssItem!.pubDate!
+                  .compareTo(itemTwo.rssItem!.pubDate!) // main
+              : itemOne.rssFeed!.syndication!.updateBase!.compareTo(
+                  itemTwo.rssFeed!.syndication!.updateBase!)); // fallback
+  }
   /*
   void download(RssItem item) async {
     final client = http.Client();
