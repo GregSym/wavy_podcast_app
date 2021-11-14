@@ -19,3 +19,21 @@ class MenuListSliver extends StatelessWidget {
                         .toList())));
   }
 }
+
+class SubscriptionListSliver extends StatelessWidget {
+  const SubscriptionListSliver({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Podcast>(
+        builder: (context, _podcast, _) =>
+            _podcast.feed == null || _podcast.isLoading
+                ? SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator()))
+                : SliverList(
+                    delegate: SliverChildListDelegate(_podcast.subscriptionFeed
+                        .map((podcastInfo) =>
+                            PodcastMenuItem(rssItem: podcastInfo.rssItem!))
+                        .toList())));
+  }
+}
