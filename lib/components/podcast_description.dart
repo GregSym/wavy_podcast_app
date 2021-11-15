@@ -8,9 +8,10 @@ class PodcastDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
+      child: SelectableText(
         context.read<Podcast>().feed!.description ?? 'description',
-        softWrap: true,
+        // softWrap: true,
+        scrollPhysics: ClampingScrollPhysics(),
       ),
     );
   }
