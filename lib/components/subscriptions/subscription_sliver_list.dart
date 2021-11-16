@@ -10,14 +10,24 @@ class SubscriptionListSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Podcast>(
-        builder: (context, _podcast, _) =>
-            _podcast.subscriptionFeed.isEmpty || _podcast.isLoading
-                ? SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()))
-                : SliverList(
-                    delegate: SliverChildListDelegate(_podcast.subscriptionFeed
-                        .map((podcastInfo) =>
-                            PodcastMenuItem(podcastInfo: podcastInfo))
-                        .toList())));
+        builder: (context, _podcast, _) => FutureBuilder<List<PodcastInfo>>(
+              future: _podcast.subscriptionFeed,
+              builder: (context, snapshot) =>
+                  snapshot.connectionState == ConnectionState.waiting ||
+                          !snapshot.hasData ||
+                          snapshot.data!.isEmpty ||
+                          _podcast.isLoading
+                      ? SliverToBoxAdapter(
+                          child: Center(
+                              child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        )))
+                      : SliverList(
+                          delegate: SliverChildListDelegate(snapshot.data!
+                              .map((podcastInfo) =>
+                                  PodcastMenuItem(podcastInfo: podcastInfo))
+                              .toList())),
+            ));
   }
 }

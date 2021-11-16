@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:flutter_podcast_app/models/podcast_src.dart';
 import 'package:flutter_podcast_app/services/database_manager.dart';
@@ -75,16 +76,21 @@ class Podcast with ChangeNotifier {
     this.multiParse();
   }
 
-  List<PodcastInfo> get subscriptionFeed {
+  Future<List<PodcastInfo>> get subscriptionFeed async {
     List<PodcastInfo> _subscriptionFeed = [];
-    for (MapEntry<String, RssFeed?> feedEntry in this._multiFeed.entries) {
-      if (feedEntry.value != null) {
-        if (feedEntry.value!.items != null) {
-          for (RssItem rssItem in feedEntry.value!.items!) {
+    List<PodcastInfo> _subscriptionFeedSources = [];
+
+    for (Future<PodcastInfo> feedEntry in context
+        .read<DataBaseManager>()
+        .subscriptions
+        .map((link) async => await PodcastInfo(
+            link: link, rssFeed: await NetworkOperations.parseUrl(link)))) {
+      PodcastInfo _feed = await feedEntry;
+      if (_feed.rssFeed != null) {
+        if (_feed.rssFeed!.items != null) {
+          for (RssItem rssItem in _feed.rssFeed!.items!) {
             _subscriptionFeed.add(PodcastInfo(
-                link: feedEntry.key,
-                rssFeed: feedEntry.value,
-                rssItem: rssItem));
+                link: _feed.link, rssFeed: _feed.rssFeed, rssItem: rssItem));
           }
         }
       }
