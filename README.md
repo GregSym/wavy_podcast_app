@@ -1,5 +1,8 @@
 # flutter_podcast_app
 
+![test_suite](https://github.com/GregSym/wavy_podcast_app/actions/workflows/main.yml/badge.svg)
+
+
 I'm taking another stab at a podcasting application built in flutter
 
 <p>
@@ -22,7 +25,17 @@ for managing Nav2.0 for me.
 reference: https://pub.dev/packages/beamer
 </p>
 
-Tested on:
+# State of development
+
+Currently working on a simple backend using python to update a Cloud Firestore DB, not because I'm overly fond of the solution, it's simply really quick. The goal is to sync stuff like subscriptions and track position to a user. A mock system has been added to the frontend for local subscriptions.
+
+# Other significant TODOs:
+
+* Add proper testing
+* finish frontend subscription stuff
+* Add proper platform boilerplate, version numbering, icons, tab labels, etc
+
+# Tested on:
 <ul>
 <li>
     Web
