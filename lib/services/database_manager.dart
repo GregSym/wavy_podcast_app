@@ -8,6 +8,11 @@ class DataBaseManager with ChangeNotifier {
   List<DataBaseService> dataBaseServices = [];
   DataBaseManager() {
     dataBaseServices.add(sharedPreferencesService);
+    for (DataBaseService dataBaseService in dataBaseServices) {
+      dataBaseService.addListener(() {
+        notifyListeners();
+      });
+    }
   }
 
   List<String> get subscriptions => this.sharedPreferencesService.subscriptions;

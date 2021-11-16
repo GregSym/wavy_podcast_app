@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// outline of useful functions
@@ -9,7 +10,7 @@ class AbstractDBService {
 
 /// One day this'll be the parent class of DBServices and it'll be more abstract
 /// : as seen above in AbstractDBService
-class DataBaseService {
+class DataBaseService with ChangeNotifier {
   // TODO: remove direct connection to subscriptions in code once this branches
   // out
   List<String> get subscriptions => [];
@@ -35,6 +36,7 @@ class DataBaseService {
 class SharedPreferencesService extends DataBaseService {
   SharedPreferencesService() {
     createPrefReference();
+    getSubscriptions();
   }
   late SharedPreferences prefs;
   List<String>? _subscriptions = [];
