@@ -3,6 +3,7 @@ import 'package:flutter_podcast_app/components/menu/menu_header/menu_header.dart
 import 'package:flutter_podcast_app/components/menu/menu_item.dart';
 import 'package:flutter_podcast_app/components/mini_player/mini_player.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
+import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:provider/provider.dart';
 
 class PodcastFeed extends StatelessWidget {
@@ -29,7 +30,12 @@ class PodcastFeed extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: _podcast.feed!.items!
-                          .map((rssItem) => PodcastMenuItem(rssItem: rssItem))
+                          .map((rssItem) => PodcastMenuItem(
+                                podcastInfo: PodcastInfo(
+                                    link: _podcast.url,
+                                    rssFeed: _podcast.feed,
+                                    rssItem: rssItem),
+                              ))
                           .toList(),
                     ),
                   ),

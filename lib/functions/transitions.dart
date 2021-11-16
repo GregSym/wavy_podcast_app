@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/controllers/podcast_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
+import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
@@ -34,4 +35,14 @@ class Transitions {
 
   static void transitionToSettings(BuildContext context) =>
       Beamer.of(context).beamToNamed('/settings');
+
+  static void transitionToSubscriptions(BuildContext context) {
+    context.read<Podcast>().showSubscriptions();
+    context.read<StateTracker>().feedSelection = FeedSelection.subscription;
+  }
+
+  static void transitionToExplore(BuildContext context) {
+    context.read<Podcast>().showExplore();
+    context.read<StateTracker>().feedSelection = FeedSelection.explore;
+  }
 }

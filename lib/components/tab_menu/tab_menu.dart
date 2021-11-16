@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/constants/std_sizes.dart';
 import 'package:flutter_podcast_app/functions/reactivity.dart';
+import 'package:flutter_podcast_app/functions/transitions.dart';
 
 class TabMenuOptions extends StatelessWidget {
   const TabMenuOptions({Key? key}) : super(key: key);
@@ -14,7 +15,10 @@ class TabMenuOptions extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(onPressed: null, icon: Icon(Icons.house_rounded)),
+          IconButton(
+              onPressed: () async =>
+                  Transitions.transitionToSubscriptions(context),
+              icon: Icon(Icons.house_rounded)),
           IconButton(onPressed: null, icon: Icon(Icons.search)),
           IconButton(onPressed: null, icon: Icon(Icons.list_alt)),
         ],

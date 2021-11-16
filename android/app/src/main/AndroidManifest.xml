@@ -1,8 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_podcast_app">
-    <!--permissions go here maybe?-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-
    <application
         android:label="flutter_podcast_app"
         android:icon="@mipmap/ic_launcher">

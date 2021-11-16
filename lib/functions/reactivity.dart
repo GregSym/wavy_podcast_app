@@ -29,6 +29,11 @@ class Reactivity {
   static double expandedAppBarHeight(BuildContext context) =>
       Reactivity.menuItemHeight(context) * 1.5;
 
+  static double userIconHeight(BuildContext context) =>
+      (PlatformAnalysis.isMobile)
+          ? Reactivity.expandedAppBarHeight(context) / 3
+          : Reactivity.expandedAppBarHeight(context) / 2;
+
   /* 
   Mini player params----------------------------etc
   */

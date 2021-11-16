@@ -1,10 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:flutter_podcast_app/models/podcast_src.dart';
+import 'package:flutter_podcast_app/services/database_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 
 class Podcast with ChangeNotifier {
+  final BuildContext context;
+  Podcast(this.context);
   bool _loading = false;
   Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
@@ -12,9 +17,11 @@ class Podcast with ChangeNotifier {
   //late Map<String, bool> downloadStatus; // part of the excluded download
   String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
+  String _mockUrl = 'https://feeds.simplecast.com/wjQvYtdl';
 
   PodcastSource _source = PodcastSource(srcLink: mockSrcs);
   PodcastSource get sources => _source;
+
   bool get isLoading => _loading;
 
   void setLoading() {
@@ -53,6 +60,43 @@ class Podcast with ChangeNotifier {
     notifyListeners();
   }
 
+  showExplore() {
+    this._source = PodcastSource(srcLink: mockSrcs);
+    this.url = this._mockUrl;
+    this.parse();
+    this.multiParse();
+  }
+
+  showSubscriptions() {
+    this._source =
+        PodcastSource(srcLink: context.read<DataBaseManager>().subscriptions);
+    this.url = this._source.srcLink.first;
+    this.parse();
+    this.multiParse();
+  }
+
+  List<PodcastInfo> get subscriptionFeed {
+    List<PodcastInfo> _subscriptionFeed = [];
+    for (MapEntry<String, RssFeed?> feedEntry in this._multiFeed.entries) {
+      if (feedEntry.value != null) {
+        if (feedEntry.value!.items != null) {
+          for (RssItem rssItem in feedEntry.value!.items!) {
+            _subscriptionFeed.add(PodcastInfo(
+                link: feedEntry.key,
+                rssFeed: feedEntry.value,
+                rssItem: rssItem));
+          }
+        }
+      }
+    }
+    _subscriptionFeed.sort((itemOne, itemTwo) => (itemOne.rssItem!.pubDate !=
+                null &&
+            itemTwo.rssItem!.pubDate != null)
+        ? itemTwo.rssItem!.pubDate!.compareTo(itemOne.rssItem!.pubDate!) // main
+        : itemTwo.rssFeed!.syndication!.updateBase!
+            .compareTo(itemOne.rssFeed!.syndication!.updateBase!)); // fallback
+    return _subscriptionFeed;
+  }
   /*
   void download(RssItem item) async {
     final client = http.Client();

@@ -16,11 +16,16 @@ class SideMenu extends StatelessWidget {
         child: Column(
           children: [
             IconButton(
-                onPressed: null, icon: Icon(Icons.compass_calibration_rounded)),
-            IconButton(onPressed: null, icon: Icon(Icons.check)),
+                onPressed: () => Transitions.transitionToExplore(context),
+                icon: Icon(Icons.compass_calibration_rounded)),
+            IconButton(
+                onPressed: () => Transitions.transitionToSubscriptions(context),
+                icon: Icon(Icons.check)),
             IconButton(onPressed: null, icon: Icon(Icons.wifi)),
             Divider(),
-            IconButton(onPressed: null, icon: Icon(Icons.settings)),
+            IconButton(
+                onPressed: () => Transitions.transitionToSettings(context),
+                icon: Icon(Icons.settings)),
           ],
         ),
       );
@@ -29,12 +34,12 @@ class SideMenu extends StatelessWidget {
       child: Column(
         children: [
           TextButton.icon(
-            onPressed: null,
+            onPressed: () => Transitions.transitionToExplore(context),
             icon: Icon(Icons.compass_calibration_rounded),
             label: Text("Explore"),
           ),
           TextButton.icon(
-            onPressed: null,
+            onPressed: () => Transitions.transitionToSubscriptions(context),
             icon: Icon(Icons.check),
             label: Text("Subscriptions"),
           ),

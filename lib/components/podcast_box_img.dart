@@ -14,11 +14,6 @@ class PodcastBoxImg extends StatelessWidget {
     if (fromFeed) return PodcastBoxImgFromFeed();
     PodcastInfo? podcastInfo = context.watch<Podcast>().selectedItem;
     if (podcastInfo == null) return Container();
-    // return FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
-    //     ? Image.network(rssItem.itunes!.image!.href!)
-    //     : Image.network(context.read<Podcast>().feed!.itunes!.image!.href ??
-    //         context.read<Podcast>().feed!.image!.url ??
-    //         ImgResources.fallbackImgUri);
     return Image.network(
       FeedAnalysisFunctions.imageFromPodcastInfo(podcastInfo),
       fit: BoxFit.cover,
@@ -33,11 +28,6 @@ class PodcastBoxImgFromFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     RssFeed? rssFeed = context.watch<Podcast>().feed;
     if (rssFeed == null) return Container();
-    // return FeedAnalysisFunctions.hasIndividualEpisodeImage(rssItem)
-    //     ? Image.network(rssItem.itunes!.image!.href!)
-    //     : Image.network(context.read<Podcast>().feed!.itunes!.image!.href ??
-    //         context.read<Podcast>().feed!.image!.url ??
-    //         ImgResources.fallbackImgUri);
     return Image.network(
       FeedAnalysisFunctions.imageFromFeed(rssFeed),
       fit: BoxFit.cover,

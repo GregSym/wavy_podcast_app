@@ -37,15 +37,18 @@ dependencies:
            # not sure how that affects null safety
 
   # audioplayers: ^0.19.1 # seems to have some issues on web
-  just_audio: ^0.9.3
+  just_audio: ^0.9.17
   
   http: ^0.13.1
 
-  better_player: ^0.0.72 # the best flutter based media player
+  better_player: 0.0.72 # the best flutter based media player
   # with the compromise being that you don't get full cross-platform availability
   palette_generator: ^0.3.0 # for getting colour info from img links
   beamer: ^0.14.1  # navigator 2.0 wrapper, for convenience, because I'm not doing all that for
   # access to the path
+  shared_preferences: ^2.0.8  # temp storage
+  url_launcher: ^6.0.12  # url launcher for going to podcast pages directly
+
 
 dev_dependencies:
   # flutter_native_splash: ^1.2.4  # for the splash screen, maybe enable later
