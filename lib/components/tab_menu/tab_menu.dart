@@ -19,7 +19,9 @@ class TabMenuOptions extends StatelessWidget {
               onPressed: () async =>
                   Transitions.transitionToSubscriptions(context),
               icon: Icon(Icons.house_rounded)),
-          IconButton(onPressed: null, icon: Icon(Icons.search)),
+          IconButton(
+              onPressed: () => Transitions.transitionToExplore(context),
+              icon: Icon(Icons.search)),
           IconButton(onPressed: null, icon: Icon(Icons.list_alt)),
         ],
       ),
