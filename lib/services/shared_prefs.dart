@@ -60,7 +60,8 @@ class SharedPreferencesService extends DataBaseService {
   Future<void> addSubscription(String subscriptionUri) async {
     await this.getSubscriptions(); // latest subscriptions
     if (this._subscriptions == null) _subscriptions = [];
-    _subscriptions!.add(subscriptionUri);
+    if (!this._subscriptions!.contains(subscriptionUri))
+      _subscriptions!.add(subscriptionUri);
     await this.prefs.setStringList('subscriptions', _subscriptions!);
   }
 
