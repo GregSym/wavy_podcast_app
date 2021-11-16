@@ -4,6 +4,7 @@ import 'package:flutter_podcast_app/controllers/podcast_player_controller.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/services/color_service.dart';
 import 'package:flutter_podcast_app/services/database_manager.dart';
+import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // some miscellaneous state-trackes, should move these
+        ChangeNotifierProvider(create: (context) => StateTracker()),
         // manage the database connections
         ChangeNotifierProvider(create: (context) => DataBaseManager()),
         // track selected feeds and items

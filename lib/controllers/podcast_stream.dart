@@ -81,7 +81,7 @@ class Podcast with ChangeNotifier {
       if (feedEntry.value != null) {
         if (feedEntry.value!.items != null) {
           for (RssItem rssItem in feedEntry.value!.items!) {
-            subscriptionFeed.add(PodcastInfo(
+            _subscriptionFeed.add(PodcastInfo(
                 link: feedEntry.key,
                 rssFeed: feedEntry.value,
                 rssItem: rssItem));
@@ -89,13 +89,13 @@ class Podcast with ChangeNotifier {
         }
       }
     }
-    return _subscriptionFeed
-      ..sort((itemOne, itemTwo) =>
-          (itemOne.rssItem!.pubDate != null && itemTwo.rssItem!.pubDate != null)
-              ? itemOne.rssItem!.pubDate!
-                  .compareTo(itemTwo.rssItem!.pubDate!) // main
-              : itemOne.rssFeed!.syndication!.updateBase!.compareTo(
-                  itemTwo.rssFeed!.syndication!.updateBase!)); // fallback
+    _subscriptionFeed.sort((itemOne, itemTwo) => (itemOne.rssItem!.pubDate !=
+                null &&
+            itemTwo.rssItem!.pubDate != null)
+        ? itemTwo.rssItem!.pubDate!.compareTo(itemOne.rssItem!.pubDate!) // main
+        : itemTwo.rssFeed!.syndication!.updateBase!
+            .compareTo(itemOne.rssFeed!.syndication!.updateBase!)); // fallback
+    return _subscriptionFeed;
   }
   /*
   void download(RssItem item) async {
