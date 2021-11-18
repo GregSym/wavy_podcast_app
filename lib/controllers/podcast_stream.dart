@@ -71,6 +71,7 @@ class Podcast with ChangeNotifier {
   showSubscriptions() {
     this._source =
         PodcastSource(srcLink: context.read<DataBaseManager>().subscriptions);
+    if (this._source.srcLink.isEmpty) return;
     this.url = this._source.srcLink.first;
     this.parse();
     this.multiParse();
@@ -79,6 +80,7 @@ class Podcast with ChangeNotifier {
   Future<List<PodcastInfo>> get subscriptionFeed async {
     List<PodcastInfo> _subscriptionFeed = [];
     List<PodcastInfo> _subscriptionFeedSources = [];
+    if (context.read<DataBaseManager>().subscriptions.isEmpty) return [];
 
     for (Future<PodcastInfo> feedEntry in context
         .read<DataBaseManager>()
