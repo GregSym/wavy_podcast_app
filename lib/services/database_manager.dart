@@ -1,18 +1,29 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_podcast_app/services/shared_prefs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+/// Manages all the various db services this will probably have eventually
 class DataBaseManager with ChangeNotifier {
-  SharedPreferencesService sharedPreferencesService =
-      SharedPreferencesService();
+  final SharedPreferences prefs;
+  late SharedPreferencesService sharedPreferencesService;
 
   List<DataBaseService> dataBaseServices = [];
-  DataBaseManager() {
-    dataBaseServices.add(sharedPreferencesService);
-    for (DataBaseService dataBaseService in dataBaseServices) {
-      dataBaseService.addListener(() {
-        notifyListeners();
-      });
-    }
+
+  DataBaseManager({required this.prefs}) {
+    // dataBaseServices.add(sharedPreferencesService);
+    // for (DataBaseService dataBaseService in dataBaseServices) {
+    //   dataBaseService.addListener(() {
+    //     notifyListeners();
+    //   });
+    // }
+    sharedPreferencesService = SharedPreferencesService(prefs: prefs);
+    this.getSubscriptions();
+    ;
+  }
+
+  Future<void> createSharedPreferencesServices() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    sharedPreferencesService = SharedPreferencesService(prefs: prefs);
   }
 
   List<String> get subscriptions => this.sharedPreferencesService.subscriptions;

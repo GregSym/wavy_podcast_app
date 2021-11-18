@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/components/menu/menu_item.dart';
+import 'package:flutter_podcast_app/components/messages/empty_feed_messages.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,6 @@ class SubscriptionListSliver extends StatelessWidget {
               builder: (context, snapshot) =>
                   snapshot.connectionState == ConnectionState.waiting ||
                           !snapshot.hasData ||
-                          snapshot.data!.isEmpty ||
                           _podcast.isLoading
                       ? SliverToBoxAdapter(
                           child: Center(
@@ -23,11 +23,18 @@ class SubscriptionListSliver extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: CircularProgressIndicator(),
                         )))
-                      : SliverList(
-                          delegate: SliverChildListDelegate(snapshot.data!
-                              .map((podcastInfo) =>
-                                  PodcastMenuItem(podcastInfo: podcastInfo))
-                              .toList())),
+                      : snapshot.data!.isEmpty
+                          ? SliverToBoxAdapter(
+                              child: Center(
+                                  child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: MessageEmptySubscriptionFeed(),
+                            )))
+                          : SliverList(
+                              delegate: SliverChildListDelegate(snapshot.data!
+                                  .map((podcastInfo) =>
+                                      PodcastMenuItem(podcastInfo: podcastInfo))
+                                  .toList())),
             ));
   }
 }

@@ -34,18 +34,18 @@ class DataBaseService with ChangeNotifier {
 /// - NOTE ALSO: this is a bad idea
 /// and you should not copy this practice, I'm being *naughty*
 class SharedPreferencesService extends DataBaseService {
-  SharedPreferencesService() {
+  SharedPreferences prefs;
+  SharedPreferencesService({required this.prefs}) : super() {
     createPrefReference();
     getSubscriptions();
     print('creating instance of shared preferences');
   }
-  late SharedPreferences prefs;
   List<String>? _subscriptions = [];
 
   List<String> get subscriptions =>
       (this._subscriptions == null) ? [] : this._subscriptions!;
 
-  createPrefReference() async {
+  Future<void> createPrefReference() async {
     this.prefs = await SharedPreferences.getInstance();
   }
 
