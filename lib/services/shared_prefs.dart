@@ -37,6 +37,7 @@ class SharedPreferencesService extends DataBaseService {
   SharedPreferencesService() {
     createPrefReference();
     getSubscriptions();
+    print('creating instance of shared preferences');
   }
   late SharedPreferences prefs;
   List<String>? _subscriptions = [];
