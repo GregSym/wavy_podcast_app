@@ -50,8 +50,13 @@ class SharedPreferencesService extends DataBaseService {
   }
 
   /// updates subscriptions
-  Future<void> getSubscriptions() async =>
+  Future<void> getSubscriptions() async {
+    try {
       _subscriptions = this.prefs.getStringList('subscriptions');
+    } catch (e) {
+      this.setSubscriptions([]);
+    }
+  }
 
   /// sets subscription storage to a new list
   Future<void> setSubscriptions(List<String> newSubscriptionList) async =>
