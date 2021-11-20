@@ -82,6 +82,8 @@ void main() {
       prefs: await SharedPreferences.getInstance(),
     ));
 
+    expect(find.byWidget(CircularProgressIndicator()), findsOneWidget);
+
     expect(find.byIcon(Icons.add), findsOneWidget);
     expect(find.byIcon(Icons.check), findsNothing);
 
