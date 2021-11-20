@@ -58,8 +58,10 @@ class SharedPreferencesService extends DataBaseService {
   }
 
   /// sets subscription storage to a new list
-  Future<void> setSubscriptions(List<String> newSubscriptionList) async =>
-      this.prefs.setStringList('subscriptions', newSubscriptionList);
+  Future<void> setSubscriptions(List<String> newSubscriptionList) async => this
+      .prefs
+      .setStringList('subscriptions', newSubscriptionList)
+      .then((value) => this._subscriptions = newSubscriptionList.toList());
 
   /// adds a single subscription to the old list
   Future<void> addSubscription(String subscriptionUri) async {
