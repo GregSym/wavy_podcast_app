@@ -6,9 +6,9 @@ class UserDialogue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SimpleDialog(
+      title: Text('Signed Out'),
       children: [
-        Text('Signed out'),
         TextButton.icon(
             onPressed: null,
             icon: Icon(Icons.open_in_browser),

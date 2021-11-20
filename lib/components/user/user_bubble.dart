@@ -12,7 +12,7 @@ class UserBubble extends StatelessWidget {
     return IconButton(
       onPressed: () =>
           showDialog(context: context, builder: (context) => UserDialogue()),
-      icon: Icon(Icons.circle),
+      icon: Icon(Icons.account_circle),
       iconSize: Reactivity.userIconHeight(context),
     );
   }
