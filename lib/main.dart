@@ -8,10 +8,10 @@ import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
+Future<void> main() async {
   // Beamer.setPathUrlStrategy();  // has some issues in deployment
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-
+  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(MyApp(
     prefs: prefs,

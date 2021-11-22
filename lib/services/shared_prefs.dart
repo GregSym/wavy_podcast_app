@@ -42,20 +42,26 @@ class SharedPreferencesService extends DataBaseService {
   }
   List<String>? _subscriptions = [];
 
-  List<String> get subscriptions =>
-      (this._subscriptions == null) ? [] : this._subscriptions!;
+  List<String> get subscriptions => this._subscriptions ?? [];
 
   Future<void> createPrefReference() async {
     this.prefs = await SharedPreferences.getInstance();
   }
 
   /// updates subscriptions
-  Future<void> getSubscriptions() async =>
+  Future<void> getSubscriptions() async {
+    try {
       _subscriptions = this.prefs.getStringList('subscriptions');
+    } catch (e) {
+      this.setSubscriptions(this._subscriptions ?? []);
+    }
+  }
 
   /// sets subscription storage to a new list
-  Future<void> setSubscriptions(List<String> newSubscriptionList) async =>
-      this.prefs.setStringList('subscriptions', newSubscriptionList);
+  Future<void> setSubscriptions(List<String> newSubscriptionList) async => this
+      .prefs
+      .setStringList('subscriptions', newSubscriptionList)
+      .then((value) => this._subscriptions = newSubscriptionList.toList());
 
   /// adds a single subscription to the old list
   Future<void> addSubscription(String subscriptionUri) async {
@@ -73,6 +79,6 @@ class SharedPreferencesService extends DataBaseService {
     }
     _subscriptions!.removeWhere((element) => element == subscriptionUri);
     await this.prefs.remove('subscriptions');
-    await this.setSubscriptions(_subscriptions!);
+    await this.setSubscriptions(_subscriptions ?? []);
   }
 }
