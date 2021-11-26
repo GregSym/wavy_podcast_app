@@ -1,4 +1,6 @@
+import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
+import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 class PodcastViewModel {
@@ -13,6 +15,25 @@ class PodcastViewModel {
     selectedFeed = this.feedList.first;
     selectedItem = this.itemList.first;
     this.createItemList();
+  }
+
+  Future<void> createFeedList() async {
+    List<PodcastInfo> _tempFeedList = [];
+    for (String url in this.urlList) {
+      RssFeed rssFeed = await NetworkOperations.parseUrl(url);
+      if (rssFeed.items != null)
+        _tempFeedList.add(PodcastInfo(
+            link: url, rssFeed: rssFeed, rssItem: rssFeed.items!.first));
+    }
+    this.feedList = _tempFeedList;
+
+    // sort feeds by last publish date
+    this.feedList.sort((feedOne, feedTwo) =>
+        (feedOne.rssFeed!.items != null && feedTwo.rssFeed!.items != null)
+            ? feedTwo.rssFeed!.items!.first.pubDate!
+                .compareTo(feedOne.rssFeed!.items!.first.pubDate!)
+            : feedTwo.rssFeed!.syndication!.updateBase!
+                .compareTo(feedOne.rssFeed!.syndication!.updateBase!));
   }
 
   void createItemList() {

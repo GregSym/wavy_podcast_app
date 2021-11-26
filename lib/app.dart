@@ -34,6 +34,7 @@ class MaterialAppEntryPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      restorationScopeId: 'wavy_podcasting_app',
       title: 'Flutter Demo',
       theme:
           // _theme.getTheme,

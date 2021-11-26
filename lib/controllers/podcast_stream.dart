@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:flutter_podcast_app/models/podcast_src.dart';
+import 'package:flutter_podcast_app/models/podcast_view_model.dart';
 import 'package:flutter_podcast_app/services/database_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:webfeed/webfeed.dart';
@@ -15,6 +16,7 @@ class Podcast with ChangeNotifier {
   Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
   PodcastInfo? _selectedItem;
+  PodcastViewModel? _podcastViewModel;
   //late Map<String, bool> downloadStatus; // part of the excluded download
   String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
@@ -22,6 +24,10 @@ class Podcast with ChangeNotifier {
 
   PodcastSource _source = PodcastSource(srcLink: mockSrcs);
   PodcastSource get sources => _source;
+
+  PodcastViewModel get podcastViewModel =>
+      this._podcastViewModel ??
+      PodcastViewModel(urlList: this._source.srcLink, feedList: []);
 
   bool get isLoading => _loading;
 
