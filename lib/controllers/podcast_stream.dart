@@ -5,9 +5,13 @@ import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:flutter_podcast_app/models/podcast_src.dart';
 import 'package:flutter_podcast_app/models/podcast_view_model.dart';
 import 'package:flutter_podcast_app/services/database_manager.dart';
+import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
+
+/// flag for view model generation
+enum SelectedGeneration { all, explore, subscriptions }
 
 class Podcast with ChangeNotifier {
   final BuildContext context;
@@ -17,6 +21,8 @@ class Podcast with ChangeNotifier {
   RssFeed? _feed;
   PodcastInfo? _selectedItem;
   PodcastViewModel? _podcastViewModel;
+  PodcastViewModel? _subscriptionViewModel;
+  PodcastViewModel? _exploreViewModel;
   //late Map<String, bool> downloadStatus; // part of the excluded download
   String url =
       'https://feeds.simplecast.com/wjQvYtdl'; //mbmbam probably exists, right?
@@ -25,9 +31,40 @@ class Podcast with ChangeNotifier {
   PodcastSource _source = PodcastSource(srcLink: mockSrcs);
   PodcastSource get sources => _source;
 
-  PodcastViewModel get podcastViewModel => this._podcastViewModel ??
-      PodcastViewModel(urlList: this._source.srcLink, feedList: [])
-    ..createFeedList();
+  PodcastViewModel? get podcastViewModel =>
+      context.read<StateTracker>().feedSelection == FeedSelection.explore
+          ? this._exploreViewModel
+          : this._subscriptionViewModel;
+
+  /// generic tool for generating view models of podcasts from a link to their
+  /// feed stored as a string
+  Future<PodcastViewModel> _generateViewModel(List<String> urls) async {
+    List<PodcastInfo> _exploreFeeds = [];
+    for (Future<RssFeed> futureFeed
+        in urls.map((url) async => await NetworkOperations.parseUrl(url))) {
+      RssFeed feed = await futureFeed;
+      if (feed.items != null)
+        _exploreFeeds.add(PodcastInfo(
+          link: url,
+          rssFeed: feed,
+          rssItem: feed.items!.first,
+        ));
+    }
+    return PodcastViewModel(urlList: mockSrcs, feedList: _exploreFeeds);
+  }
+
+  /// Generates all view models, by default. Should be called on start up
+  void generateViewModels(
+      [SelectedGeneration selectedGeneration = SelectedGeneration.all]) async {
+    if (selectedGeneration == SelectedGeneration.all ||
+        selectedGeneration == SelectedGeneration.explore)
+      this._exploreViewModel = await this._generateViewModel(mockSrcs);
+    if (selectedGeneration == SelectedGeneration.all ||
+        selectedGeneration == SelectedGeneration.subscriptions)
+      this._subscriptionViewModel = await this._generateViewModel(
+          this.context.read<DataBaseManager>().subscriptions);
+    notifyListeners();
+  }
 
   bool get isLoading => _loading;
 
@@ -110,5 +147,16 @@ class Podcast with ChangeNotifier {
         : itemTwo.rssFeed!.syndication!.updateBase!
             .compareTo(itemOne.rssFeed!.syndication!.updateBase!)); // fallback
     return _subscriptionFeed;
+  }
+
+  setupListeners() {
+    context.read<DataBaseManager>().addListener(() {
+      // regenerate subscription view model on change to subscription list
+      List<String> _subs = context.read<DataBaseManager>().subscriptions;
+      if (!(this._subscriptionViewModel!.urlList.length == _subs.length &&
+          this._subscriptionViewModel!.urlList.contains(_subs.length))) {
+        this.generateViewModels(SelectedGeneration.subscriptions);
+      }
+    });
   }
 }
