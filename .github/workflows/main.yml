@@ -34,6 +34,8 @@ jobs:
   
     # Get flutter dependencies.
     - run: flutter pub get
+    # run tests before doing any builds
+    - run: flutter test
     # create the release version of the site on the virtual machine
     - run: flutter build web
     
