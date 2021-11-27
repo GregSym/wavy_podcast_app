@@ -25,9 +25,9 @@ class Podcast with ChangeNotifier {
   PodcastSource _source = PodcastSource(srcLink: mockSrcs);
   PodcastSource get sources => _source;
 
-  PodcastViewModel get podcastViewModel =>
-      this._podcastViewModel ??
-      PodcastViewModel(urlList: this._source.srcLink, feedList: []);
+  PodcastViewModel get podcastViewModel => this._podcastViewModel ??
+      PodcastViewModel(urlList: this._source.srcLink, feedList: [])
+    ..createFeedList();
 
   bool get isLoading => _loading;
 
@@ -111,21 +111,4 @@ class Podcast with ChangeNotifier {
             .compareTo(itemOne.rssFeed!.syndication!.updateBase!)); // fallback
     return _subscriptionFeed;
   }
-  /*
-  void download(RssItem item) async {
-    final client = http.Client();
-    final req = http.Request("GET", Uri.parse(item.enclosure.url));
-    final res = await client.send(req);
-    if (res.statusCode != 200) {
-      throw Exception('Unexpected HTTP code: ${res.statusCode}');
-    }
-    res.stream.listen((bytes) {
-      print("Received ${bytes.length} bytes");
-    });
-    final file = File(await _getDownloadDirectory());
-    res.stream
-        .pipe(file.openWrite())
-        .whenComplete(() => print('Downloading complete'));
-  }
-  */
 }
