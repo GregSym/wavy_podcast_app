@@ -13,6 +13,21 @@ import 'package:http/http.dart' as http;
 /// flag for view model generation
 enum SelectedGeneration { all, explore, subscriptions }
 
+Future<PodcastViewModel> podcastViewModelFactory(List<String> srcs) async {
+  List<Future<PodcastInfo>> _futureFeedList = await srcs.map((src) async {
+    var feed = await NetworkOperations.parseUrl(src);
+    return await PodcastInfo(
+      link: src,
+      rssFeed: feed,
+      rssItem: feed.items!.first,
+    );
+  }).toList();
+  List<PodcastInfo> _feedList = [];
+  for (Future<PodcastInfo> futureFeed in _futureFeedList)
+    _feedList.add(await futureFeed);
+  return PodcastViewModel(urlList: srcs, feedList: _feedList);
+}
+
 class Podcast with ChangeNotifier {
   final BuildContext context;
   Podcast(this.context);
@@ -55,7 +70,8 @@ class Podcast with ChangeNotifier {
 
   /// Generates all view models, by default. Should be called on start up
   void generateViewModels(
-      [SelectedGeneration selectedGeneration = SelectedGeneration.all]) async {
+      [SelectedGeneration selectedGeneration = SelectedGeneration.all,
+      bool notifyOnCompletion = true]) async {
     if (selectedGeneration == SelectedGeneration.all ||
         selectedGeneration == SelectedGeneration.explore)
       this._exploreViewModel = await this._generateViewModel(mockSrcs);
@@ -63,7 +79,7 @@ class Podcast with ChangeNotifier {
         selectedGeneration == SelectedGeneration.subscriptions)
       this._subscriptionViewModel = await this._generateViewModel(
           this.context.read<DataBaseManager>().subscriptions);
-    notifyListeners();
+    if (notifyOnCompletion) notifyListeners();
   }
 
   bool get isLoading => _loading;
@@ -149,14 +165,26 @@ class Podcast with ChangeNotifier {
     return _subscriptionFeed;
   }
 
+  /// Sets up links to higher order providers
   setupListeners() {
-    context.read<DataBaseManager>().addListener(() {
+    // links to Database Management
+    this.context.read<DataBaseManager>().addListener(() {
       // regenerate subscription view model on change to subscription list
       List<String> _subs = context.read<DataBaseManager>().subscriptions;
       if (!(this._subscriptionViewModel!.urlList.length == _subs.length &&
           this._subscriptionViewModel!.urlList.contains(_subs.length))) {
-        this.generateViewModels(SelectedGeneration.subscriptions);
+        this.generateViewModels(
+            SelectedGeneration.subscriptions,
+            // notify listeners when subscription feed is selected as those
+            // will be on screen under that circumstance
+            context.read<StateTracker>().feedSelection ==
+                FeedSelection.subscription);
       }
+    });
+    // links to the State Tracker object
+    this.context.read<StateTracker>().addListener(() {
+      // propogate listener update in response to the state
+      notifyListeners();
     });
   }
 }
