@@ -65,7 +65,7 @@ class Podcast with ChangeNotifier {
           rssItem: feed.items!.first,
         ));
     }
-    return PodcastViewModel(urlList: mockSrcs, feedList: _exploreFeeds);
+    return PodcastViewModel(urlList: urls, feedList: _exploreFeeds);
   }
 
   /// Generates all view models, by default. Should be called on start up
