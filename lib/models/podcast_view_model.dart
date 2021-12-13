@@ -10,12 +10,12 @@ class PodcastViewModel {
   List<PodcastInfo> feedList;
   late PodcastInfo selectedFeed;
   List<PodcastInfo> itemList = [];
-  late PodcastInfo selectedItem;
+  late PodcastInfo? selectedItem;
 
   /// Model to draw from for displaying podcast info
   PodcastViewModel({required this.urlList, required this.feedList}) {
     selectedFeed = this.feedList.first;
-    selectedItem = this.itemList.first;
+    // selectedItem = this.itemList.first;
     this.initMethod();
   }
 

@@ -14,7 +14,9 @@ class Transitions {
     var podRef = context.read<Podcast>();
     podRef.setLoading();
     podRef.url = link;
-    context.read<Podcast>().parse();
+    podRef.feed = podRef.podcastViewModel!.feedList
+        .firstWhere((info) => (info.link! == link))
+        .rssFeed;
     if (withNavigation) Beamer.of(context).beamToNamed('/');
   }
 
@@ -37,12 +39,12 @@ class Transitions {
       Beamer.of(context).beamToNamed('/settings');
 
   static void transitionToSubscriptions(BuildContext context) {
-    context.read<Podcast>().showSubscriptions();
+    context.read<Podcast>().generateViewModels();
     context.read<StateTracker>().feedSelection = FeedSelection.subscription;
   }
 
   static void transitionToExplore(BuildContext context) {
-    context.read<Podcast>().showExplore();
+    context.read<Podcast>().generateViewModels();
     context.read<StateTracker>().feedSelection = FeedSelection.explore;
   }
 }

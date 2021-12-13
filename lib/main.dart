@@ -33,11 +33,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => DataBaseManager(prefs: prefs)),
         // track selected feeds and items
-        ChangeNotifierProvider(
-          create: (context) => Podcast(context)
-            ..parse()
-            ..multiParse(),
-        ),
+        ChangeNotifierProvider(create: (context) => Podcast(context)
+            // ..parse()
+            // ..multiParse(),
+            ),
         // provide the media player across multiple screens in the app
         ChangeNotifierProvider(
           create: (context) => PodcastPlayerController()

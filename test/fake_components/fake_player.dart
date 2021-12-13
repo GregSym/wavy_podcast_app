@@ -15,11 +15,10 @@ class FakePlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => FakePodcast(context)
-            ..parse()
-            ..multiParse(),
-        ),
+        ChangeNotifierProvider(create: (context) => FakePodcast(context)
+            // ..parse()
+            // ..multiParse(),
+            ),
         ChangeNotifierProvider(
           create: (context) => FakeController()
             ..setupListeners()

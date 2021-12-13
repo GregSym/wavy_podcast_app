@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:flutter_podcast_app/models/podcast_src.dart';
@@ -38,7 +37,9 @@ Future<PodcastViewModel> podcastViewModelFactory(List<String> srcs,
 
 class Podcast with ChangeNotifier {
   final BuildContext context;
-  Podcast(this.context);
+  Podcast(this.context) {
+    this.generateViewModels();
+  }
   bool _loading = false;
   Map<String, RssFeed?> _multiFeed = {};
   RssFeed? _feed;
@@ -77,12 +78,13 @@ class Podcast with ChangeNotifier {
   }
 
   /// Generates all view models, by default. Should be called on start up
-  void generateViewModels(
+  Future<void> generateViewModels(
       [SelectedGeneration selectedGeneration = SelectedGeneration.all,
       bool notifyOnCompletion = true]) async {
     if (selectedGeneration == SelectedGeneration.all ||
         selectedGeneration == SelectedGeneration.explore)
-      this._exploreViewModel = await this._generateViewModel(mockSrcs);
+      this._exploreViewModel =
+          await podcastViewModelFactory(mockSrcs, SelectedGeneration.explore);
     if (selectedGeneration == SelectedGeneration.all ||
         selectedGeneration == SelectedGeneration.subscriptions)
       this._subscriptionViewModel = await this._generateViewModel(
@@ -99,50 +101,61 @@ class Podcast with ChangeNotifier {
     }
   }
 
-  RssFeed? get feed => _feed;
-  void parse() async {
-    notifyListeners();
-    final res = await http.get(Uri.parse(
-        url)); // remember to parse the url string because they made the package worse?
-    final strXml = res.body;
-    _feed = RssFeed.parse(strXml);
-    if (_loading) _loading = false;
+  RssFeed? get feed => this.podcastViewModel != null
+      ? this.podcastViewModel!.selectedFeed.rssFeed
+      : null;
+  void set feed(RssFeed? rssFeed) {
+    this._exploreViewModel!.selectedFeed =
+        this._exploreViewModel!.feedList.firstWhere((info) {
+      return (info.rssFeed!.title == rssFeed!.title);
+    });
     notifyListeners();
   }
+  // void parse() async {
+  //   notifyListeners();
+  //   final res = await http.get(Uri.parse(
+  //       url)); // remember to parse the url string because they made the package worse?
+  //   final strXml = res.body;
+  //   _feed = RssFeed.parse(strXml);
+  //   if (_loading) _loading = false;
+  //   notifyListeners();
+  // }
 
-  PodcastInfo? get selectedItem => _selectedItem;
+  PodcastInfo? get selectedItem => this.podcastViewModel != null
+      ? this.podcastViewModel!.selectedItem
+      : null;
   set selectedItem(PodcastInfo? value) {
     _selectedItem = value;
     notifyListeners();
   }
 
-  Map<String, RssFeed?> get multiFeed => _multiFeed;
-  void multiParse() async {
-    for (String uri in _source.srcLink) {
-      final res = await http.get(Uri.parse(
-          uri)); // remember to parse the url string because they made the package worse?
-      final strXml = res.body;
-      _multiFeed.addEntries({uri: RssFeed.parse(strXml)}.entries);
-    }
+  // Map<String, RssFeed?> get multiFeed => _multiFeed;
+  // void multiParse() async {
+  //   for (String uri in _source.srcLink) {
+  //     final res = await http.get(Uri.parse(
+  //         uri)); // remember to parse the url string because they made the package worse?
+  //     final strXml = res.body;
+  //     _multiFeed.addEntries({uri: RssFeed.parse(strXml)}.entries);
+  //   }
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
-  showExplore() {
-    this._source = PodcastSource(srcLink: mockSrcs);
-    this.url = this._mockUrl;
-    this.parse();
-    this.multiParse();
-  }
+  // showExplore() {
+  //   this._source = PodcastSource(srcLink: mockSrcs);
+  //   this.url = this._mockUrl;
+  //   this.parse();
+  //   this.multiParse();
+  // }
 
-  showSubscriptions() {
-    this._source =
-        PodcastSource(srcLink: context.read<DataBaseManager>().subscriptions);
-    if (this._source.srcLink.isEmpty) return;
-    this.url = this._source.srcLink.first;
-    this.parse();
-    this.multiParse();
-  }
+  // showSubscriptions() {
+  //   this._source =
+  //       PodcastSource(srcLink: context.read<DataBaseManager>().subscriptions);
+  //   if (this._source.srcLink.isEmpty) return;
+  //   this.url = this._source.srcLink.first;
+  //   this.parse();
+  //   this.multiParse();
+  // }
 
   Future<List<PodcastInfo>> get subscriptionFeed async {
     List<PodcastInfo> _subscriptionFeed = [];
