@@ -89,6 +89,8 @@ class Podcast with ChangeNotifier {
         selectedGeneration == SelectedGeneration.subscriptions)
       this._subscriptionViewModel = await this._generateViewModel(
           this.context.read<DataBaseManager>().subscriptions);
+    if (_loading) _loading = false;
+    print(this._exploreViewModel!.selectedFeed);
     if (notifyOnCompletion) notifyListeners();
   }
 
