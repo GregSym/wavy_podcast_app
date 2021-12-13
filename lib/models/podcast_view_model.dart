@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:webfeed/domain/rss_feed.dart';
@@ -14,6 +16,11 @@ class PodcastViewModel {
   PodcastViewModel({required this.urlList, required this.feedList}) {
     selectedFeed = this.feedList.first;
     selectedItem = this.itemList.first;
+    this.initMethod();
+  }
+
+  Future<void> initMethod() async {
+    await this.createFeedList();
     this.createItemList();
   }
 
@@ -55,4 +62,22 @@ class PodcastViewModel {
             : itemTwo.rssFeed!.syndication!.updateBase!
                 .compareTo(itemOne.rssFeed!.syndication!.updateBase!));
   }
+}
+
+class FeedFocusViewModel extends PodcastViewModel {
+  FeedFocusViewModel(
+      {required List<String> urlList, required List<PodcastInfo> feedList})
+      : super(urlList: urlList, feedList: feedList);
+  @override
+  void createItemList() {
+    this.itemList = this
+        .selectedFeed
+        .rssFeed!
+        .items!
+        .map((item) => PodcastInfo(
+            link: this.selectedFeed.link,
+            rssFeed: this.selectedFeed.rssFeed,
+            rssItem: item))
+        .toList();
+  } // don't sort the items
 }
