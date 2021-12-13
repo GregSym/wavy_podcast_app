@@ -13,7 +13,12 @@ import 'package:http/http.dart' as http;
 /// flag for view model generation
 enum SelectedGeneration { all, explore, subscriptions }
 
-Future<PodcastViewModel> podcastViewModelFactory(List<String> srcs) async {
+/// Global factory for PodcastViewModels - I might need this elsewhere?
+/// - accepts a SelectedGeneration enum to request subclasses of the generic
+/// PodcastViewModel class - explore returns a FeedFocusViewModel with items from
+/// a single feed
+Future<PodcastViewModel> podcastViewModelFactory(List<String> srcs,
+    [SelectedGeneration selectedGeneration = SelectedGeneration.all]) async {
   List<Future<PodcastInfo>> _futureFeedList = await srcs.map((src) async {
     var feed = await NetworkOperations.parseUrl(src);
     return await PodcastInfo(
@@ -25,6 +30,9 @@ Future<PodcastViewModel> podcastViewModelFactory(List<String> srcs) async {
   List<PodcastInfo> _feedList = [];
   for (Future<PodcastInfo> futureFeed in _futureFeedList)
     _feedList.add(await futureFeed);
+  if (selectedGeneration == SelectedGeneration.explore)
+    return FeedFocusViewModel(
+        urlList: srcs, feedList: _feedList); // alt view model
   return PodcastViewModel(urlList: srcs, feedList: _feedList);
 }
 
@@ -186,5 +194,26 @@ class Podcast with ChangeNotifier {
       // propogate listener update in response to the state
       notifyListeners();
     });
+  }
+}
+
+/// alt class to highlight how the new podcast controller ought to work once I'm
+/// done with it
+class _PodcastStreamAlt with ChangeNotifier {
+  final BuildContext context;
+  _PodcastStreamAlt({required this.context});
+  PodcastViewModel? _podcastViewModel;
+  PodcastViewModel? _subscriptionViewModel;
+  PodcastViewModel? _exploreViewModel;
+
+  PodcastViewModel? get podcastViewModel =>
+      _podcastViewModel; // allow null here
+
+  generateViewModels() async {
+    this._exploreViewModel =
+        await podcastViewModelFactory(mockSrcs, SelectedGeneration.explore);
+    this._subscriptionViewModel = await podcastViewModelFactory(
+        this.context.read<DataBaseManager>().subscriptions);
+    notifyListeners();
   }
 }
