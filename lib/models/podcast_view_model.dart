@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:webfeed/domain/rss_feed.dart';
@@ -10,7 +8,7 @@ class PodcastViewModel {
   List<PodcastInfo> feedList;
   late PodcastInfo selectedFeed;
   List<PodcastInfo> itemList = [];
-  late PodcastInfo? selectedItem;
+  PodcastInfo? selectedItem;
 
   /// Model to draw from for displaying podcast info
   PodcastViewModel({required this.urlList, required this.feedList}) {
