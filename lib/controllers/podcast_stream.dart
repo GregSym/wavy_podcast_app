@@ -16,32 +16,45 @@ enum SelectedGeneration { all, explore, subscriptions }
 /// - accepts a SelectedGeneration enum to request subclasses of the generic
 /// PodcastViewModel class - explore returns a FeedFocusViewModel with items from
 /// a single feed
-Future<PodcastViewModel> podcastViewModelFactory(List<String> srcs,
+Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
     [SelectedGeneration selectedGeneration = SelectedGeneration.all]) async {
+  List<String> _badSrcs = [];
   List<Future<PodcastInfo>> _futureFeedList = await srcs.map((src) async {
-    var feed = await NetworkOperations.parseUrl(src);
-    print(feed.items!.first.title);
-    if (feed.items != null)
-      return await PodcastInfo(
-        link: src,
-        rssFeed: feed,
-        rssItem: feed.items!.first,
-      );
-    return await PodcastInfo(link: src, rssFeed: feed);
+    try {
+      var feed = await NetworkOperations.parseUrl(src);
+      print(feed.items!.first.title);
+      if (feed.items != null)
+        return await PodcastInfo(
+          link: src,
+          rssFeed: feed,
+          rssItem: feed.items!.first,
+        );
+      return PodcastInfo();
+    } on Exception catch (error) {
+      // exception goes off inside the RssFeed object?
+      print(error);
+      _badSrcs.add(src);
+      return PodcastInfo();
+    }
   }).toList();
+  srcs.removeWhere((src) => _badSrcs.contains(src)); // remove list of bad srcs
   List<PodcastInfo> _feedList = [];
-  for (Future<PodcastInfo> futureFeed in _futureFeedList)
-    _feedList.add(await futureFeed);
-  if (selectedGeneration == SelectedGeneration.explore)
-    return FeedFocusViewModel(
-        urlList: srcs, feedList: _feedList); // alt view model
-  return PodcastViewModel(urlList: srcs, feedList: _feedList);
+  for (Future<PodcastInfo> futureFeed in _futureFeedList) {
+    var awaitedFeed = await futureFeed;
+    if (awaitedFeed.rssFeed != null) _feedList.add(awaitedFeed);
+  }
+  if (_feedList.isNotEmpty) {
+    if (selectedGeneration == SelectedGeneration.explore)
+      return FeedFocusViewModel(
+          urlList: srcs, feedList: _feedList); // alt view model
+    return PodcastViewModel(urlList: srcs, feedList: _feedList);
+  }
 }
 
 class Podcast with ChangeNotifier {
   final BuildContext context;
   Podcast(this.context) {
-    this.generateViewModels();
+    this.generateViewModels(); // calling view model setup on startup
   }
   bool _loading = false;
   Map<String, RssFeed?> _multiFeed = {};
@@ -76,7 +89,7 @@ class Podcast with ChangeNotifier {
       this._subscriptionViewModel = await podcastViewModelFactory(
           this.context.read<DataBaseManager>().subscriptions);
     if (_loading) _loading = false;
-    print(this._exploreViewModel!.selectedFeed);
+    print(this._exploreViewModel!.selectedFeed.rssFeed!.title);
     if (notifyOnCompletion) notifyListeners();
   }
 

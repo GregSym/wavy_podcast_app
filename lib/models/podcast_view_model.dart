@@ -18,19 +18,19 @@ class PodcastViewModel {
   }
 
   Future<void> initMethod() async {
-    await this.createFeedList();
+    await this.createFeedList(); // so, I prolly don't need to do this here?
     this.createItemList();
   }
 
   Future<void> createFeedList() async {
-    List<PodcastInfo> _tempFeedList = [];
-    for (String url in this.urlList) {
-      RssFeed rssFeed = await NetworkOperations.parseUrl(url);
-      if (rssFeed.items != null)
-        _tempFeedList.add(PodcastInfo(
-            link: url, rssFeed: rssFeed, rssItem: rssFeed.items!.first));
-    }
-    this.feedList = _tempFeedList;
+    // List<PodcastInfo> _tempFeedList = [];
+    // for (String url in this.urlList) {
+    //   RssFeed rssFeed = await NetworkOperations.parseUrl(url);
+    //   if (rssFeed.items != null)
+    //     _tempFeedList.add(PodcastInfo(
+    //         link: url, rssFeed: rssFeed, rssItem: rssFeed.items!.first));
+    // }
+    // this.feedList = _tempFeedList;
 
     // sort feeds by last publish date
     this.feedList.sort((feedOne, feedTwo) =>
@@ -68,14 +68,16 @@ class FeedFocusViewModel extends PodcastViewModel {
       : super(urlList: urlList, feedList: feedList);
   @override
   void createItemList() {
-    this.itemList = this
-        .selectedFeed
-        .rssFeed!
-        .items!
-        .map((item) => PodcastInfo(
-            link: this.selectedFeed.link,
-            rssFeed: this.selectedFeed.rssFeed,
-            rssItem: item))
-        .toList();
+    if (this.selectedFeed.rssFeed != null &&
+        this.selectedFeed.rssFeed!.items != null)
+      this.itemList = this
+          .selectedFeed
+          .rssFeed!
+          .items!
+          .map((item) => PodcastInfo(
+              link: this.selectedFeed.link,
+              rssFeed: this.selectedFeed.rssFeed,
+              rssItem: item))
+          .toList();
   } // don't sort the items
 }
