@@ -20,11 +20,14 @@ Future<PodcastViewModel> podcastViewModelFactory(List<String> srcs,
     [SelectedGeneration selectedGeneration = SelectedGeneration.all]) async {
   List<Future<PodcastInfo>> _futureFeedList = await srcs.map((src) async {
     var feed = await NetworkOperations.parseUrl(src);
-    return await PodcastInfo(
-      link: src,
-      rssFeed: feed,
-      rssItem: feed.items!.first,
-    );
+    print(feed.items!.first.title);
+    if (feed.items != null)
+      return await PodcastInfo(
+        link: src,
+        rssFeed: feed,
+        rssItem: feed.items!.first,
+      );
+    return await PodcastInfo(link: src, rssFeed: feed);
   }).toList();
   List<PodcastInfo> _feedList = [];
   for (Future<PodcastInfo> futureFeed in _futureFeedList)
@@ -60,23 +63,6 @@ class Podcast with ChangeNotifier {
           ? this._exploreViewModel
           : this._subscriptionViewModel;
 
-  /// generic tool for generating view models of podcasts from a link to their
-  /// feed stored as a string
-  Future<PodcastViewModel> _generateViewModel(List<String> urls) async {
-    List<PodcastInfo> _exploreFeeds = [];
-    for (Future<RssFeed> futureFeed
-        in urls.map((url) async => await NetworkOperations.parseUrl(url))) {
-      RssFeed feed = await futureFeed;
-      if (feed.items != null)
-        _exploreFeeds.add(PodcastInfo(
-          link: url,
-          rssFeed: feed,
-          rssItem: feed.items!.first,
-        ));
-    }
-    return PodcastViewModel(urlList: urls, feedList: _exploreFeeds);
-  }
-
   /// Generates all view models, by default. Should be called on start up
   Future<void> generateViewModels(
       [SelectedGeneration selectedGeneration = SelectedGeneration.all,
@@ -87,7 +73,7 @@ class Podcast with ChangeNotifier {
           await podcastViewModelFactory(mockSrcs, SelectedGeneration.explore);
     if (selectedGeneration == SelectedGeneration.all ||
         selectedGeneration == SelectedGeneration.subscriptions)
-      this._subscriptionViewModel = await this._generateViewModel(
+      this._subscriptionViewModel = await podcastViewModelFactory(
           this.context.read<DataBaseManager>().subscriptions);
     if (_loading) _loading = false;
     print(this._exploreViewModel!.selectedFeed);
@@ -99,6 +85,9 @@ class Podcast with ChangeNotifier {
   void setLoading() {
     if (!_loading) {
       _loading = true;
+      notifyListeners();
+    } else {
+      _loading = false;
       notifyListeners();
     }
   }
@@ -127,7 +116,8 @@ class Podcast with ChangeNotifier {
       ? this.podcastViewModel!.selectedItem
       : null;
   set selectedItem(PodcastInfo? value) {
-    _selectedItem = value;
+    this._exploreViewModel!.selectedItem = value;
+    this._subscriptionViewModel!.selectedItem = value;
     notifyListeners();
   }
 

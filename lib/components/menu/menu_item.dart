@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/functions/transitions.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
-import 'package:provider/provider.dart';
-import 'package:webfeed/domain/rss_item.dart';
 
 class PodcastMenuItem extends StatelessWidget {
   final PodcastInfo podcastInfo;

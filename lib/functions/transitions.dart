@@ -17,6 +17,7 @@ class Transitions {
     podRef.feed = podRef.podcastViewModel!.feedList
         .firstWhere((info) => (info.link! == link))
         .rssFeed;
+    podRef.setLoading();
     if (withNavigation) Beamer.of(context).beamToNamed('/');
   }
 

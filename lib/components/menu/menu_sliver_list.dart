@@ -11,7 +11,7 @@ class MenuListSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Podcast>(
         builder: (context, _podcast, _) =>
-            _podcast.feed == null || _podcast.isLoading
+            _podcast.podcastViewModel == null || _podcast.isLoading
                 ? SliverToBoxAdapter(
                     child: Center(child: CircularProgressIndicator()))
                 : SliverList(
