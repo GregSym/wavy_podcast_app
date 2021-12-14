@@ -53,6 +53,20 @@ class PodcastViewModel {
                 .compareTo(feedOne.rssFeed!.syndication!.updateBase!));
   }
 
+  addFeed(PodcastInfo podcastInfoFeed) {
+    if (this.feedList.any((feed) => feed.link == podcastInfoFeed.link))
+      this.feedList.add(podcastInfoFeed);
+    this.createFeedList();
+    this.createItemList();
+  }
+
+  removeFeed(PodcastInfo podcastInfoFeed) {
+    if (this.feedList.any((feed) => feed.link == podcastInfoFeed.link))
+      this.feedList.removeWhere((feed) => feed.link == podcastInfoFeed.link);
+    this.createFeedList();
+    this.createItemList();
+  }
+
   void createItemList() {
     for (PodcastInfo _givenFeed in this.feedList) {
       if (_givenFeed.rssFeed != null) break;

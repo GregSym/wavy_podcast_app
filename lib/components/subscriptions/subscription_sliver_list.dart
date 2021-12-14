@@ -5,6 +5,8 @@ import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:provider/provider.dart';
 
+/// so, i forgot this has a futurebuilder but this has a futurebuilder:
+/// that's its main distinction from the other type of feed
 class SubscriptionListSliver extends StatelessWidget {
   const SubscriptionListSliver({Key? key}) : super(key: key);
 

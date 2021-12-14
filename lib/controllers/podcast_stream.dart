@@ -54,6 +54,7 @@ class Podcast with ChangeNotifier {
   final BuildContext context;
   Podcast(this.context) {
     this.generateViewModels(); // calling view model setup on startup
+    this.setupListeners();
   }
   bool _loading = false;
   Map<String, RssFeed?> _multiFeed = {};
@@ -201,21 +202,39 @@ class Podcast with ChangeNotifier {
     this.context.read<DataBaseManager>().addListener(() {
       // regenerate subscription view model on change to subscription list
       List<String> _subs = context.read<DataBaseManager>().subscriptions;
-      if (!(this._subscriptionViewModel!.urlList.length == _subs.length &&
-          this._subscriptionViewModel!.urlList.contains(_subs.length))) {
-        this.generateViewModels(
-            SelectedGeneration.subscriptions,
-            // notify listeners when subscription feed is selected as those
-            // will be on screen under that circumstance
-            context.read<StateTracker>().feedSelection ==
-                FeedSelection.subscription);
+      List<PodcastInfo> cachedSubs = [];
+      if (this._exploreViewModel != null)
+        cachedSubs = _subs
+            .map((sub) => this
+                ._exploreViewModel!
+                .feedList
+                .where((element) => element.link == sub)
+                .first)
+            .toList();
+      if (this._subscriptionViewModel != null) {
+        cachedSubs.forEach((podcastInfoFeed) {
+          this._subscriptionViewModel!.addFeed(podcastInfoFeed);
+        });
+        notifyListeners();
       }
+
+      // more network intensive solution that simply runs all requests again
+
+      // if (!(this._subscriptionViewModel!.urlList.length == _subs.length &&
+      //     this._subscriptionViewModel!.urlList.contains(_subs.length))) {
+      //   this.generateViewModels(
+      //       SelectedGeneration.subscriptions,
+      //       // notify listeners when subscription feed is selected as those
+      //       // will be on screen under that circumstance
+      //       context.read<StateTracker>().feedSelection ==
+      //           FeedSelection.subscription);
+      // }
     });
     // links to the State Tracker object
-    this.context.read<StateTracker>().addListener(() {
-      // propogate listener update in response to the state
-      notifyListeners();
-    });
+    // this.context.read<StateTracker>().addListener(() {
+    //   // propogate listener update in response to the state
+    //   notifyListeners();
+    // });
   }
 }
 
