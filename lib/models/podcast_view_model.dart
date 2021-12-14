@@ -19,7 +19,19 @@ class PodcastViewModel {
 
   Future<void> initMethod() async {
     await this.createFeedList(); // so, I prolly don't need to do this here?
+    selectedFeed = this.feedList.first;
     this.createItemList();
+  }
+
+  /// sets the model from a fresher version
+  set model(PodcastViewModel? newModel) {
+    if (newModel != null) {
+      this.urlList = newModel.urlList;
+      this.feedList = newModel.feedList;
+      this.selectedFeed = newModel.selectedFeed;
+      this.itemList = newModel.itemList;
+      this.selectedItem = newModel.selectedItem ?? this.selectedItem;
+    }
   }
 
   Future<void> createFeedList() async {

@@ -81,12 +81,18 @@ class Podcast with ChangeNotifier {
       bool notifyOnCompletion = true]) async {
     if (selectedGeneration == SelectedGeneration.all ||
         selectedGeneration == SelectedGeneration.explore)
-      this._exploreViewModel =
-          await podcastViewModelFactory(mockSrcs, SelectedGeneration.explore);
+      this._exploreViewModel == null
+          ? this._exploreViewModel = await podcastViewModelFactory(
+              mockSrcs, SelectedGeneration.explore)
+          : this._exploreViewModel!.model = await podcastViewModelFactory(
+              mockSrcs, SelectedGeneration.explore);
     if (selectedGeneration == SelectedGeneration.all ||
         selectedGeneration == SelectedGeneration.subscriptions)
-      this._subscriptionViewModel = await podcastViewModelFactory(
-          this.context.read<DataBaseManager>().subscriptions);
+      this._subscriptionViewModel == null
+          ? this._subscriptionViewModel = await podcastViewModelFactory(
+              this.context.read<DataBaseManager>().subscriptions)
+          : this._subscriptionViewModel!.model = await podcastViewModelFactory(
+              this.context.read<DataBaseManager>().subscriptions);
     if (_loading) _loading = false;
     if (notifyOnCompletion) notifyListeners();
   }
