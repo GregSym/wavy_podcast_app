@@ -22,7 +22,6 @@ Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
   List<Future<PodcastInfo>> _futureFeedList = await srcs.map((src) async {
     try {
       var feed = await NetworkOperations.parseUrl(src);
-      print(feed.items!.first.title);
       if (feed.items != null)
         return await PodcastInfo(
           link: src,
@@ -89,7 +88,6 @@ class Podcast with ChangeNotifier {
       this._subscriptionViewModel = await podcastViewModelFactory(
           this.context.read<DataBaseManager>().subscriptions);
     if (_loading) _loading = false;
-    print(this._exploreViewModel!.selectedFeed.rssFeed!.title);
     if (notifyOnCompletion) notifyListeners();
   }
 
