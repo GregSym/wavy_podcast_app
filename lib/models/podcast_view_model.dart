@@ -53,10 +53,10 @@ class PodcastViewModel {
                 .compareTo(feedOne.rssFeed!.syndication!.updateBase!));
   }
 
-  addFeed(PodcastInfo podcastInfoFeed) {
+  Future<void> addFeed(PodcastInfo podcastInfoFeed) async {
     if (this.feedList.any((feed) => feed.link == podcastInfoFeed.link))
       this.feedList.add(podcastInfoFeed);
-    this.createFeedList();
+    await this.createFeedList();
     this.createItemList();
   }
 

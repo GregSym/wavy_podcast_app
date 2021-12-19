@@ -199,24 +199,30 @@ class Podcast with ChangeNotifier {
   /// Sets up links to higher order providers
   setupListeners() {
     // links to Database Management
+    List<PodcastInfo> cachedSubs = [];
     this.context.read<DataBaseManager>().addListener(() {
       // regenerate subscription view model on change to subscription list
-      List<String> _subs = context.read<DataBaseManager>().subscriptions;
-      List<PodcastInfo> cachedSubs = [];
-      if (this._exploreViewModel != null)
-        cachedSubs = _subs
-            .map((sub) => this
-                ._exploreViewModel!
-                .feedList
-                .where((element) => element.link == sub)
-                .first)
-            .toList();
-      if (this._subscriptionViewModel != null) {
-        cachedSubs.forEach((podcastInfoFeed) {
-          this._subscriptionViewModel!.addFeed(podcastInfoFeed);
-        });
-        notifyListeners();
-      }
+      this.generateViewModels(SelectedGeneration.subscriptions, false);
+
+      // version that attempts to append to view model, needs factory refactor
+      // List<String> _subs = context.read<DataBaseManager>().subscriptions;
+      // if (this._exploreViewModel != null)
+      //   cachedSubs = _subs
+      //       .map((sub) => this
+      //           ._exploreViewModel!
+      //           .feedList
+      //           .where((podcastInfoFeed) => podcastInfoFeed.link == sub)
+      //           .first)
+      //       .toList();
+      // if (this._subscriptionViewModel != null) {
+      //   cachedSubs.forEach((podcastInfoFeed) {
+      //     this
+      //         ._subscriptionViewModel!
+      //         .addFeed(podcastInfoFeed)
+      //         .then((value) => notifyListeners());
+      //   });
+      // } else
+      //   this.generateViewModels(SelectedGeneration.subscriptions);
 
       // more network intensive solution that simply runs all requests again
 
