@@ -114,11 +114,34 @@ class Podcast with ChangeNotifier {
       ? this.podcastViewModel!.selectedFeed.rssFeed
       : null;
   void set feed(RssFeed? rssFeed) {
-    this._exploreViewModel!.selectedFeed =
-        this._exploreViewModel!.feedList.firstWhere((info) {
-      return (info.rssFeed!.title == rssFeed!.title);
-    });
+    if (this._exploreViewModel != null)
+      this._exploreViewModel!.selectedFeed =
+          this._exploreViewModel!.feedList.firstWhere((info) {
+        return (info.rssFeed!.title == rssFeed!.title);
+      }, orElse: () => this._exploreViewModel!.selectedFeed);
     notifyListeners();
+  }
+
+  void setFeedFromString(String src) {
+    if (this._exploreViewModel != null)
+      this._exploreViewModel!.selectedFeed = this
+          ._exploreViewModel!
+          .feedList
+          .firstWhere((info) => info.link == src,
+              orElse: () => this._exploreViewModel!.selectedFeed);
+  }
+
+  void setFeedFromTitle(String title) {
+    if (this._exploreViewModel != null) {
+      this._exploreViewModel!.selectedFeed = this
+          ._exploreViewModel!
+          .feedList
+          .firstWhere(
+              (info) =>
+                  info.rssFeed!.title!.toUpperCase() == title.toUpperCase(),
+              orElse: () => this._exploreViewModel!.selectedFeed);
+      notifyListeners();
+    }
   }
   // void parse() async {
   //   notifyListeners();

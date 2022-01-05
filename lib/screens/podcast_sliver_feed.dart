@@ -5,6 +5,8 @@ import 'package:flutter_podcast_app/components/screen_scaffold/expand_with_botto
 import 'package:flutter_podcast_app/components/screen_scaffold/side_menu_attachment.dart';
 import 'package:flutter_podcast_app/components/subscriptions/subscription_sliver_assembly.dart';
 import 'package:flutter_podcast_app/components/tab_menu/tab_menu.dart';
+import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
+import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 
@@ -12,10 +14,25 @@ import 'package:provider/provider.dart';
 /// * wraps a podcast feed in the various reactive elements that handle menu
 /// item layout for different screen size
 class PodcastSliverFeed extends StatelessWidget {
-  const PodcastSliverFeed({Key? key}) : super(key: key);
+  final String rssSrc;
+  final String title;
+  const PodcastSliverFeed({Key? key, this.rssSrc = "", this.title = ""})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (this.title != "") {
+      String _title = this.title.replaceAll(RegExp(r'_'), " ");
+      print('received coms from path parameters!');
+      print(_title);
+      context.watch<Podcast>().setFeedFromTitle(_title);
+    }
+    if (this.rssSrc != "") {
+      print('received coms from path parameters!');
+      print(this.rssSrc);
+      context.watch<Podcast>().setFeedFromString(this.rssSrc);
+    }
+
     return Scaffold(
       body: ExpandWithBottomWidget(
         child: BodyWithPlayer(
