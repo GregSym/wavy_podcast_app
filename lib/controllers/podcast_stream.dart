@@ -45,8 +45,8 @@ Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
   if (_feedList.isNotEmpty) {
     if (selectedGeneration == SelectedGeneration.explore)
       return FeedFocusViewModel(
-          urlList: srcs, feedList: _feedList); // alt view model
-    return PodcastViewModel(urlList: srcs, feedList: _feedList);
+          urlList: srcs.toSet(), feedList: _feedList); // alt view model
+    return PodcastViewModel(urlList: srcs.toSet(), feedList: _feedList);
   }
 }
 

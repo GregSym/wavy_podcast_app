@@ -1,10 +1,8 @@
-import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/models/podcast_info.dart';
-import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 class PodcastViewModel {
-  List<String> urlList;
+  Set<String> urlList;
   List<PodcastInfo> feedList;
   late PodcastInfo selectedFeed;
   List<PodcastInfo> itemList = [];
@@ -90,7 +88,7 @@ class PodcastViewModel {
 
 class FeedFocusViewModel extends PodcastViewModel {
   FeedFocusViewModel(
-      {required List<String> urlList, required List<PodcastInfo> feedList})
+      {required Set<String> urlList, required List<PodcastInfo> feedList})
       : super(urlList: urlList, feedList: feedList);
   @override
   void createItemList() {
