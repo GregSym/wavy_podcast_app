@@ -10,6 +10,7 @@ class PrimaryColourSelection with ChangeNotifier {
   late String _imgString;
   late ImageProvider _img;
   ThemeMode _themeMode = ThemeMode.system;
+  Map<String, Color> _cache = {};
   PrimaryColourSelection({required this.context}) {
     context.read<Podcast>().addListener(() async {
       await this.update();
@@ -33,10 +34,15 @@ class PrimaryColourSelection with ChangeNotifier {
   /// courtesy of Kym
   /// @ https://stackoverflow.com/questions/50449610/pick-main-color-from-picture
   Future<void> getImagePalette() async {
+    if (this._cache.containsKey(this._imgString)) {
+      _dominantColor = this._cache[this._imgString] ?? Colors.yellow;
+      return;
+    }
     final PaletteGenerator paletteGenerator =
         await PaletteGenerator.fromImageProvider(_img);
     if (paletteGenerator.dominantColor != null) {
       _dominantColor = paletteGenerator.dominantColor!.color;
+      this._cache[this._imgString] = _dominantColor;
     }
   }
 
