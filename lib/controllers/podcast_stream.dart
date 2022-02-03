@@ -17,6 +17,7 @@ Stream<PodcastViewModel?> podcastViewModelStream(List<String> srcs,
   List<String> _badSrcs = [];
   List<PodcastInfo> _podcastInfoFutures = [];
   for (String src in srcs) {
+    print(src);
     try {
       var feed = await NetworkOperations.parseUrl(src);
       if (feed.items != null) {
@@ -25,20 +26,21 @@ Stream<PodcastViewModel?> podcastViewModelStream(List<String> srcs,
           rssFeed: feed,
           rssItem: feed.items!.first,
         ));
-        yield selectedGeneration == SelectedGeneration.explore
-            ? FeedFocusViewModel(
-                urlList: srcs.toSet(), feedList: _podcastInfoFutures)
-            : PodcastViewModel(
-                urlList: srcs.toSet(), feedList: _podcastInfoFutures);
       }
     } on Exception catch (error) {
       // exception goes off inside the RssFeed object?
-      print(error);
+      print("$error from stream version");
       _badSrcs.add(src);
       // return PodcastInfo();
     }
+    srcs.removeWhere(
+        (src) => _badSrcs.contains(src)); // remove list of bad srcs
+    yield selectedGeneration == SelectedGeneration.explore
+        ? FeedFocusViewModel(
+            urlList: srcs.toSet(), feedList: _podcastInfoFutures)
+        : PodcastViewModel(
+            urlList: srcs.toSet(), feedList: _podcastInfoFutures);
   }
-  srcs.removeWhere((src) => _badSrcs.contains(src)); // remove list of bad srcs
 }
 
 /// Global factory for PodcastViewModels - I might need this elsewhere?
@@ -60,7 +62,7 @@ Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
       return PodcastInfo();
     } on Exception catch (error) {
       // exception goes off inside the RssFeed object?
-      print(error);
+      print("$error: from factory");
       _badSrcs.add(src);
       return PodcastInfo();
     }
@@ -252,10 +254,21 @@ class Podcast with ChangeNotifier {
   setupListeners() {
     // links to Database Management
     List<PodcastInfo> cachedSubs = [];
-    podcastViewModelStream(mockSrcs, SelectedGeneration.explore).listen(
-        (event) => event != null
-            ? print(event.selectedFeed.rssFeed!.title)
-            : print("Empty stream item"));
+    // podcastViewModelStream(mockSrcs, SelectedGeneration.explore)
+    //     .listen((event) {
+    //   event != null
+    //       ? this._exploreViewModel = event
+    //       : print("Empty stream item");
+    //   notifyListeners();
+    // });
+    // podcastViewModelStream(this.context.read<DataBaseManager>().subscriptions,
+    //         SelectedGeneration.subscriptions)
+    //     .listen((event) {
+    //   event != null
+    //       ? this._subscriptionViewModel = event
+    //       : print("Empty stream item");
+    //   notifyListeners();
+    // });
     this.context.read<DataBaseManager>().addListener(() {
       // regenerate subscription view model on change to subscription list
       this.generateViewModels(SelectedGeneration.subscriptions, false);
