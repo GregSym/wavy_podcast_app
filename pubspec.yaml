@@ -38,6 +38,7 @@ dependencies:
 
   # audioplayers: ^0.19.1 # seems to have some issues on web
   just_audio: ^0.9.17
+  just_audio_libwinmedia: ^0.0.4  # endorsed by just_audio project for targeting win+linux
   
   http: ^0.13.1
 
