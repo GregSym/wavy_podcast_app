@@ -31,6 +31,7 @@ Currently working on a simple backend using python to update a Cloud Firestore D
 
 # Other significant TODOs:
 
+* Add more caching (alternatively, roll back to a lighter weight version)
 * Add proper testing
 * finish frontend subscription stuff
 * Add proper platform boilerplate, version numbering, icons, tab labels, etc
