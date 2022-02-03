@@ -7,10 +7,39 @@ import 'package:flutter_podcast_app/services/database_manager.dart';
 import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 import 'package:webfeed/webfeed.dart';
-import 'package:http/http.dart' as http;
 
 /// flag for view model generation
 enum SelectedGeneration { all, explore, subscriptions }
+
+/// Stream implementation of PodcastViewModel Factory
+Stream<PodcastViewModel?> podcastViewModelStream(List<String> srcs,
+    [SelectedGeneration selectedGeneration = SelectedGeneration.all]) async* {
+  List<String> _badSrcs = [];
+  List<PodcastInfo> _podcastInfoFutures = [];
+  for (String src in srcs) {
+    try {
+      var feed = await NetworkOperations.parseUrl(src);
+      if (feed.items != null) {
+        _podcastInfoFutures.add(await PodcastInfo(
+          link: src,
+          rssFeed: feed,
+          rssItem: feed.items!.first,
+        ));
+        yield selectedGeneration == SelectedGeneration.explore
+            ? FeedFocusViewModel(
+                urlList: srcs.toSet(), feedList: _podcastInfoFutures)
+            : PodcastViewModel(
+                urlList: srcs.toSet(), feedList: _podcastInfoFutures);
+      }
+    } on Exception catch (error) {
+      // exception goes off inside the RssFeed object?
+      print(error);
+      _badSrcs.add(src);
+      // return PodcastInfo();
+    }
+  }
+  srcs.removeWhere((src) => _badSrcs.contains(src)); // remove list of bad srcs
+}
 
 /// Global factory for PodcastViewModels - I might need this elsewhere?
 /// - accepts a SelectedGeneration enum to request subclasses of the generic
@@ -223,6 +252,10 @@ class Podcast with ChangeNotifier {
   setupListeners() {
     // links to Database Management
     List<PodcastInfo> cachedSubs = [];
+    podcastViewModelStream(mockSrcs, SelectedGeneration.explore).listen(
+        (event) => event != null
+            ? print(event.selectedFeed.rssFeed!.title)
+            : print("Empty stream item"));
     this.context.read<DataBaseManager>().addListener(() {
       // regenerate subscription view model on change to subscription list
       this.generateViewModels(SelectedGeneration.subscriptions, false);
