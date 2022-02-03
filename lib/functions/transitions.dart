@@ -14,7 +14,10 @@ class Transitions {
     var podRef = context.read<Podcast>();
     podRef.setLoading();
     podRef.url = link;
-    context.read<Podcast>().parse();
+    podRef.feed = podRef.podcastViewModel!.feedList
+        .firstWhere((info) => (info.link! == link))
+        .rssFeed;
+    podRef.setLoading();
     if (withNavigation) Beamer.of(context).beamToNamed('/');
   }
 
@@ -37,12 +40,19 @@ class Transitions {
       Beamer.of(context).beamToNamed('/settings');
 
   static void transitionToSubscriptions(BuildContext context) {
-    context.read<Podcast>().showSubscriptions();
+    // context
+    //     .read<Podcast>()
+    //     .generateViewModels(SelectedGeneration.explore, false);
+    // so we're avoiding the appearance of a double loading screen
+    // (which comes from the switch duration on web + the notifyListeners call
+    // after the completion of the request) by loading alternately and not calling
+    // notify
     context.read<StateTracker>().feedSelection = FeedSelection.subscription;
   }
 
   static void transitionToExplore(BuildContext context) {
-    context.read<Podcast>().showExplore();
+    // context.read<Podcast>().generateViewModels(SelectedGeneration.subscriptions,
+    //     false); // should reduce lag on transition
     context.read<StateTracker>().feedSelection = FeedSelection.explore;
   }
 }

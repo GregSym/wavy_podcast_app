@@ -20,7 +20,7 @@ class PodcastFeed extends StatelessWidget {
         child: Scaffold(
       body: Center(
           child: Consumer<Podcast>(
-        builder: (context, _podcast, _) => _podcast.feed == null
+        builder: (context, _podcast, _) => _podcast.podcastViewModel == null
             ? CircularProgressIndicator()
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -29,17 +29,16 @@ class PodcastFeed extends StatelessWidget {
                   MenuHeader(),
                   Expanded(
                     child: ListView(
-                      children: _podcast.feed!.items!
-                          .map((rssItem) => PodcastMenuItem(
-                                podcastInfo: PodcastInfo(
-                                    link: _podcast.url,
-                                    rssFeed: _podcast.feed,
-                                    rssItem: rssItem),
+                      children: _podcast.podcastViewModel!.itemList
+                          .map((podcastInfoItem) => PodcastMenuItem(
+                                podcastInfo: podcastInfoItem,
                               ))
                           .toList(),
                     ),
                   ),
-                  _podcast.selectedItem == null ? Container() : MiniPlayer()
+                  _podcast.podcastViewModel!.selectedItem == null
+                      ? Container()
+                      : MiniPlayer()
                 ],
               ),
       )),

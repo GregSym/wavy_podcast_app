@@ -2,7 +2,7 @@ import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
-/// basic class containing all critical info noted so far
+/// Minimum info about a given podcast to build any view
 class PodcastInfo {
   String? link;
   RssFeed? rssFeed;

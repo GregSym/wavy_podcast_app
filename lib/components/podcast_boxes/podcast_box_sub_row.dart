@@ -9,11 +9,11 @@ class PodcastBoxSubsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.read<Podcast>().multiFeed.isEmpty ||
+    if (context.read<Podcast>().podcastViewModel!.feedList.isEmpty ||
         context
             .read<Podcast>()
-            .multiFeed
-            .values
+            .podcastViewModel!
+            .feedList
             .any((element) => element == null)) return Container();
     return Container(
       height: Reactivity.menuItemHeight(context) * 1.3,
@@ -21,9 +21,12 @@ class PodcastBoxSubsRow extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: context
             .read<Podcast>()
-            .multiFeed
-            .entries
-            .map((feed) => PodcastBox(rssFeed: feed))
+            .podcastViewModel!
+            .feedList
+            .map((podcastInfoFeed) => PodcastBox(
+                rssFeed: {podcastInfoFeed.link!: podcastInfoFeed.rssFeed}
+                    .entries
+                    .first))
             .toList(),
       ),
     );

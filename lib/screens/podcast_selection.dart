@@ -11,14 +11,17 @@ class PodcastMenuScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Consumer<Podcast>(
-            builder: (context, _podcast, _) => _podcast.multiFeed.length == 0
-                ? CircularProgressIndicator()
-                : ListView(
-                    children: _podcast.multiFeed.entries
-                        .map((source) => FeedMenuItem(
-                            link: source.key, rssFeed: source.value!))
-                        .toList(),
-                  )),
+            builder: (context, _podcast, _) =>
+                _podcast.podcastViewModel == null ||
+                        _podcast.podcastViewModel!.feedList == 0
+                    ? CircularProgressIndicator()
+                    : ListView(
+                        children: _podcast.podcastViewModel!.feedList
+                            .map((podcastInfoFeed) => FeedMenuItem(
+                                link: podcastInfoFeed.link!,
+                                rssFeed: podcastInfoFeed.rssFeed!))
+                            .toList(),
+                      )),
       ),
     );
   }

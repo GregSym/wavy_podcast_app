@@ -25,7 +25,7 @@ class FeedMenuItem extends StatelessWidget {
   _feedSelectionHandler(BuildContext context) {
     var podRef = context.read<Podcast>();
     podRef.url = link;
-    context.read<Podcast>().parse();
+    podRef.feed = rssFeed;
     Navigator.of(context).pushNamed('/');
   }
 }
