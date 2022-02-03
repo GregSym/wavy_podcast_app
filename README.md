@@ -37,11 +37,18 @@ Currently working on a simple backend using python to update a Cloud Firestore D
 * Add proper platform boilerplate, version numbering, icons, tab labels, etc
 
 # Tested on:
-<ul>
-<li>
-    Web
-</li>
+<ol>
 <li>    
     Android 11
 </li>
-</ul>
+<li>
+    Web
+</li>
+<li>
+    Windows 10
+</li>
+</ol>
+
+## Notes:
+
+There is no platform implementation for audio on Windows 10 and consequently, while the build will run, it will not play media. It has occurred to me that this is a somewhat crucial issue to solve for a podcast application.
