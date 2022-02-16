@@ -31,16 +31,26 @@ Currently working on a simple backend using python to update a Cloud Firestore D
 
 # Other significant TODOs:
 
+* Add more caching (alternatively, roll back to a lighter weight version)
 * Add proper testing
 * finish frontend subscription stuff
 * Add proper platform boilerplate, version numbering, icons, tab labels, etc
 
 # Tested on:
-<ul>
-<li>
-    Web
-</li>
+<ol>
 <li>    
     Android 11
 </li>
-</ul>
+<li>
+    Web
+</li>
+<li>
+    Windows 10
+</li>
+</ol>
+
+## Notes:
+
+There is still no notifications solution for Windows in the build
+
+Notification support has also recently got better on just_audio, possibly to the degree that dropping better_player may be viable for targeting mobile (see above diatribe about stacked media players)

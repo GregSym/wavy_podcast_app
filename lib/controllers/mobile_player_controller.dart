@@ -68,7 +68,7 @@ class MobilePlayerController extends GenericController {
 
     String audioSrc = rssItem.enclosure!.url!;
     String? trackTitle = rssItem.title;
-    String? trackAuthor = rssItem.author;
+    String? trackAuthor = FeedAnalysisFunctions.authorFromItem(rssItem);
     String? trackImage = FeedAnalysisFunctions.imageFromPodcastInfo(
         PodcastInfo(rssFeed: this.currentFeed, rssItem: this.currentTrack));
     // if (rssItem.itunes != null) {

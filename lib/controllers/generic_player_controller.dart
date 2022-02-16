@@ -25,6 +25,7 @@ class GenericController with ChangeNotifier {
 
   void setContext(BuildContext context) => this.context = context;
 
+  /// get the controller type returned for this category of device
   AudioPlayerTypes get podcastController => AudioPlayerTypes();
   bool get isInitialized => false;
 

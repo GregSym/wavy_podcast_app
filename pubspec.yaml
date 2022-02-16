@@ -37,8 +37,11 @@ dependencies:
            # not sure how that affects null safety
 
   # audioplayers: ^0.19.1 # seems to have some issues on web
+  # probably the widest device type support:
   just_audio: ^0.9.17
-  
+  just_audio_libwinmedia: ^0.0.4  # endorsed by just_audio project for targeting win+linux
+  just_audio_background: ^0.0.1-beta.4  # support for simpler notification setup
+
   http: ^0.13.1
 
   better_player: ^0.0.79  # the best flutter based media player - breaks on android for a lot of versions tho

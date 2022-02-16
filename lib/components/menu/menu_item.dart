@@ -20,7 +20,9 @@ class PodcastMenuItem extends StatelessWidget {
             : Image.network(podcastInfo.rssFeed!.image!.url ?? _fallbackImage),
       ),
       title: Text(podcastInfo.rssItem!.title ?? "Missing title info"),
-      subtitle: Text(podcastInfo.rssItem!.author ?? "Missing publishing info"),
+      subtitle: Text(podcastInfo.rssItem != null
+          ? FeedAnalysisFunctions.authorFromItem(podcastInfo.rssItem!)
+          : "Missing Publisher Info"),
       trailing: Icon(Icons.play_arrow_rounded),
       onTap: () =>
           // _handlePodcastSelection(context)
