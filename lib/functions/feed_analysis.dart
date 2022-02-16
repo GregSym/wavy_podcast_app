@@ -6,6 +6,16 @@ import 'package:webfeed/domain/rss_feed.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 class FeedAnalysisFunctions {
+  static String authorFromItem(RssItem rssItem) {
+    if (rssItem.itunes != null) {
+      return rssItem.itunes!.author ??
+          // rssItem.itunes!.subtitle ??
+          rssItem.author ??
+          "Missing Publisher Info";
+    }
+    return rssItem.author ?? "Missing Publisher Info";
+  }
+
   static bool hasIndividualEpisodeImage(RssItem rssItem) {
     if (rssItem.itunes != null) {
       if (rssItem.itunes!.image != null) {
