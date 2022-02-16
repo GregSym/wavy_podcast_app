@@ -5,6 +5,7 @@ import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/services/color_service.dart';
 import 'package:flutter_podcast_app/services/database_manager.dart';
 import 'package:flutter_podcast_app/services/state_trackers.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +14,11 @@ Future<void> main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   runApp(MyApp(
     prefs: prefs,
   ));

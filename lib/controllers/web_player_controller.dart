@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter_podcast_app/constants/images_resources.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
 import 'package:flutter_podcast_app/models/audio_player_types.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:webfeed/domain/rss_item.dart';
 
 class WebPlayerController extends GenericController {
@@ -56,7 +58,19 @@ class WebPlayerController extends GenericController {
   set currentTrack(RssItem rssItem) {
     super.currentTrack = rssItem;
     String audioSrc = rssItem.enclosure!.url!;
-    _webController.setUrl(audioSrc);
+    // _webController.setUrl(audioSrc);
+    _webController.setAudioSource(AudioSource.uri(Uri.parse(audioSrc),
+        tag: MediaItem(
+          id: audioSrc,
+          title: rssItem.title ?? "No Title Given",
+          album: rssItem.itunes != null
+              ? rssItem.itunes!.author ?? "No Author Given"
+              : "No Author Found",
+          artUri: Uri.parse(
+              rssItem.itunes != null && rssItem.itunes!.image != null
+                  ? rssItem.itunes!.image!.href ?? ImgResources.fallbackImgUri
+                  : ImgResources.fallbackImgUri),
+        )));
   }
 
   @override
