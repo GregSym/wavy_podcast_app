@@ -189,7 +189,7 @@ class Podcast with ChangeNotifier {
       : null;
   set selectedItem(PodcastInfo? value) {
     this._exploreViewModel!.selectedItem = value;
-    this._subscriptionViewModel!.selectedItem = value;
+    this._subscriptionViewModel?.selectedItem = value;
     notifyListeners();
   }
 
