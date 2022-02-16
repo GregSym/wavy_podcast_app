@@ -51,4 +51,6 @@ Currently working on a simple backend using python to update a Cloud Firestore D
 
 ## Notes:
 
-There is no platform implementation for audio on Windows 10 and consequently, while the build will run, it will not play media. It has occurred to me that this is a somewhat crucial issue to solve for a podcast application.
+There is still no notifications solution for Windows in the build
+
+Notification support has also recently got better on just_audio, possibly to the degree that dropping better_player may be viable for targeting mobile (see above diatribe about stacked media players)
