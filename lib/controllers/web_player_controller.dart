@@ -4,6 +4,7 @@ import 'package:flutter_podcast_app/constants/images_resources.dart';
 import 'package:flutter_podcast_app/controllers/generic_player_controller.dart';
 import 'package:flutter_podcast_app/functions/feed_analysis.dart';
 import 'package:flutter_podcast_app/models/audio_player_types.dart';
+import 'package:flutter_podcast_app/models/podcast_info.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:webfeed/domain/rss_item.dart';
@@ -68,10 +69,9 @@ class WebPlayerController extends GenericController {
               ? this.currentFeed!.title ?? "Podcast Name Not Found"
               : FeedAnalysisFunctions.authorFromItem(rssItem),
           artist: FeedAnalysisFunctions.authorFromItem(rssItem),
-          artUri: Uri.parse(
-              rssItem.itunes != null && rssItem.itunes!.image != null
-                  ? rssItem.itunes!.image!.href ?? ImgResources.fallbackImgUri
-                  : ImgResources.fallbackImgUri),
+          artUri: Uri.parse(FeedAnalysisFunctions.imageFromPodcastInfo(
+              PodcastInfo(
+                  rssFeed: this.currentFeed, rssItem: this.currentTrack))),
         )));
   }
 
