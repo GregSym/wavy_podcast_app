@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/components/controls_row.dart';
 import 'package:flutter_podcast_app/components/podcast_img.dart';
@@ -13,7 +14,11 @@ class PodcastPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (context.read<Podcast>().podcastViewModel == null) {
-      Navigator.pushNamed(context, '/');
+      Beamer.of(context).beamToNamed('/');
+      return Text("No Podcast Episode Selected");
+    }
+    if (context.read<Podcast>().podcastViewModel?.selectedItem == null) {
+      Beamer.of(context).beamToNamed('/');
       return Text("No Podcast Episode Selected");
     }
     return SafeArea(
