@@ -6,7 +6,6 @@ import 'package:flutter_podcast_app/components/screen_scaffold/side_menu_attachm
 import 'package:flutter_podcast_app/components/subscriptions/subscription_sliver_assembly.dart';
 import 'package:flutter_podcast_app/components/tab_menu/tab_menu.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
-import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 
