@@ -18,7 +18,7 @@ class AnimatedAppThemeWrapper extends StatelessWidget {
     return AnimatedBuilder(
         animation: context.watch<PrimaryColourSelection>(),
         builder: (context, child) {
-          return MaterialAppEntryPoint();
+          return const MaterialAppEntryPoint();
         });
   }
 }

@@ -21,7 +21,7 @@ Stream<PodcastViewModel?> podcastViewModelStream(List<String> srcs,
     try {
       var feed = await NetworkOperations.parseUrl(src);
       if (feed.items != null) {
-        _podcastInfoFutures.add(await PodcastInfo(
+        _podcastInfoFutures.add(PodcastInfo(
           link: src,
           rssFeed: feed,
           rssItem: feed.items!.first,
@@ -74,9 +74,9 @@ Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
     if (awaitedFeed.rssFeed != null) _feedList.add(awaitedFeed);
   }
   if (_feedList.isNotEmpty) {
-    if (selectedGeneration == SelectedGeneration.explore)
-      return FeedFocusViewModel(
-          urlList: srcs.toSet(), feedList: _feedList); // alt view model
+    if (selectedGeneration == SelectedGeneration.explore) {
+      return FeedFocusViewModel(urlList: srcs.toSet(), feedList: _feedList);
+    } // alt view model
     return PodcastViewModel(urlList: srcs.toSet(), feedList: _feedList);
   }
 }
