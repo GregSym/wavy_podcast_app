@@ -25,19 +25,22 @@ class PodcastPlayer extends StatelessWidget {
         child: Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.background,
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            PodcastImage(),
-            PodcastTitelInfo(),
-            PodcastTimestamp(),
-            PodcastSlider(),
-            PodcastControlsRow(),
-          ],
+      body: Container(
+        color: Theme.of(context).colorScheme.background,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              PodcastImage(),
+              PodcastTitelInfo(),
+              PodcastTimestamp(),
+              PodcastSlider(),
+              PodcastControlsRow(),
+            ],
+          ),
         ),
       ),
     ));

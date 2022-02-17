@@ -21,7 +21,7 @@ class Reactivity {
       Reactivity.height(context) / 3;
 
   static double headerImageHeight(BuildContext context) =>
-      Reactivity.height(context) / 10;
+      Reactivity.height(context) / 10 + 8;
 
   /*
   App Bar params ---------etc
