@@ -15,11 +15,11 @@ class PodcastPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     if (context.read<Podcast>().podcastViewModel == null) {
       Beamer.of(context).beamToNamed('/');
-      return Text("No Podcast Episode Selected");
+      return const Text("No Podcast Episode Selected");
     }
     if (context.read<Podcast>().podcastViewModel?.selectedItem == null) {
       Beamer.of(context).beamToNamed('/');
-      return Text("No Podcast Episode Selected");
+      return const Text("No Podcast Episode Selected");
     }
     return SafeArea(
         child: Scaffold(
@@ -33,7 +33,7 @@ class PodcastPlayer extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+            children: const [
               PodcastImage(),
               PodcastTitelInfo(),
               PodcastTimestamp(),

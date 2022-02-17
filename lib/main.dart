@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => PrimaryColourSelection(context: context)),
       ],
-      child: AnimatedAppThemeWrapper(),
+      child: const AnimatedAppThemeWrapper(),
     );
   }
 }

@@ -33,6 +33,6 @@ class PodcastSlider extends StatelessWidget {
                           .seekTo(value)
                           .then((value) => _isInTransition = false);
                     })
-                : CircularProgressIndicator());
+                : const CircularProgressIndicator());
   }
 }

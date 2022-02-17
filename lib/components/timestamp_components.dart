@@ -21,14 +21,14 @@ class PodcastTimestamp extends StatelessWidget {
     return Consumer<PodcastPlayerController>(
       builder: (context, _podcastController, _) => justDuration
           ? Text(
-              "${_podcastController.durationDateTime}",
+              _podcastController.durationDateTime,
             )
           : positionAndDuration
               ? Text(
                   "${_podcastController.positionDateTime} / ${_podcastController.durationDateTime}",
                 )
               : Text(
-                  "${_podcastController.positionDateTime}",
+                  _podcastController.positionDateTime,
                 ),
     );
   }
