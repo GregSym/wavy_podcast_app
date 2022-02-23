@@ -14,7 +14,7 @@ class SideMenuAttachment extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SideMenu(),
+          const SideMenu(),
           Expanded(
             child: Reactivity.width(context) > StandardSizes.phoneWidth
                 ? _WideScreenFinish(child: child)

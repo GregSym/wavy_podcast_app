@@ -46,9 +46,12 @@ class PodcastBoxContents extends StatelessWidget {
                   // height: Reactivity.menuItemHeight(context) - 12.0,
                   fit: BoxFit.fitHeight,
                 )),
-            Text(
-              rssFeed.title ?? "Title",
-              overflow: TextOverflow.ellipsis,
+            Container(
+              height: 16,
+              child: Text(
+                rssFeed.title ?? "Title",
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

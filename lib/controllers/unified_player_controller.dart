@@ -7,24 +7,20 @@ import 'package:webfeed/domain/rss_item.dart';
 /// Unified Controller for adapting to different platforms
 /// and their respective player abilities
 class UnifiedPlayerController extends GenericController {
-  GenericController _podcastController = PlatformAnalysis.isMobile
+  final GenericController _podcastController = PlatformAnalysis.isMobile
       ? MobilePlayerController()
       : WebPlayerController();
 
   @override
-  // TODO: implement isInitialized
   bool get isInitialized => _podcastController.isInitialized;
 
   @override
-  // TODO: implement isPlaying
   bool get isPlaying => _podcastController.isPlaying;
 
   @override
-  // TODO: implement position
   double get position => _podcastController.position;
 
   @override
-  // TODO: implement duration
   double get duration => _podcastController.duration;
 
   @override
@@ -38,7 +34,6 @@ class UnifiedPlayerController extends GenericController {
       _podcastController.adaptiveSeekFunction(position);
 
   @override
-  // TODO: implement events
   get events => _podcastController.events;
 
   @override

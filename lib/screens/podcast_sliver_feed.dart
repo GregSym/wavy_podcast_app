@@ -6,7 +6,6 @@ import 'package:flutter_podcast_app/components/screen_scaffold/side_menu_attachm
 import 'package:flutter_podcast_app/components/subscriptions/subscription_sliver_assembly.dart';
 import 'package:flutter_podcast_app/components/tab_menu/tab_menu.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
-import 'package:flutter_podcast_app/functions/network_operations.dart';
 import 'package:flutter_podcast_app/services/state_trackers.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +20,16 @@ class PodcastSliverFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (this.title != "") {
-      String _title = this.title.replaceAll(RegExp(r'_'), " ");
+    if (title != "") {
+      String _title = title.replaceAll(RegExp(r'_'), " ");
       print('received coms from path parameters!');
       print(_title);
       context.watch<Podcast>().setFeedFromTitle(_title);
     }
-    if (this.rssSrc != "") {
+    if (rssSrc != "") {
       print('received coms from path parameters!');
-      print(this.rssSrc);
-      context.watch<Podcast>().setFeedFromString(this.rssSrc);
+      print(rssSrc);
+      context.watch<Podcast>().setFeedFromString(rssSrc);
     }
 
     return Scaffold(
@@ -39,10 +38,10 @@ class PodcastSliverFeed extends StatelessWidget {
           child: SideMenuAttachment(
               child: context.watch<StateTracker>().feedSelection ==
                       FeedSelection.explore
-                  ? PodcastMenuSliver()
-                  : SubscriptionMenuSliver()),
+                  ? const PodcastMenuSliver()
+                  : const SubscriptionMenuSliver()),
         ),
-        bottomWidget: TabMenuOptions(),
+        bottomWidget: const TabMenuOptions(),
       ),
     );
   }

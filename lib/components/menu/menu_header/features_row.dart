@@ -22,7 +22,7 @@ class MenuHeaderFeaturesRow extends StatelessWidget {
                       ? Icons.check
                       : Icons.add),
                 )),
-        IconButton(
+        const IconButton(
           onPressed: null,
           icon: Icon(Icons.circle),
         ),
@@ -32,7 +32,7 @@ class MenuHeaderFeaturesRow extends StatelessWidget {
                   ? await launch(context.read<Podcast>().feed!.link!)
                   : null
               : null,
-          icon: Icon(Icons.share),
+          icon: const Icon(Icons.share),
         ),
       ],
     );

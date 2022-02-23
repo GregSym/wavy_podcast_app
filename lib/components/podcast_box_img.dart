@@ -11,7 +11,7 @@ class PodcastBoxImg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (fromFeed) return PodcastBoxImgFromFeed();
+    if (fromFeed) return const PodcastBoxImgFromFeed();
     PodcastInfo? podcastInfo = context.watch<Podcast>().selectedItem;
     if (podcastInfo == null) return Container();
     return Image.network(
