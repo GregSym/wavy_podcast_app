@@ -51,6 +51,6 @@ Currently working on a simple backend using python to update a Cloud Firestore D
 
 ## Notes:
 
-The Windows notification solution doesn't _appear_ to include images, but that may simply be related to the image files its being sent right now.
+The Windows notification solution doesn't _appear_ to include images, but that may simply be related to the image files it's being sent right now.
 
 Notification support has also recently got better on just_audio, possibly to the degree that dropping better_player may be viable for targeting mobile (see above diatribe about stacked media players)
