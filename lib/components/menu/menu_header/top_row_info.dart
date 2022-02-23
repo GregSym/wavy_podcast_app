@@ -28,12 +28,12 @@ class MenuHeaderTopRow extends StatelessWidget {
                           _podcast.feed!.itunes!.author ?? 'author',
                           softWrap: true,
                         ),
-                        MenuHeaderFeaturesRow()
+                        const MenuHeaderFeaturesRow()
                       ],
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
-                      child: PodcastBoxImg(
+                      child: const PodcastBoxImg(
                         fromFeed: true,
                       ),
                     )
