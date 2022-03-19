@@ -12,12 +12,13 @@ class PodcastMenuSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(context.watch<Podcast>().podcastViewModel);
-    if (context.watch<Podcast>().podcastViewModel == null)
-      return Center(child: CircularProgressIndicator());
+    if (context.watch<Podcast>().podcastViewModel == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     print("rebuilt");
     return RefreshIndicator(
       onRefresh: () => context.read<Podcast>().generateViewModels(),
-      child: const CustomScrollView(
+      child: CustomScrollView(
         slivers: [
           MenuAppBarSliver(),
           PodcastBoxSliver(),

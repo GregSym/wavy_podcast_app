@@ -253,22 +253,25 @@ class Podcast with ChangeNotifier {
   /// Sets up links to higher order providers
   setupListeners() {
     // links to Database Management
+    /* 
+    stream version of podcast view model creation! 
+    */
     List<PodcastInfo> cachedSubs = [];
-    // podcastViewModelStream(mockSrcs, SelectedGeneration.explore)
-    //     .listen((event) {
-    //   event != null
-    //       ? this._exploreViewModel = event
-    //       : print("Empty stream item");
-    //   notifyListeners();
-    // });
-    // podcastViewModelStream(this.context.read<DataBaseManager>().subscriptions,
-    //         SelectedGeneration.subscriptions)
-    //     .listen((event) {
-    //   event != null
-    //       ? this._subscriptionViewModel = event
-    //       : print("Empty stream item");
-    //   notifyListeners();
-    // });
+    podcastViewModelStream(mockSrcs, SelectedGeneration.explore)
+        .listen((event) {
+      event != null
+          ? this._exploreViewModel = event
+          : print("Empty stream item");
+      notifyListeners();
+    });
+    podcastViewModelStream(this.context.read<DataBaseManager>().subscriptions,
+            SelectedGeneration.subscriptions)
+        .listen((event) {
+      event != null
+          ? this._subscriptionViewModel = event
+          : print("Empty stream item");
+      notifyListeners();
+    });
     this.context.read<DataBaseManager>().addListener(() {
       // regenerate subscription view model on change to subscription list
       this.generateViewModels(SelectedGeneration.subscriptions, false);
