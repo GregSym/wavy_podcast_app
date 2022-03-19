@@ -84,7 +84,8 @@ Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
 class Podcast with ChangeNotifier {
   final BuildContext context;
   Podcast(this.context) {
-    this.generateViewModels(); // calling view model setup on startup
+    this.generateViewModels(SelectedGeneration
+        .subscriptions); // calling view model setup on startup
     this.setupListeners();
   }
   bool _loading = false;
@@ -253,10 +254,11 @@ class Podcast with ChangeNotifier {
   /// Sets up links to higher order providers
   setupListeners() {
     // links to Database Management
+    // List<PodcastInfo> cachedSubs = [];
+
     /* 
     stream version of podcast view model creation! 
     */
-    List<PodcastInfo> cachedSubs = [];
     podcastViewModelStream(mockSrcs, SelectedGeneration.explore)
         .listen((event) {
       event != null

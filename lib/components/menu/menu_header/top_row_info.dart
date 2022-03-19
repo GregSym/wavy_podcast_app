@@ -28,7 +28,7 @@ class MenuHeaderTopRow extends StatelessWidget {
                           _podcast.feed!.itunes!.author ?? 'author',
                           softWrap: true,
                         ),
-                        const MenuHeaderFeaturesRow()
+                        MenuHeaderFeaturesRow()
                       ],
                     ),
                     ClipRRect(
