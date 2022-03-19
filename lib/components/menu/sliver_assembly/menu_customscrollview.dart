@@ -17,7 +17,7 @@ class PodcastMenuSliver extends StatelessWidget {
     print("rebuilt");
     return RefreshIndicator(
       onRefresh: () => context.read<Podcast>().generateViewModels(),
-      child: CustomScrollView(
+      child: const CustomScrollView(
         slivers: [
           MenuAppBarSliver(),
           PodcastBoxSliver(),
