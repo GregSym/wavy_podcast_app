@@ -50,15 +50,17 @@ Stream<PodcastViewModel?> podcastViewModelStream(List<String> srcs,
 Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
     [SelectedGeneration selectedGeneration = SelectedGeneration.all]) async {
   List<String> _badSrcs = [];
-  List<Future<PodcastInfo>> _futureFeedList = await srcs.map((src) async {
+  Iterable<Future<PodcastInfo>> _futureFeedList = await srcs.map((src) async {
     try {
+      print("parsing: $src");
       var feed = await NetworkOperations.parseUrl(src);
-      if (feed.items != null)
+      if (feed.items != null) {
         return await PodcastInfo(
           link: src,
           rssFeed: feed,
           rssItem: feed.items!.first,
         );
+      }
       return PodcastInfo();
     } on Exception catch (error) {
       // exception goes off inside the RssFeed object?
@@ -66,13 +68,15 @@ Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
       _badSrcs.add(src);
       return PodcastInfo();
     }
-  }).toList();
+  });
   srcs.removeWhere((src) => _badSrcs.contains(src)); // remove list of bad srcs
-  List<PodcastInfo> _feedList = [];
-  for (Future<PodcastInfo> futureFeed in _futureFeedList) {
-    var awaitedFeed = await futureFeed;
-    if (awaitedFeed.rssFeed != null) _feedList.add(awaitedFeed);
-  }
+  // List<PodcastInfo> _feedList = [];
+  print("Starting the request batch for $selectedGeneration! --------------");
+  List<PodcastInfo> _feedList = await Future.wait<PodcastInfo>(_futureFeedList);
+  // for (Future<PodcastInfo> futureFeed in _futureFeedList) {
+  //   var awaitedFeed = await futureFeed;
+  //   if (awaitedFeed.rssFeed != null) _feedList.add(awaitedFeed);
+  // }
   if (_feedList.isNotEmpty) {
     if (selectedGeneration == SelectedGeneration.explore) {
       return FeedFocusViewModel(urlList: srcs.toSet(), feedList: _feedList);
@@ -84,9 +88,8 @@ Future<PodcastViewModel?> podcastViewModelFactory(List<String> srcs,
 class Podcast with ChangeNotifier {
   final BuildContext context;
   Podcast(this.context) {
-    this.generateViewModels(SelectedGeneration
-        .subscriptions); // calling view model setup on startup
-    this.setupListeners();
+    generateViewModels(); // calling view model setup on startup
+    setupListeners();
   }
   bool _loading = false;
   Map<String, RssFeed?> _multiFeed = {};
@@ -113,19 +116,21 @@ class Podcast with ChangeNotifier {
       [SelectedGeneration selectedGeneration = SelectedGeneration.all,
       bool notifyOnCompletion = true]) async {
     if (selectedGeneration == SelectedGeneration.all ||
-        selectedGeneration == SelectedGeneration.explore)
-      this._exploreViewModel == null
-          ? this._exploreViewModel = await podcastViewModelFactory(
+        selectedGeneration == SelectedGeneration.explore) {
+      _exploreViewModel == null
+          ? _exploreViewModel = await podcastViewModelFactory(
               mockSrcs, SelectedGeneration.explore)
-          : this._exploreViewModel!.model = await podcastViewModelFactory(
+          : _exploreViewModel!.model = await podcastViewModelFactory(
               mockSrcs, SelectedGeneration.explore);
+    }
     if (selectedGeneration == SelectedGeneration.all ||
-        selectedGeneration == SelectedGeneration.subscriptions)
-      this._subscriptionViewModel == null
-          ? this._subscriptionViewModel = await podcastViewModelFactory(
-              this.context.read<DataBaseManager>().subscriptions)
-          : this._subscriptionViewModel!.model = await podcastViewModelFactory(
-              this.context.read<DataBaseManager>().subscriptions);
+        selectedGeneration == SelectedGeneration.subscriptions) {
+      _subscriptionViewModel == null
+          ? _subscriptionViewModel = await podcastViewModelFactory(
+              context.read<DataBaseManager>().subscriptions)
+          : _subscriptionViewModel!.model = await podcastViewModelFactory(
+              context.read<DataBaseManager>().subscriptions);
+    }
     if (_loading) _loading = false;
     if (notifyOnCompletion) notifyListeners();
   }
@@ -259,21 +264,21 @@ class Podcast with ChangeNotifier {
     /* 
     stream version of podcast view model creation! 
     */
-    podcastViewModelStream(mockSrcs, SelectedGeneration.explore)
-        .listen((event) {
-      event != null
-          ? this._exploreViewModel = event
-          : print("Empty stream item");
-      notifyListeners();
-    });
-    podcastViewModelStream(this.context.read<DataBaseManager>().subscriptions,
-            SelectedGeneration.subscriptions)
-        .listen((event) {
-      event != null
-          ? this._subscriptionViewModel = event
-          : print("Empty stream item");
-      notifyListeners();
-    });
+    // podcastViewModelStream(mockSrcs, SelectedGeneration.explore)
+    //     .listen((event) {
+    //   event != null
+    //       ? this._exploreViewModel = event
+    //       : print("Empty stream item");
+    //   notifyListeners();
+    // });
+    // podcastViewModelStream(this.context.read<DataBaseManager>().subscriptions,
+    //         SelectedGeneration.subscriptions)
+    //     .listen((event) {
+    //   event != null
+    //       ? this._subscriptionViewModel = event
+    //       : print("Empty stream item");
+    //   notifyListeners();
+    // });
     this.context.read<DataBaseManager>().addListener(() {
       // regenerate subscription view model on change to subscription list
       this.generateViewModels(SelectedGeneration.subscriptions, false);
