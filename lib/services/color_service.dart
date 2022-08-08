@@ -18,15 +18,16 @@ class PrimaryColourSelection with ChangeNotifier {
   }
   Color _dominantColor = Colors.blue;
   Future<void> update() async {
-    this.setImg();
-    await this.getImagePalette();
+    setImg();
+    await getImagePalette();
     notifyListeners();
   }
 
   void setImg() {
-    if (context.read<Podcast>().podcastViewModel != null)
+    if (context.read<Podcast>().podcastViewModel != null) {
       _imgString = FeedAnalysisFunctions.imageFromFeed(
           context.read<Podcast>().podcastViewModel!.selectedFeed.rssFeed);
+    }
     _img = NetworkImage(_imgString);
   }
 
