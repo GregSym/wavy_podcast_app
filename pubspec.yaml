@@ -39,7 +39,10 @@ dependencies:
   # audioplayers: ^0.19.1 # seems to have some issues on web
   # probably the widest device type support:
   just_audio: ^0.9.17
-  just_audio_libwinmedia: ^0.0.4  # endorsed by just_audio project for targeting win+linux
+  # just_audio_libwinmedia: ^0.0.4  # endorsed by just_audio project for targeting win+linux 
+  # - deprecated
+  just_audio_windows: ^0.1.0 # replacement of just_audio_libwinmedia
+  just_audio_mpv: ^0.1.4  # replaces linux support in just_audio_libwinmedia
   just_audio_background: ^0.0.1-beta.4  # support for simpler notification setup
 
   http: ^0.13.1
