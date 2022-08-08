@@ -10,10 +10,10 @@ class PrimaryColourSelection with ChangeNotifier {
   late String _imgString;
   late ImageProvider _img;
   ThemeMode _themeMode = ThemeMode.system;
-  Map<String, Color> _cache = {};
+  final Map<String, Color> _cache = {};
   PrimaryColourSelection({required this.context}) {
     context.read<Podcast>().addListener(() async {
-      await this.update();
+      await update();
     });
   }
   Color _dominantColor = Colors.blue;
@@ -35,27 +35,29 @@ class PrimaryColourSelection with ChangeNotifier {
   /// courtesy of Kym
   /// @ https://stackoverflow.com/questions/50449610/pick-main-color-from-picture
   Future<void> getImagePalette() async {
-    if (this._cache.containsKey(this._imgString)) {
-      _dominantColor = this._cache[this._imgString] ?? Colors.yellow;
+    if (_cache.containsKey(_imgString)) {
+      _dominantColor = _cache[_imgString] ?? Colors.yellow;
       return;
     }
     final PaletteGenerator paletteGenerator =
-        await PaletteGenerator.fromImageProvider(_img);
+        await PaletteGenerator.fromImageProvider(_img,
+            size: const Size(300, 300));
     if (paletteGenerator.dominantColor != null) {
       _dominantColor = paletteGenerator.dominantColor!.color;
-      this._cache[this._imgString] = _dominantColor;
+      _cache[_imgString] = _dominantColor;
     }
   }
 
   /// gets the default theme from the colour service
   ThemeData get getTheme => ThemeData(
-      primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor));
+      colorSchemeSeed: ColourManipulation.colorToMaterialColor(_dominantColor));
 
   /// gets a dark theme from the colour service class
   ThemeData get getDarkTheme =>
       // ThemeData.dark(); // basically does the same thing as turning down brightness
       ThemeData(
-        primarySwatch: ColourManipulation.colorToMaterialColor(_dominantColor),
+        colorSchemeSeed:
+            ColourManipulation.colorToMaterialColor(_dominantColor),
         brightness: Brightness.dark,
       );
 
