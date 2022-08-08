@@ -32,7 +32,7 @@ dependencies:
   provider: ^6.0.0 # state-management package
 
   # podcast stream stuff
-  webfeed: # version solving issues with better_player but that's gonna be more likely
+  webfeed: ^0.7.0 # version solving issues with better_player but that's gonna be more likely
            # to have issues so we're using the latest version of that
            # not sure how that affects null safety
 
@@ -50,7 +50,7 @@ dependencies:
   better_player: ^0.0.79  # the best flutter based media player - breaks on android for a lot of versions tho
   # with the compromise being that you don't get full cross-platform availability
   palette_generator: ^0.3.0 # for getting colour info from img links
-  beamer: ^0.14.1  # navigator 2.0 wrapper, for convenience, because I'm not doing all that for
+  beamer: ^1.5.0  # navigator 2.0 wrapper, for convenience, because I'm not doing all that for
   # access to the path
   shared_preferences: ^2.0.8  # temp storage
   url_launcher: ^6.0.12  # url launcher for going to podcast pages directly
@@ -60,7 +60,7 @@ dev_dependencies:
   # flutter_native_splash: ^1.2.4  # for the splash screen, maybe enable later
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

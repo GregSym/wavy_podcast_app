@@ -8,25 +8,26 @@ import 'package:flutter_podcast_app/screens/subscription_screen.dart';
 /// Maps routes to screens
 class NavigationWrapper {
   static final routerDelegate = BeamerDelegate(
-      locationBuilder: SimpleLocationBuilder(
+      locationBuilder: RoutesLocationBuilder(
         routes: {
-          "/": (context, state) => const PodcastSliverFeed(),
-          "/rssfeed/:src": (context, state) =>
+          "/": (context, state, data) => const PodcastSliverFeed(),
+          "/rssfeed/:src": (context, state, data) =>
               state.pathParameters.containsKey('src')
                   ? PodcastSliverFeed(
                       rssSrc: state.pathParameters['src']!,
                     )
                   : const PodcastSliverFeed(),
-          "/title/:title": (context, state) =>
+          "/title/:title": (context, state, data) =>
               state.pathParameters.containsKey('title')
                   ? PodcastSliverFeed(
                       title: state.pathParameters['title']!,
                     )
                   : const PodcastSliverFeed(),
-          "/menu": (context, state) => const PodcastMenuScreen(),
-          "/subscriptions": (context, state) => const SubscriptionSliverFeed(),
-          "/podcast-player": (context, state) => const PodcastPlayer(),
-          "/settings": (context, state) => const SettingsScreen(),
+          "/menu": (context, state, data) => const PodcastMenuScreen(),
+          "/subscriptions": (context, state, data) =>
+              const SubscriptionSliverFeed(),
+          "/podcast-player": (context, state, data) => const PodcastPlayer(),
+          "/settings": (context, state, data) => const SettingsScreen(),
         },
       ),
       notFoundPage: BeamPage(child: const PodcastSliverFeed()));
