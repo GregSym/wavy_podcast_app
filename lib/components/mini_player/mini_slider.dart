@@ -8,7 +8,7 @@ class MiniPodcastSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: Reactivity.miniSliderHeight(context),
       child: SliderTheme(
           data: SliderTheme.of(context).copyWith(
@@ -20,7 +20,7 @@ class MiniPodcastSlider extends StatelessWidget {
               elevation: 0.0,
             ),
           ),
-          child: PodcastSlider()),
+          child: const PodcastSlider()),
     );
   }
 }
