@@ -126,7 +126,7 @@ packages:
       name: ffi
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "1.2.1"
   file:
     dependency: transitive
     description:
@@ -226,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.1-beta.7"
+  just_audio_libwinmedia:
+    dependency: "direct main"
+    description:
+      name: just_audio_libwinmedia
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4+1"
   just_audio_mpv:
     dependency: "direct main"
     description:
@@ -247,13 +254,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.7"
-  just_audio_windows:
-    dependency: "direct main"
+  libwinmedia:
+    dependency: transitive
     description:
-      name: just_audio_windows
+      name: libwinmedia
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.0.7"
   lints:
     dependency: transitive
     description:
@@ -358,7 +365,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.0.7"
   pedantic:
     dependency: transitive
     description:
@@ -664,7 +671,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.7.0"
+    version: "2.6.1"
   xdg_directories:
     dependency: transitive
     description:

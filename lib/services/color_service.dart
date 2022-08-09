@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/controllers/podcast_stream.dart';
 import 'package:flutter_podcast_app/functions/colour_manipulation.dart';
@@ -39,23 +42,31 @@ class PrimaryColourSelection with ChangeNotifier {
       _dominantColor = _cache[_imgString] ?? Colors.yellow;
       return;
     }
-    final PaletteGenerator paletteGenerator =
-        await PaletteGenerator.fromImageProvider(_img,
-            size: const Size(300, 300));
-    if (paletteGenerator.dominantColor != null) {
-      _dominantColor = paletteGenerator.dominantColor!.color;
-      _cache[_imgString] = _dominantColor;
+    try {
+      final PaletteGenerator paletteGenerator =
+          await PaletteGenerator.fromImageProvider(_img,
+              size: const Size(300, 300));
+      if (paletteGenerator.dominantColor != null) {
+        _dominantColor = paletteGenerator.dominantColor!.color;
+        _cache[_imgString] = _dominantColor;
+      }
+    } on TimeoutException catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
   /// gets the default theme from the colour service
   ThemeData get getTheme => ThemeData(
+      // useMaterial3: true,
       colorSchemeSeed: ColourManipulation.colorToMaterialColor(_dominantColor));
 
   /// gets a dark theme from the colour service class
   ThemeData get getDarkTheme =>
       // ThemeData.dark(); // basically does the same thing as turning down brightness
       ThemeData(
+        // useMaterial3: true,
         colorSchemeSeed:
             ColourManipulation.colorToMaterialColor(_dominantColor),
         brightness: Brightness.dark,

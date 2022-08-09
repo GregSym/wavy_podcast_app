@@ -3,7 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  just_audio_windows
+  libwinmedia
   url_launcher_windows
 )
 
