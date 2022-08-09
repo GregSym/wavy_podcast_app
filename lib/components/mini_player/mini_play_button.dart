@@ -9,11 +9,11 @@ class MiniPlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PodcastPlayerController>(
-      builder: (context, _podcastController, _) => IconButton(
-        onPressed: () => _podcastController.toggle(),
-        icon: _podcastController.isPlaying
-            ? Icon(Icons.pause)
-            : Icon(Icons.play_arrow_outlined),
+      builder: (context, podcastController, _) => IconButton(
+        onPressed: () => podcastController.toggle(),
+        icon: podcastController.isPlaying
+            ? const Icon(Icons.pause)
+            : const Icon(Icons.play_arrow_outlined),
         iconSize: iconSize,
       ),
     );

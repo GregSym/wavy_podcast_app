@@ -14,7 +14,7 @@ class MiniPodcastSlider extends StatelessWidget {
           data: SliderTheme.of(context).copyWith(
             trackHeight: 2.0,
             trackShape: CustomTrackShape(), // makes it wider than default
-            thumbShape: RoundSliderThumbShape(
+            thumbShape: const RoundSliderThumbShape(
               enabledThumbRadius: 2.0,
               disabledThumbRadius: 2.0,
               elevation: 0.0,
