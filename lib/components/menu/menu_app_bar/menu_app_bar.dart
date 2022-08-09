@@ -11,12 +11,12 @@ class MenuAppBarSliver extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: Reactivity.expandedAppBarHeight(context),
       // floating: true,
-      actions: [
+      actions: const [
         UserBubble(),
       ],
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
-        background: PodcastBoxImg(
+        background: const PodcastBoxImg(
           fromFeed: true,
         ),
         title: Text("Wavy Podcasts",

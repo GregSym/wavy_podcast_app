@@ -28,8 +28,10 @@ class MenuHeaderFeaturesRow extends StatelessWidget {
         ),
         IconButton(
           onPressed: () async => (context.read<Podcast>().feed != null)
-              ? await canLaunch(context.read<Podcast>().feed!.link!)
-                  ? await launch(context.read<Podcast>().feed!.link!)
+              ? await canLaunchUrl(
+                      Uri.parse(context.read<Podcast>().feed!.link!))
+                  ? await launchUrl(
+                      Uri.parse(context.read<Podcast>().feed!.link!))
                   : null
               : null,
           icon: const Icon(Icons.share),

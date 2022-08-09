@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_podcast_app/components/menu/menu_app_bar/menu_app_bar.dart';
 import 'package:flutter_podcast_app/components/menu/menu_header/menu_header_sliver.dart';
@@ -11,14 +12,16 @@ class PodcastMenuSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(context.watch<Podcast>().podcastViewModel);
+    if (kDebugMode) {
+      print(context.watch<Podcast>().podcastViewModel);
+      print("rebuilt");
+    }
     if (context.watch<Podcast>().podcastViewModel == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    print("rebuilt");
     return RefreshIndicator(
       onRefresh: () => context.read<Podcast>().generateViewModels(),
-      child: CustomScrollView(
+      child: const CustomScrollView(
         slivers: [
           MenuAppBarSliver(),
           PodcastBoxSliver(),

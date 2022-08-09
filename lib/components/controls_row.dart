@@ -11,7 +11,7 @@ class PodcastControlsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PodcastPlayerController>(
-        builder: (context, _podcastController, _) => Row(
+        builder: (context, podcastController, _) => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 PodcastSeekButton(rewind: true), // left to right
